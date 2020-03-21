@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="device_tutorial" nsURI="http://www.example.org/device_tutorial"
+    nsPrefix="device_tutorial">
+  <eClassifiers xsi:type="ecore:EClass" name="Device">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pins" upperBound="-1" eType="#//Pin"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operating_voltage" upperBound="10"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Pin">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" upperBound="-1"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PowerPin" eSuperTypes="#//Pin">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" upperBound="10"
+        eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connected_pins" upperBound="-1"
+        eType="#//PowerPin"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="I2CPin" eSuperTypes="#//Pin">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connected_pins" upperBound="1008"
+        eType="#//I2CPin"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//I2CType"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GPIOPin" eSuperTypes="#//Pin">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connected_pin" eType="#//GPIOPin"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//GPIOType"
+        defaultValueLiteral=""/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="I2CType" instanceTypeName="I2CType">
+    <eLiterals name="SDA"/>
+    <eLiterals name="SCL" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="GPIOType" instanceTypeName="GPIOType">
+    <eLiterals name="INPUT"/>
+    <eLiterals name="OUTPUT" value="1"/>
+  </eClassifiers>
+</ecore:EPackage>
