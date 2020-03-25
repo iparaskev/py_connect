@@ -15,8 +15,6 @@ hw_devices.eSubpackages = eSubpackages
 hw_devices.eSuperPackage = eSuperPackage
 
 Device.pins.eType = Pin
-Input.connection.eType = Output
-Output.connection.eType = Input
 I2cSda.connections.eType = I2cSda
 I2cScl.connections.eType = I2cScl
 Pwm.connection.eType = Pwm
@@ -29,6 +27,9 @@ Power5V.conn_from.eOpposite = Power5V.conn_to
 Gnd.conn_to.eType = Gnd
 Gnd.conn_from.eType = Gnd
 Gnd.conn_from.eOpposite = Gnd.conn_to
+Input.conn_from.eType = Output
+Output.conn_to.eType = Input
+Output.conn_to.eOpposite = Input.conn_from
 
 otherClassifiers = []
 

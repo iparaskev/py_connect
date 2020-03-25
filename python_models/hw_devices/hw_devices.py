@@ -119,26 +119,26 @@ class Gnd(PowerPin):
 
 class Input(GpioPin):
 
-    connection = EReference(ordered=True, unique=True, containment=False)
+    conn_from = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, connection=None, **kwargs):
+    def __init__(self, *, conn_from=None, **kwargs):
 
         super().__init__(**kwargs)
 
-        if connection is not None:
-            self.connection = connection
+        if conn_from is not None:
+            self.conn_from = conn_from
 
 
 class Output(GpioPin):
 
-    connection = EReference(ordered=True, unique=True, containment=False)
+    conn_to = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, connection=None, **kwargs):
+    def __init__(self, *, conn_to=None, **kwargs):
 
         super().__init__(**kwargs)
 
-        if connection is not None:
-            self.connection = connection
+        if conn_to is not None:
+            self.conn_to = conn_to
 
 
 class I2cSda(GpioPin):
