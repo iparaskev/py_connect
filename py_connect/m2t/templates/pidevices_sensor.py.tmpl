@@ -1,0 +1,10 @@
+from pidevices import {{ device_class }}
+
+dev = {{ device_class }}({% for key, value in args.items() -%}
+			 {{ key }}={{ value }},
+			 {% endfor -%}
+			)
+
+while True:
+    data = dev.read()
+    time.sleep({{ sleep_time }})
