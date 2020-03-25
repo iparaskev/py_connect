@@ -15,9 +15,6 @@ hw_devices.eSubpackages = eSubpackages
 hw_devices.eSuperPackage = eSuperPackage
 
 Device.pins.eType = Pin
-I2cSda.connections.eType = I2cSda
-I2cScl.connections.eType = I2cScl
-Pwm.connection.eType = Pwm
 Power3V3.conn_to.eType = Power3V3
 Power3V3.conn_from.eType = Power3V3
 Power3V3.conn_from.eOpposite = Power3V3.conn_to
@@ -30,6 +27,15 @@ Gnd.conn_from.eOpposite = Gnd.conn_to
 Input.conn_from.eType = Output
 Output.conn_to.eType = Input
 Output.conn_to.eOpposite = Input.conn_from
+I2cSda.conn_to.eType = I2cSda
+I2cSda.conn_from.eType = I2cSda
+I2cSda.conn_from.eOpposite = I2cSda.conn_to
+I2cScl.conn_to.eType = I2cScl
+I2cScl.conn_from.eType = I2cScl
+I2cScl.conn_from.eOpposite = I2cScl.conn_to
+Pwm.conn_to.eType = Pwm
+Pwm.conn_from.eType = Pwm
+Pwm.conn_from.eOpposite = Pwm.conn_to
 
 otherClassifiers = []
 

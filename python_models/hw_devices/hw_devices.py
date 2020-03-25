@@ -143,38 +143,50 @@ class Output(GpioPin):
 
 class I2cSda(GpioPin):
 
-    connections = EReference(ordered=True, unique=True, containment=False, upper=-1)
+    conn_to = EReference(ordered=True, unique=True, containment=False, upper=-1)
+    conn_from = EReference(ordered=True, unique=True, containment=False, upper=-1)
 
-    def __init__(self, *, connections=None, **kwargs):
+    def __init__(self, *, conn_to=None, conn_from=None, **kwargs):
 
         super().__init__(**kwargs)
 
-        if connections:
-            self.connections.extend(connections)
+        if conn_to:
+            self.conn_to.extend(conn_to)
+
+        if conn_from:
+            self.conn_from.extend(conn_from)
 
 
 class I2cScl(GpioPin):
 
-    connections = EReference(ordered=True, unique=True, containment=False, upper=-1)
+    conn_to = EReference(ordered=True, unique=True, containment=False, upper=-1)
+    conn_from = EReference(ordered=True, unique=True, containment=False, upper=-1)
 
-    def __init__(self, *, connections=None, **kwargs):
+    def __init__(self, *, conn_to=None, conn_from=None, **kwargs):
 
         super().__init__(**kwargs)
 
-        if connections:
-            self.connections.extend(connections)
+        if conn_to:
+            self.conn_to.extend(conn_to)
+
+        if conn_from:
+            self.conn_from.extend(conn_from)
 
 
 class Pwm(GpioPin):
 
-    connection = EReference(ordered=True, unique=True, containment=False)
+    conn_to = EReference(ordered=True, unique=True, containment=False)
+    conn_from = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, connection=None, **kwargs):
+    def __init__(self, *, conn_to=None, conn_from=None, **kwargs):
 
         super().__init__(**kwargs)
 
-        if connection is not None:
-            self.connection = connection
+        if conn_to is not None:
+            self.conn_to = conn_to
+
+        if conn_from is not None:
+            self.conn_from = conn_from
 
 
 class UartRx(GpioPin):

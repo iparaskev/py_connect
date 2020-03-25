@@ -42,15 +42,22 @@
         eOpposite="#//Input/conn_from"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="I2cSda" eSuperTypes="#//GpioPin">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="connections" upperBound="1008"
-        eType="#//I2cSda"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conn_to" upperBound="-1"
+        eType="#//I2cSda" eOpposite="#//I2cSda/conn_from"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conn_from" upperBound="-1"
+        eType="#//I2cSda" eOpposite="#//I2cSda/conn_to"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="I2cScl" eSuperTypes="#//GpioPin">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="connections" upperBound="1008"
-        eType="#//I2cScl"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conn_to" upperBound="-1"
+        eType="#//I2cScl" eOpposite="#//I2cScl/conn_from"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conn_from" upperBound="-1"
+        eType="#//I2cScl" eOpposite="#//I2cScl/conn_to"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Pwm" eSuperTypes="#//GpioPin">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="connection" eType="#//Pwm"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conn_to" eType="#//Pwm"
+        eOpposite="#//Pwm/conn_from"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conn_from" eType="#//Pwm"
+        eOpposite="#//Pwm/conn_to"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UartRx" eSuperTypes="#//GpioPin"/>
   <eClassifiers xsi:type="ecore:EClass" name="UartTx" eSuperTypes="#//GpioPin"/>
