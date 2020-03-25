@@ -1,13 +1,13 @@
 
 from .hw_devices import getEClassifier, eClassifiers
 from .hw_devices import name, nsURI, nsPrefix, eClass
-from .hw_devices import Device, Pin, PowerPin, GpioPin, I2cPin, SpiPin, UartPin, PwmPin, Power3V3, Power5V, Gnd, Input, Output, Sda, Scl
+from .hw_devices import Device, Pin, PowerPin, GpioPin, Power3V3, Power5V, Gnd, Input, Output, I2cSda, I2cScl, Pwm, UartRx, UartTx, SpiMiso, SpiSclk, SpiMosi, SpiCe
 
 
 from . import hw_devices
 
-__all__ = ['Device', 'Pin', 'PowerPin', 'GpioPin', 'I2cPin', 'SpiPin', 'UartPin',
-           'PwmPin', 'Power3V3', 'Power5V', 'Gnd', 'Input', 'Output', 'Sda', 'Scl']
+__all__ = ['Device', 'Pin', 'PowerPin', 'GpioPin', 'Power3V3', 'Power5V', 'Gnd', 'Input', 'Output',
+           'I2cSda', 'I2cScl', 'Pwm', 'UartRx', 'UartTx', 'SpiMiso', 'SpiSclk', 'SpiMosi', 'SpiCe']
 
 eSubpackages = []
 eSuperPackage = None
@@ -15,13 +15,20 @@ hw_devices.eSubpackages = eSubpackages
 hw_devices.eSuperPackage = eSuperPackage
 
 Device.pins.eType = Pin
-Power3V3.connections.eType = Power3V3
-Power5V.connections.eType = Power5V
-Gnd.connections.eType = Gnd
-Input.connection.eType = Input
-Output.connection.eType = Output
-Sda.connections.eType = Sda
-Scl.connections.eType = Scl
+Input.connection.eType = Output
+Output.connection.eType = Input
+I2cSda.connections.eType = I2cSda
+I2cScl.connections.eType = I2cScl
+Pwm.connection.eType = Pwm
+Power3V3.conn_to.eType = Power3V3
+Power3V3.conn_from.eType = Power3V3
+Power3V3.conn_from.eOpposite = Power3V3.conn_to
+Power5V.conn_to.eType = Power5V
+Power5V.conn_from.eType = Power5V
+Power5V.conn_from.eOpposite = Power5V.conn_to
+Gnd.conn_to.eType = Gnd
+Gnd.conn_from.eType = Gnd
+Gnd.conn_from.eOpposite = Gnd.conn_to
 
 otherClassifiers = []
 
