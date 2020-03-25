@@ -5,7 +5,7 @@ GEN = pyecoregen
 targets = python_model
 
 # DIRECTORIES
-TARGET_DIR = python_models
+TARGET_DIR = py_connect
 MODELS_DIR = models
 
 all: $(targets)

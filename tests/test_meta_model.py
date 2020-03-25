@@ -2,7 +2,7 @@ import unittest
 import sys
 sys.path.append(".")
 
-from python_models.hw_devices import *  # noqa E402
+from py_connect.hw_devices import *  # noqa E402
 from pyecore.valuecontainer import BadValueError  # noqa E402
 
 
