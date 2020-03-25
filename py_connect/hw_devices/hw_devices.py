@@ -20,8 +20,9 @@ class Device(EObject, metaclass=MetaEClass):
     operating_voltage = EAttribute(eType=EFloat, derived=False, changeable=True)
     name = EAttribute(eType=EString, derived=False, changeable=True)
     pins = EReference(ordered=True, unique=True, containment=True, upper=-1)
+    devices = EReference(ordered=True, unique=True, containment=False, upper=-1)
 
-    def __init__(self, *, pins=None, operating_voltage=None, name=None, **kwargs):
+    def __init__(self, *, pins=None, operating_voltage=None, name=None, devices=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -35,6 +36,9 @@ class Device(EObject, metaclass=MetaEClass):
 
         if pins:
             self.pins.extend(pins)
+
+        if devices:
+            self.devices.extend(devices)
 
 
 class Pin(EObject, metaclass=MetaEClass):

@@ -15,6 +15,7 @@ hw_devices.eSubpackages = eSubpackages
 hw_devices.eSuperPackage = eSuperPackage
 
 Device.pins.eType = Pin
+Device.devices.eType = Device
 Power3V3.conn_to.eType = Power3V3
 Power3V3.conn_from.eType = Power3V3
 Power3V3.conn_from.eOpposite = Power3V3.conn_to
