@@ -12,14 +12,16 @@ eClass = EPackage(name=name, nsURI=nsURI, nsPrefix=nsPrefix)
 
 eClassifiers = {}
 getEClassifier = partial(Ecore.getEClassifier, searchspace=eClassifiers)
+DeviceType = EEnum('DeviceType', literals=['SENSOR', 'ACTUATOR'])
 
 
 class Device(EObject, metaclass=MetaEClass):
 
     operating_voltage = EAttribute(eType=EFloat, derived=False, changeable=True)
+    name = EAttribute(eType=EString, derived=False, changeable=True)
     pins = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, pins=None, operating_voltage=None, **kwargs):
+    def __init__(self, *, pins=None, operating_voltage=None, name=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -27,6 +29,9 @@ class Device(EObject, metaclass=MetaEClass):
 
         if operating_voltage is not None:
             self.operating_voltage = operating_voltage
+
+        if name is not None:
+            self.name = name
 
         if pins:
             self.pins.extend(pins)
@@ -67,6 +72,25 @@ class GpioPin(Pin):
 
         if h_chip is not None:
             self.h_chip = h_chip
+
+
+class Computational(Device):
+
+    def __init__(self, **kwargs):
+
+        super().__init__(**kwargs)
+
+
+class NonComputational(Device):
+
+    type = EAttribute(eType=DeviceType, derived=False, changeable=True)
+
+    def __init__(self, *, type=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if type is not None:
+            self.type = type
 
 
 class Power3V3(PowerPin):

@@ -1,13 +1,13 @@
 
 from .hw_devices import getEClassifier, eClassifiers
 from .hw_devices import name, nsURI, nsPrefix, eClass
-from .hw_devices import Device, Pin, PowerPin, GpioPin, Power3V3, Power5V, Gnd, Input, Output, I2cSda, I2cScl, Pwm, UartRx, UartTx, SpiMiso, SpiSclk, SpiMosi, SpiCe
+from .hw_devices import Device, Pin, PowerPin, GpioPin, Power3V3, Power5V, Gnd, Input, Output, I2cSda, I2cScl, Pwm, UartRx, UartTx, SpiMiso, SpiSclk, SpiMosi, SpiCe, Computational, NonComputational, DeviceType
 
 
 from . import hw_devices
 
-__all__ = ['Device', 'Pin', 'PowerPin', 'GpioPin', 'Power3V3', 'Power5V', 'Gnd', 'Input', 'Output',
-           'I2cSda', 'I2cScl', 'Pwm', 'UartRx', 'UartTx', 'SpiMiso', 'SpiSclk', 'SpiMosi', 'SpiCe']
+__all__ = ['Device', 'Pin', 'PowerPin', 'GpioPin', 'Power3V3', 'Power5V', 'Gnd', 'Input', 'Output', 'I2cSda', 'I2cScl',
+           'Pwm', 'UartRx', 'UartTx', 'SpiMiso', 'SpiSclk', 'SpiMosi', 'SpiCe', 'Computational', 'NonComputational', 'DeviceType']
 
 eSubpackages = []
 eSuperPackage = None
@@ -37,7 +37,7 @@ Pwm.conn_to.eType = Pwm
 Pwm.conn_from.eType = Pwm
 Pwm.conn_from.eOpposite = Pwm.conn_to
 
-otherClassifiers = []
+otherClassifiers = [DeviceType]
 
 for classif in otherClassifiers:
     eClassifiers[classif.name] = classif
