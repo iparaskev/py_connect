@@ -91,6 +91,25 @@ class TestMetaModel(unittest.TestCase):
         self.assertEqual(self.sonar_gnd.conn_from[0], self.pi_gnd,
                          "Should be connected to the pi gnd.")
 
+    def test_sonar_complete(self):
+        """Test complete connection of pi and sonar."""
+        # Create devices
+        self._create_pi()
+        self._create_sonar()
+        
+        self.pi_power.conn_to.append(self.sonar_power)
+        self.pi_gnd.conn_to.append(self.sonar_gnd)
+
+        self.pi_echo.conn_from = self.sonar_echo
+        self.assertEqual(self.sonar_echo.conn_to, self.pi_echo,
+                         "Should be connected to the pi echo.")
+        with self.assertRaises(BadValueError):
+            self.pi_trigger.conn_to = self.sonar_echo
+
+        self.pi_trigger.conn_to = self.sonar_trigger
+        self.assertEqual(self.sonar_trigger.conn_from, self.pi_trigger,
+                         "Should be connected to the pi echo.")
+
 
 if __name__ == '__main__':
     unittest.main()
