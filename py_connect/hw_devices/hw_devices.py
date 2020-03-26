@@ -19,10 +19,9 @@ class Device(EObject, metaclass=MetaEClass):
 
     operating_voltage = EAttribute(eType=EFloat, derived=False, changeable=True)
     name = EAttribute(eType=EString, derived=False, changeable=True)
-    pins = EReference(ordered=True, unique=True, containment=True, upper=-1)
-    devices = EReference(ordered=True, unique=True, containment=False, upper=-1)
+    power_pins = EReference(ordered=True, unique=True, containment=False, upper=-1)
 
-    def __init__(self, *, pins=None, operating_voltage=None, name=None, devices=None, **kwargs):
+    def __init__(self, *, operating_voltage=None, name=None, power_pins=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -34,29 +33,94 @@ class Device(EObject, metaclass=MetaEClass):
         if name is not None:
             self.name = name
 
-        if pins:
-            self.pins.extend(pins)
-
-        if devices:
-            self.devices.extend(devices)
+        if power_pins:
+            self.power_pins.extend(power_pins)
 
 
 class Pin(EObject, metaclass=MetaEClass):
 
-    number = EAttribute(eType=EInt, derived=False, changeable=True)
     name = EAttribute(eType=EString, derived=False, changeable=True)
 
-    def __init__(self, *, number=None, name=None, **kwargs):
+    def __init__(self, *, name=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
         super().__init__()
 
-        if number is not None:
-            self.number = number
-
         if name is not None:
             self.name = name
+
+
+class UartRx(EObject, metaclass=MetaEClass):
+
+    def __init__(self, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+
+class UartTx(EObject, metaclass=MetaEClass):
+
+    def __init__(self, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+
+class SpiMiso(EObject, metaclass=MetaEClass):
+
+    def __init__(self, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+
+class SpiSclk(EObject, metaclass=MetaEClass):
+
+    def __init__(self, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+
+class SpiMosi(EObject, metaclass=MetaEClass):
+
+    def __init__(self, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+
+class SpiCe(EObject, metaclass=MetaEClass):
+
+    def __init__(self, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+
+class SpiPin(EObject, metaclass=MetaEClass):
+
+    def __init__(self, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+
+class UartPin(EObject, metaclass=MetaEClass):
+
+    def __init__(self, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
 
 
 class PowerPin(Pin):
@@ -66,35 +130,48 @@ class PowerPin(Pin):
         super().__init__(**kwargs)
 
 
-class GpioPin(Pin):
+class IOPin(Pin):
 
-    h_chip = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
+    number = EAttribute(eType=EInt, derived=False, changeable=True)
 
-    def __init__(self, *, h_chip=None, **kwargs):
+    def __init__(self, *, number=None, **kwargs):
 
         super().__init__(**kwargs)
 
-        if h_chip is not None:
-            self.h_chip = h_chip
+        if number is not None:
+            self.number = number
 
 
 class Computational(Device):
 
-    def __init__(self, **kwargs):
+    pins = EReference(ordered=True, unique=True, containment=False, upper=-1)
+    devices = EReference(ordered=True, unique=True, containment=False, upper=-1)
+
+    def __init__(self, *, pins=None, devices=None, **kwargs):
 
         super().__init__(**kwargs)
+
+        if pins:
+            self.pins.extend(pins)
+
+        if devices:
+            self.devices.extend(devices)
 
 
 class NonComputational(Device):
 
     type = EAttribute(eType=DeviceType, derived=False, changeable=True)
+    driver = EAttribute(eType=EString, derived=False, changeable=True)
 
-    def __init__(self, *, type=None, **kwargs):
+    def __init__(self, *, type=None, driver=None, **kwargs):
 
         super().__init__(**kwargs)
 
         if type is not None:
             self.type = type
+
+        if driver is not None:
+            self.driver = driver
 
 
 class Power3V3(PowerPin):
@@ -145,7 +222,50 @@ class Gnd(PowerPin):
             self.conn_from.extend(conn_from)
 
 
-class Input(GpioPin):
+class GpioDevice(NonComputational):
+
+    gpio_pins = EReference(ordered=True, unique=True, containment=False, upper=-1)
+
+    def __init__(self, *, gpio_pins=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if gpio_pins:
+            self.gpio_pins.extend(gpio_pins)
+
+
+class I2cDevice(NonComputational):
+
+    i2c_pins = EReference(ordered=True, unique=True, containment=False, upper=-1)
+
+    def __init__(self, *, i2c_pins=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if i2c_pins:
+            self.i2c_pins.extend(i2c_pins)
+
+
+class GpioPin(IOPin):
+
+    def __init__(self, **kwargs):
+
+        super().__init__(**kwargs)
+
+
+class I2cPin(IOPin):
+
+    i2c_bus = EAttribute(eType=EInt, derived=False, changeable=True)
+
+    def __init__(self, *, i2c_bus=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if i2c_bus is not None:
+            self.i2c_bus = i2c_bus
+
+
+class GpioInput(GpioPin):
 
     conn_from = EReference(ordered=True, unique=True, containment=False)
 
@@ -157,7 +277,7 @@ class Input(GpioPin):
             self.conn_from = conn_from
 
 
-class Output(GpioPin):
+class GpioOutput(GpioPin):
 
     conn_to = EReference(ordered=True, unique=True, containment=False)
 
@@ -169,7 +289,7 @@ class Output(GpioPin):
             self.conn_to = conn_to
 
 
-class I2cSda(GpioPin):
+class I2cSda(I2cPin):
 
     conn_to = EReference(ordered=True, unique=True, containment=False, upper=-1)
     conn_from = EReference(ordered=True, unique=True, containment=False, upper=-1)
@@ -185,7 +305,7 @@ class I2cSda(GpioPin):
             self.conn_from.extend(conn_from)
 
 
-class I2cScl(GpioPin):
+class I2cScl(I2cPin):
 
     conn_to = EReference(ordered=True, unique=True, containment=False, upper=-1)
     conn_from = EReference(ordered=True, unique=True, containment=False, upper=-1)
@@ -217,42 +337,7 @@ class Pwm(GpioPin):
             self.conn_from = conn_from
 
 
-class UartRx(GpioPin):
-
-    def __init__(self, **kwargs):
-
-        super().__init__(**kwargs)
-
-
-class UartTx(GpioPin):
-
-    def __init__(self, **kwargs):
-
-        super().__init__(**kwargs)
-
-
-class SpiMiso(GpioPin):
-
-    def __init__(self, **kwargs):
-
-        super().__init__(**kwargs)
-
-
-class SpiSclk(GpioPin):
-
-    def __init__(self, **kwargs):
-
-        super().__init__(**kwargs)
-
-
-class SpiMosi(GpioPin):
-
-    def __init__(self, **kwargs):
-
-        super().__init__(**kwargs)
-
-
-class SpiCe(GpioPin):
+class CompositeDevice(GpioDevice, I2cDevice):
 
     def __init__(self, **kwargs):
 

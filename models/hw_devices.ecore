@@ -2,21 +2,17 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="hw_devices" nsURI="http://www.example.org/hw_devices" nsPrefix="hw_devices">
   <eClassifiers xsi:type="ecore:EClass" name="Device">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="pins" upperBound="-1" eType="#//Pin"
-        containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="operating_voltage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="devices" upperBound="-1"
-        eType="#//Device"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="power_pins" upperBound="-1"
+        eType="#//PowerPin"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Pin">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PowerPin" eSuperTypes="#//Pin"/>
-  <eClassifiers xsi:type="ecore:EClass" name="GpioPin" eSuperTypes="#//Pin">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="h_chip" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
-        defaultValueLiteral="0"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IOPin" eSuperTypes="#//Pin">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Power3V3" eSuperTypes="#//PowerPin">
     <eStructuralFeatures xsi:type="ecore:EReference" name="conn_to" upperBound="-1"
@@ -36,21 +32,21 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="conn_from" upperBound="-1"
         eType="#//Gnd" changeable="false" eOpposite="#//Gnd/conn_to"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Input" eSuperTypes="#//GpioPin">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="conn_from" eType="#//Output"
-        eOpposite="#//Output/conn_to"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GpioInput" eSuperTypes="#//GpioPin">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conn_from" eType="#//GpioOutput"
+        eOpposite="#//GpioOutput/conn_to"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Output" eSuperTypes="#//GpioPin">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="conn_to" eType="#//Input"
-        eOpposite="#//Input/conn_from"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GpioOutput" eSuperTypes="#//GpioPin">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conn_to" eType="#//GpioInput"
+        eOpposite="#//GpioInput/conn_from"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="I2cSda" eSuperTypes="#//GpioPin">
+  <eClassifiers xsi:type="ecore:EClass" name="I2cSda" eSuperTypes="#//I2cPin">
     <eStructuralFeatures xsi:type="ecore:EReference" name="conn_to" upperBound="-1"
         eType="#//I2cSda" eOpposite="#//I2cSda/conn_from"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="conn_from" upperBound="-1"
         eType="#//I2cSda" eOpposite="#//I2cSda/conn_to"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="I2cScl" eSuperTypes="#//GpioPin">
+  <eClassifiers xsi:type="ecore:EClass" name="I2cScl" eSuperTypes="#//I2cPin">
     <eStructuralFeatures xsi:type="ecore:EReference" name="conn_to" upperBound="-1"
         eType="#//I2cScl" eOpposite="#//I2cScl/conn_from"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="conn_from" upperBound="-1"
@@ -62,19 +58,39 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="conn_from" eType="#//Pwm"
         eOpposite="#//Pwm/conn_to"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="UartRx" eSuperTypes="#//GpioPin"/>
-  <eClassifiers xsi:type="ecore:EClass" name="UartTx" eSuperTypes="#//GpioPin"/>
-  <eClassifiers xsi:type="ecore:EClass" name="SpiMiso" eSuperTypes="#//GpioPin"/>
-  <eClassifiers xsi:type="ecore:EClass" name="SpiSclk" eSuperTypes="#//GpioPin"/>
-  <eClassifiers xsi:type="ecore:EClass" name="SpiMosi" eSuperTypes="#//GpioPin"/>
-  <eClassifiers xsi:type="ecore:EClass" name="SpiCe" eSuperTypes="#//GpioPin"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Computational" eSuperTypes="#//Device"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UartRx"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UartTx"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SpiMiso"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SpiSclk"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SpiMosi"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SpiCe"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Computational" eSuperTypes="#//Device">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pins" upperBound="-1" eType="#//Pin"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="devices" upperBound="-1"
+        eType="#//NonComputational"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NonComputational" eSuperTypes="#//Device">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//DeviceType"
         defaultValueLiteral=""/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="driver" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="DeviceType" instanceTypeName="DeviceType">
     <eLiterals name="SENSOR"/>
     <eLiterals name="ACTUATOR" value="1"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GpioDevice" eSuperTypes="#//NonComputational">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gpio_pins" upperBound="-1"
+        eType="#//GpioPin"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="I2cDevice" eSuperTypes="#//NonComputational">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="i2c_pins" upperBound="-1"
+        eType="#//I2cPin"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CompositeDevice" eSuperTypes="#//GpioDevice #//I2cDevice"/>
+  <eClassifiers xsi:type="ecore:EClass" name="GpioPin" eSuperTypes="#//IOPin"/>
+  <eClassifiers xsi:type="ecore:EClass" name="I2cPin" eSuperTypes="#//IOPin">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="i2c_bus" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SpiPin"/>
+  <eClassifiers xsi:type="ecore:EClass" name="UartPin"/>
 </ecore:EPackage>
