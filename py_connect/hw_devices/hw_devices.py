@@ -129,13 +129,17 @@ class Computational(Device):
 class NonComputational(Device):
 
     type = EAttribute(eType=DeviceType, derived=False, changeable=True)
+    driver_name = EAttribute(eType=EString, derived=False, changeable=True)
 
-    def __init__(self, *, type=None, **kwargs):
+    def __init__(self, *, type=None, driver_name=None, **kwargs):
 
         super().__init__(**kwargs)
 
         if type is not None:
             self.type = type
+
+        if driver_name is not None:
+            self.driver_name = driver_name
 
 
 class PowerPin(Pin):
