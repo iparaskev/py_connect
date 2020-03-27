@@ -4,9 +4,13 @@
   <eClassifiers xsi:type="ecore:EClass" name="Device">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="operating_voltage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="pins" upperBound="-1" eType="#//Pin"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pins" upperBound="-1" eType="#//Pin"
+        eOpposite="#//Pin/device"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Computational" eSuperTypes="#//Device"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Computational" eSuperTypes="#//Device">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="connected_devices" upperBound="-1"
+        eType="#//ConnectedDevice"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NonComputational" eSuperTypes="#//Device">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//DeviceType"
         defaultValueLiteral=""/>
@@ -17,6 +21,8 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Pin">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="device" lowerBound="1"
+        eType="#//Device" eOpposite="#//Device/pins"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PowerPin" eSuperTypes="#//Pin">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="function" eType="#//PowerType"/>
@@ -24,7 +30,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="IOPinFunction">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//IOType"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="hw_port" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
-        defaultValueLiteral="-1"/>
+        defaultValueLiteral="0"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IOPin" eSuperTypes="#//Pin">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -43,5 +49,17 @@
     <eLiterals name="GND"/>
     <eLiterals name="POWER_3V3" value="1"/>
     <eLiterals name="POWER_5V" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConnectedDevice">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="device" lowerBound="1"
+        eType="#//NonComputational"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pins_connections" lowerBound="1"
+        upperBound="-1" eType="#//ConnectedPins"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConnectedPins">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="comp_pin" lowerBound="1"
+        eType="#//Pin"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="non_comp_pin" lowerBound="1"
+        eType="#//Pin"/>
   </eClassifiers>
 </ecore:EPackage>

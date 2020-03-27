@@ -45,8 +45,9 @@ class Device(EObject, metaclass=MetaEClass):
 class Pin(EObject, metaclass=MetaEClass):
 
     number = EAttribute(eType=EInt, derived=False, changeable=True)
+    device = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, number=None, **kwargs):
+    def __init__(self, *, number=None, device=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -55,11 +56,14 @@ class Pin(EObject, metaclass=MetaEClass):
         if number is not None:
             self.number = number
 
+        if device is not None:
+            self.device = device
+
 
 class IOPinFunction(EObject, metaclass=MetaEClass):
 
     type = EAttribute(eType=IOType, derived=False, changeable=True)
-    hw_port = EAttribute(eType=EInt, derived=False, changeable=True, default_value=-1)
+    hw_port = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
 
     def __init__(self, *, type=None, hw_port=None, **kwargs):
         if kwargs:
@@ -74,11 +78,52 @@ class IOPinFunction(EObject, metaclass=MetaEClass):
             self.hw_port = hw_port
 
 
+class ConnectedDevice(EObject, metaclass=MetaEClass):
+
+    device = EReference(ordered=True, unique=True, containment=False)
+    pins_connections = EReference(ordered=True, unique=True, containment=False, upper=-1)
+
+    def __init__(self, *, device=None, pins_connections=None, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+        if device is not None:
+            self.device = device
+
+        if pins_connections:
+            self.pins_connections.extend(pins_connections)
+
+
+class ConnectedPins(EObject, metaclass=MetaEClass):
+
+    comp_pin = EReference(ordered=True, unique=True, containment=False)
+    non_comp_pin = EReference(ordered=True, unique=True, containment=False)
+
+    def __init__(self, *, comp_pin=None, non_comp_pin=None, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+        if comp_pin is not None:
+            self.comp_pin = comp_pin
+
+        if non_comp_pin is not None:
+            self.non_comp_pin = non_comp_pin
+
+
 class Computational(Device):
 
-    def __init__(self, **kwargs):
+    connected_devices = EReference(ordered=True, unique=True, containment=False, upper=-1)
+
+    def __init__(self, *, connected_devices=None, **kwargs):
 
         super().__init__(**kwargs)
+
+        if connected_devices:
+            self.connected_devices.extend(connected_devices)
 
 
 class NonComputational(Device):
