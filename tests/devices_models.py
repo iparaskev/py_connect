@@ -53,13 +53,14 @@ class SonarHC_SRO4():
 
     def __init__(self):
         self.sonar = NonComputational(operating_voltage=3.3, name="my_sonar")
+        self.sonar.driver_name = "HcSr04RPiGPIO"
         self.gnd_1 = PowerPin(function=PowerType.GND, number=1)
         self.power_5_1 = PowerPin(function=PowerType.POWER_5V, number=2)
-        self.pin_1 = IOPin(name="echo",
+        self.pin_1 = IOPin(name="echo_pin",
                            number=3,
                            functions=[IOPinFunction(type=IOType.GPIO_OUTPUT,
                                                     hw_port=-1)])
-        self.pin_2 = IOPin(name="trigger",
+        self.pin_2 = IOPin(name="trigger_pin",
                            number=4,
                            functions=[IOPinFunction(type=IOType.GPIO_INPUT,
                                                     hw_port=-1)])
@@ -72,6 +73,7 @@ class VL53L1X():
 
     def __init__(self):
         self.tof = NonComputational(operating_voltage=3.3, name="tof")
+        self.tof.driver_name = "VL53L1X"
         self.gnd_1 = PowerPin(function=PowerType.GND, number=1)
         self.power_5_1 = PowerPin(function=PowerType.POWER_5V, number=2)
         self.pin_1 = IOPin(name="sda",

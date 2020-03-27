@@ -1,0 +1,14 @@
+from pidevices import {{ device_class }}
+
+dev = {{ device_class }}({% for key, value in args.items() -%}
+			 {{ key }}={{ value }},
+			 {%- endfor -%}
+			)
+
+while True:
+    {% if is_sensor -%}
+	data = dev.read()
+    {% else -%}
+	dev.write()
+    {% endif -%}
+    time.sleep(1)

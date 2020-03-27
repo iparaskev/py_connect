@@ -20,11 +20,11 @@ class Generator():
         file_loader = FileSystemLoader(path + "/templates")
         self.env = Environment(loader=file_loader)
 
-    def generate(self, comp_device):
+    def generate(self, device):
         """Genearate code from a device.
 
         Args:
-            comp_device (Device object): A computational device object. That 
+            device (Computational object): A computational device object. That 
                 has n connected devices.
 
         Returns:
@@ -33,39 +33,44 @@ class Generator():
         # TODO: Use different template regarding the type of the board
         # For example raspberry pi, riot ...
         tmpl_type = "pidevices"
+        
+        tmpl = self.env.get_template(tmpl_type + ".py.tmpl")
 
-        # Iterate through all connected devices
-        for dev in comp_device.devices:
-            if dev.type == DeviceType.SENSOR:
-                tmpl = self.env.get_template(tmpl_type + "_sensor.py.tmpl")
-                args = {}  # Arguments for the driver constructor
+        for con_dev in device.connected_devices:
+            # Get if it is sensor or actuator
+            is_sensor = \
+                True if con_dev.device.type == DeviceType.SENSOR else False
 
-                if isinstance(dev, GpioDevice):
+            # Get name of driver implementation.
+            driver_class = con_dev.device.driver_name
 
-                    # Get information from pins.
-                    for pin in dev.gpio_pins:
-                        if isinstance(pin, GpioInput):
-                            args[pin.conn_from.name] = pin.conn_from.number
+            # Constructor args
+            args = {}
 
-                        if isinstance(pin, GpioOutput):
-                            args[pin.conn_to.name] = pin.conn_to.number
+            # From pins get constructor arguments.
+            for pins in con_dev.pins_connections:
+                if isinstance(pins.non_comp_pin, PowerPin):
+                    continue
+                pin_func = pins.non_comp_pin.functions[0].type
 
-                # handle i2c devices
-                if isinstance(dev, I2cDevice):
-                    args['bus'] = dev.i2c_bus
+                # Gpio pins
+                if pin_func == IOType.GPIO_INPUT or \
+                   pin_func == IOType.GPIO_OUTPUT or \
+                   pin_func == IOType.GPIO_BOTH or \
+                   pin_func == IOType.PWM:
+                    args[pins.non_comp_pin.name] = pins.comp_pin.number
 
-            # Generate code for device
-            output = tmpl.render(device_class=dev.name, args=gpio_pins)
+                if pin_func == IOType.I2C_SDA or pin_func == IOType.I2C_SCL:
+                    for f in pins.comp_pin.functions:
+                        if f.type == pin_func:
+                            args['bus'] = f.hw_port
+            
+            output = tmpl.render(device_class=driver_class,
+                                 is_sensor=is_sensor,
+                                 args=args)
             output = autopep8.fix_code(output)
+            print(output)
 
-        return output
+        return ""
 
-    def _handle_gpio(self, device):
-        """_handle_gpio
 
-        Args:
-            device ():
-
-        Returns:
-        """
-        pass
