@@ -16,7 +16,7 @@ class Validator():
         """
         print("[ERROR]: {}".format(msg))
         
-    def validate_connection(self, device):  # noqa C901
+    def validate_connection(self, device):  
         """Given a computational device validate all it's connections.
 
         Args:
@@ -34,62 +34,56 @@ class Validator():
             connected_dev = connection.device
 
             # Iterate through all the pin connections
-            l_pin = len(connection.pins.connections)
+            l_pin = len(connection.pins_connections)
             i = 0
             while i < l_pin and not break_flag:
                 pin_con = connection.pins_connections[i]
                 comp_pin = pin_con.comp_pin
                 non_comp = pin_con.non_comp_pin
 
+                # Check if pins have the right ansenstors
+                break_flag = not (non_comp.device == connected_dev)
+                if break_flag:
+                    self._log_error("Should use pin of non comp dev.")
+                break_flag = not (comp_pin.device == device)
+                if break_flag:
+                    self._log_error("Should use pin of comp dev.")
+
                 # Check types of devices that have the connected pins
-                if isinstance(comp_pin.device, NonComputational):
-                    self._log_error("Should be pin from computational device")
-                    break_flag = True
-
-                if isinstance(non_comp.device, Computational):
-                    self._log_error("Should be pin from non computational device")
-                    break_flag = True
-
+                break_flag = isinstance(comp_pin.device, NonComputational)
+                if break_flag:
+                    self._log_error("Should be pin from comp device.")
+                break_flag = isinstance(non_comp.device, Computational)
+                if break_flag:
+                    self._log_error("Should be pin from non comp device.")
+    
                 # Checks for power pin with io pin
-                flag_comp = isinstance(comp_pin, PowerPin)
-                flag_non = isinstance(non_comp, PowerPin)
-                if (flag_comp and not flag_non) or (flag_non and not flag_comp):
-                    self._log_error("Conn power with no power")
-                    break_flag = True
-                elif flag_comp and flag_non:
-                    if comp_pin.function != non_comp.function:
-                        self._log_error("Wrong power modes.")
-                        break_flag = True
-                    else:
-                        continue
+                break_flag = self._check_power(comp_pin, non_comp)
 
-                # Check for different modes.
-                # Make a dictionary with fucntions for faster search.
-                functions = {}
-                for f in comp_pin.functions:
-                    functions[f] = True
+                # Continue if both pins aren't power
+                if break_flag is None:
 
-                # I2C and PWM functions
-                f_non = non_comp.functions[0]
-                if (f_non == IOType.I2C_SDA) or \
-                   (f_non == IOType.I2C_SCL) or \
-                   (f_non == IOType.PWM): 
-                    try:
-                        _ = functions[f_non]
-                    except KeyError:
-                        self._log_error("Should be the same function")
-                        break_flag = True
-                        break
-                
-                # Check GPIO functions
-                if (f_non == IOType.GPIO_INPUT) or (f_non == IOType.GPIO_OUTPUT):
-                    try:
-                        _ = functions[IOType.GPIO_BOTH]
-                    except KeyError:
-                        self._log_error("Should be gpio pin")
-                        break_flag = True
-                        break
+                    # Check for different modes.
+                    # Make a dictionary with fucntions for faster search.
+                    comp_funcs = {}
+                    for f in comp_pin.functions:
+                        comp_funcs[f.type] = True
 
+                    break_flag = self._check_io_type(non_comp.functions[0].type,
+                                                     [IOType.I2C_SDA, IOType.PWM,
+                                                      IOType.I2C_SCL],
+                                                     comp_funcs, 
+                                                     non_comp.functions[0].type,
+                                                     "Should ne the same function")
+                    break_flag = not break_flag
+                    break_flag = self._check_io_type(non_comp.functions[0].type,
+                                                     [IOType.GPIO_INPUT,
+                                                      IOType.GPIO_OUTPUT,
+                                                      IOType.GPIO_BOTH],
+                                                     comp_funcs, IOType.GPIO_BOTH,
+                                                     "Should ne the gpio pin")
+                    break_flag = not break_flag
+                    
                 i += 1
             # Break loop if there is wrong mode
             if break_flag:
@@ -98,3 +92,68 @@ class Validator():
             ret_val = True
 
         return ret_val
+
+    def _check_dev_type(self, dev, cls, msg):
+        """Check class type of device
+
+        Args:
+            dev (Device object): The device to be checked.
+            cls (class type): The checked class type.
+            msg (str): The error msg
+
+        Returns:
+            (bool)
+        """
+        ret = isinstance(dev, cls)
+        if ret:
+            self._log_error(msg)
+        return ret
+
+    # TODO make valid results
+    def _check_power(self, comp, non_comp):
+        """_check_power
+
+        Args:
+            comp (Pin object): Pin of computational device
+            non_comp (Pin object): Pin on non computational device
+
+        Returns:
+        """
+        f_comp = isinstance(comp, PowerPin)
+        f_non = isinstance(non_comp, PowerPin)
+        ret = None
+        # Both Power
+        if f_comp and f_non:
+            ret = (comp.function == non_comp.function)
+            ret = not ret
+        elif f_comp or f_non:
+            ret = False
+            self._log_error("Must both or neither be power.")
+            ret = not ret
+        return ret
+
+    def _check_io_type(self, non_type, types, funcs, check_func, msg):
+        """Check proper connection for io pins.
+
+        Args:
+            non_type (IOType object): The type of the non computational pin 
+                function.
+            types (list): A list with the possible types to check
+            funcs (dict): A dictionary for hashing the supported io functions 
+                of the computational pin.
+            check_func (IOType object): The value that must be in computational
+                pin's functions.
+            msg (str): The error msg
+
+        Returns:
+            (bool)
+        """
+        ret = True
+        cond = sum([non_type == typ for typ in types])
+        if cond:
+            try:
+                _ = funcs[check_func]
+            except KeyError:
+                self._log_error(msg)
+                ret = False
+        return ret
