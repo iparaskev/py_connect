@@ -85,3 +85,26 @@ class VL53L1X():
         self.tof.pins.extend([self.gnd_1, self.power_5_1, self.pin_1,
                               self.pin_2])
 
+
+class DfMotorController():
+    """Dfr motor controller."""
+    def __init__(self):
+        self.tof = NonComputational(operating_voltage=3.3, name="tof")
+        self.pin_1 = IOPin(name="dir_1",
+                           number=3,
+                           functions=[IOPinFunction(type=IOType.GPIO_INPUT,
+                                                    hw_port=-1)])
+        self.pin_2 = IOPin(name="pwm_1",
+                           number=4,
+                           functions=[IOPinFunction(type=IOType.PWM,
+                                                    hw_port=-1)])
+        self.pin_3 = IOPin(name="dir_2",
+                           number=5,
+                           functions=[IOPinFunction(type=IOType.GPIO_INPUT,
+                                                    hw_port=-1)])
+        self.pin_4 = IOPin(name="pwm_3",
+                           number=6,
+                           functions=[IOPinFunction(type=IOType.PWM,
+                                                    hw_port=-1)])
+        self.tof.pins.extend([self.pin_3, self.pin_4, self.pin_1,
+                              self.pin_2])
