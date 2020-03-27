@@ -10,7 +10,7 @@ from py_connect.model_validator.validator import Validator  # noqa E402
 class TestMetaModel(unittest.TestCase):
     """Test meta model connections."""
 
-    def test_one_connection(self):
+    def test_gpio_connection(self):
         """Test a connection between a pi and a sonar."""
         pi = Pi()
         sonar = SonarHC_SRO4()
@@ -33,27 +33,16 @@ class TestMetaModel(unittest.TestCase):
         ret = val.validate_connection(pi.pi)
         self.assertEqual(ret, True, "Should be True")
 
-        # Wrong connections
-        connection.pins_connections.append(
-            ConnectedPins(comp_pin=pi.power_5_1,
-                          non_comp_pin=pi.power_5_2))
+        connection.pins_connections.append(ConnectedPins(comp_pin=pi.gnd_1,
+                                                         non_comp_pin=sonar.pin_2))
         ret = val.validate_connection(pi.pi)
         self.assertEqual(ret, False, "Should be False")
-        connection.pins_connections.pop()
 
-        connection.pins_connections.append(
-            ConnectedPins(comp_pin=pi.power_5_1,
-                          non_comp_pin=sonar.pin_1))
-        ret = val.validate_connection(pi.pi)
-        self.assertEqual(ret, False, "Should be False")
-        connection.pins_connections.pop()
-
-        connection.pins_connections.append(
-            ConnectedPins(comp_pin=pi.power_5_1,
-                          non_comp_pin=sonar.gnd_1))
-        ret = val.validate_connection(pi.pi)
-        self.assertEqual(ret, False, "Should be False")
-        connection.pins_connections.pop()
+    def test_i2c_connection(self):
+        """Test an i2c connection"""
+        pi = Pi()
+        tof = VL53L1X()
+        val = Validator()
 
 
 if __name__ == "__main__":

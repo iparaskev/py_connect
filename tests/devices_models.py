@@ -65,3 +65,23 @@ class SonarHC_SRO4():
                                                     hw_port=-1)])
         self.sonar.pins.extend([self.gnd_1, self.power_5_1, self.pin_1,
                                 self.pin_2])
+
+
+class VL53L1X():
+    """Bme sensor."""
+
+    def __init__(self):
+        self.tof = NonComputational(operating_voltage=3.3, name="tof")
+        self.gnd_1 = PowerPin(function=PowerType.GND, number=1)
+        self.power_5_1 = PowerPin(function=PowerType.POWER_5V, number=2)
+        self.pin_1 = IOPin(name="sda",
+                           number=3,
+                           functions=[IOPinFunction(type=IOType.I2C_SDA,
+                                                    hw_port=-1)])
+        self.pin_2 = IOPin(name="trigger",
+                           number=4,
+                           functions=[IOPinFunction(type=IOType.I2C_SCL,
+                                                    hw_port=-1)])
+        self.tof.pins.extend([self.gnd_1, self.power_5_1, self.pin_1,
+                              self.pin_2])
+
