@@ -30,12 +30,12 @@ class TestMetaModel(unittest.TestCase):
 
         pi.pi.connected_devices.append(connection)
 
-        ret = val.validate_connection(pi.pi)
+        ret = val.validate_connection(pi.pi, connection)
         self.assertEqual(ret, True, "Should be True")
 
         connection.pins_connections.append(ConnectedPins(comp_pin=pi.gnd_1,
                                                          non_comp_pin=sonar.pin_2))
-        ret = val.validate_connection(pi.pi)
+        ret = val.validate_connection(pi.pi, connection)
         self.assertEqual(ret, False, "Should be False")
 
     def test_i2c_connection(self):
@@ -43,6 +43,22 @@ class TestMetaModel(unittest.TestCase):
         pi = Pi()
         tof = VL53L1X()
         val = Validator()
+
+        connection = ConnectedDevice(device=tof.tof)
+        connection.pins_connections.append(ConnectedPins(comp_pin=pi.gnd_1,
+                                                         non_comp_pin=tof.gnd_1))
+        connection.pins_connections.append(
+            ConnectedPins(comp_pin=pi.power_5_1,
+                          non_comp_pin=tof.power_5_1))
+        connection.pins_connections.append(ConnectedPins(comp_pin=pi.bcm_2,
+                                                         non_comp_pin=tof.pin_1))
+        ret = val.validate_connection(pi.pi, connection)
+        self.assertEqual(ret, False, "Should be False, missing i2c pin")
+
+        connection.pins_connections.append(ConnectedPins(comp_pin=pi.bcm_3,
+                                                         non_comp_pin=tof.pin_2))
+        ret = val.validate_connection(pi.pi, connection)
+        self.assertEqual(ret, True, "Should be True, complete i2c integration")
 
 
 if __name__ == "__main__":
