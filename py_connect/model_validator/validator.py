@@ -125,6 +125,15 @@ class Validator():
         return type_flag
     
     def _simple_try(self, funcs, f_type, msg):
+        """_simple_try
+
+        Args:
+            funcs ():
+            f_type ():
+            msg ():
+
+        Returns:
+        """
         type_flag = True
         try:
             _ = funcs[f_type]
