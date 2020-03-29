@@ -24,7 +24,7 @@ class Device(EObject, metaclass=MetaEClass):
 
     operating_voltage = EAttribute(eType=EFloat, derived=False, changeable=True)
     name = EAttribute(eType=EString, derived=False, changeable=True)
-    pins = EReference(ordered=True, unique=True, containment=False, upper=-1)
+    pins = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
     def __init__(self, *, operating_voltage=None, name=None, pins=None, **kwargs):
         if kwargs:
@@ -78,12 +78,12 @@ class IOPinFunction(EObject, metaclass=MetaEClass):
             self.hw_port = hw_port
 
 
-class ConnectedDevice(EObject, metaclass=MetaEClass):
+class D2DConnection(EObject, metaclass=MetaEClass):
 
     device = EReference(ordered=True, unique=True, containment=False)
-    pins_connections = EReference(ordered=True, unique=True, containment=False, upper=-1)
+    pin_connections = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, device=None, pins_connections=None, **kwargs):
+    def __init__(self, *, device=None, pin_connections=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -92,11 +92,11 @@ class ConnectedDevice(EObject, metaclass=MetaEClass):
         if device is not None:
             self.device = device
 
-        if pins_connections:
-            self.pins_connections.extend(pins_connections)
+        if pin_connections:
+            self.pin_connections.extend(pin_connections)
 
 
-class ConnectedPins(EObject, metaclass=MetaEClass):
+class Pin2PinConnection(EObject, metaclass=MetaEClass):
 
     comp_pin = EReference(ordered=True, unique=True, containment=False)
     non_comp_pin = EReference(ordered=True, unique=True, containment=False)
@@ -157,7 +157,7 @@ class PowerPin(Pin):
 class IOPin(Pin):
 
     name = EAttribute(eType=EString, derived=False, changeable=True)
-    functions = EReference(ordered=True, unique=True, containment=False, upper=-1)
+    functions = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
     def __init__(self, *, name=None, functions=None, **kwargs):
 

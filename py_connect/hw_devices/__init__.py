@@ -1,25 +1,25 @@
 
 from .hw_devices import getEClassifier, eClassifiers
 from .hw_devices import name, nsURI, nsPrefix, eClass
-from .hw_devices import Device, Computational, NonComputational, DeviceType, Pin, PowerPin, IOPinFunction, IOPin, IOType, PowerType, ConnectedDevice, ConnectedPins
+from .hw_devices import Device, Computational, NonComputational, DeviceType, Pin, PowerPin, IOPinFunction, IOPin, IOType, PowerType, D2DConnection, Pin2PinConnection
 
 
 from . import hw_devices
 
 __all__ = ['Device', 'Computational', 'NonComputational', 'DeviceType', 'Pin', 'PowerPin',
-           'IOPinFunction', 'IOPin', 'IOType', 'PowerType', 'ConnectedDevice', 'ConnectedPins']
+           'IOPinFunction', 'IOPin', 'IOType', 'PowerType', 'D2DConnection', 'Pin2PinConnection']
 
 eSubpackages = []
 eSuperPackage = None
 hw_devices.eSubpackages = eSubpackages
 hw_devices.eSuperPackage = eSuperPackage
 
-Computational.connected_devices.eType = ConnectedDevice
+Computational.connected_devices.eType = D2DConnection
 IOPin.functions.eType = IOPinFunction
-ConnectedDevice.device.eType = NonComputational
-ConnectedDevice.pins_connections.eType = ConnectedPins
-ConnectedPins.comp_pin.eType = Pin
-ConnectedPins.non_comp_pin.eType = Pin
+D2DConnection.device.eType = NonComputational
+D2DConnection.pin_connections.eType = Pin2PinConnection
+Pin2PinConnection.comp_pin.eType = Pin
+Pin2PinConnection.non_comp_pin.eType = Pin
 Device.pins.eType = Pin
 Pin.device.eType = Device
 Pin.device.eOpposite = Device.pins
