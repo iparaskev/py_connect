@@ -45,9 +45,8 @@ class Device(EObject, metaclass=MetaEClass):
 class Pin(EObject, metaclass=MetaEClass):
 
     number = EAttribute(eType=EInt, derived=False, changeable=True)
-    device = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, number=None, device=None, **kwargs):
+    def __init__(self, *, number=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -55,9 +54,6 @@ class Pin(EObject, metaclass=MetaEClass):
 
         if number is not None:
             self.number = number
-
-        if device is not None:
-            self.device = device
 
 
 class IOPinFunction(EObject, metaclass=MetaEClass):

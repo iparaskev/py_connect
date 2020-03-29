@@ -14,15 +14,13 @@ eSuperPackage = None
 hw_devices.eSubpackages = eSubpackages
 hw_devices.eSuperPackage = eSuperPackage
 
+Device.pins.eType = Pin
 Computational.connected_devices.eType = D2DConnection
 IOPin.functions.eType = IOPinFunction
 D2DConnection.device.eType = NonComputational
 D2DConnection.pin_connections.eType = Pin2PinConnection
 Pin2PinConnection.comp_pin.eType = Pin
 Pin2PinConnection.non_comp_pin.eType = Pin
-Device.pins.eType = Pin
-Pin.device.eType = Device
-Pin.device.eOpposite = Device.pins
 
 otherClassifiers = [DeviceType, IOType, PowerType]
 

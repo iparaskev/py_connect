@@ -5,7 +5,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="operating_voltage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="pins" upperBound="-1" eType="#//Pin"
-        containment="true" eOpposite="#//Pin/device"/>
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Computational" eSuperTypes="#//Device">
     <eStructuralFeatures xsi:type="ecore:EReference" name="connected_devices" upperBound="-1"
@@ -22,8 +22,6 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Pin">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="device" lowerBound="1"
-        eType="#//Device" eOpposite="#//Device/pins"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PowerPin" eSuperTypes="#//Pin">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="function" eType="#//PowerType"/>
