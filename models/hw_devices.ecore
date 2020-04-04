@@ -42,7 +42,6 @@
   <eClassifiers xsi:type="ecore:EClass" name="NonComputational" eSuperTypes="#//Device">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//DeviceType"
         defaultValueLiteral=""/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="driver_name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="DeviceType" instanceTypeName="DeviceType">
     <eLiterals name="SENSOR"/>
