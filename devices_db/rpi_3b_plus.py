@@ -1,5 +1,5 @@
 import sys
-from pyecore.resources import ResourceSet
+from pyecore.resources.xmi import XMIResource
 sys.path.append(".")
 
 from py_connect.hw_devices import *  # noqa E402
