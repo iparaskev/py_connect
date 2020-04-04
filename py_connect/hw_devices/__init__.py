@@ -1,13 +1,13 @@
 
 from .hw_devices import getEClassifier, eClassifiers
 from .hw_devices import name, nsURI, nsPrefix, eClass
-from .hw_devices import Device, Computational, NonComputational, DeviceType, Pin, PowerPin, IOPinFunction, IOPin, IOType, PowerType, D2DConnection, Pin2PinConnection
+from .hw_devices import Device, Computational, NonComputational, DeviceType, Pin, PowerPin, IOPinFunction, IOPin, IOType, PowerType, D2DConnection, Pin2PinConnection, CpuFamily
 
 
 from . import hw_devices
 
 __all__ = ['Device', 'Computational', 'NonComputational', 'DeviceType', 'Pin', 'PowerPin',
-           'IOPinFunction', 'IOPin', 'IOType', 'PowerType', 'D2DConnection', 'Pin2PinConnection']
+           'IOPinFunction', 'IOPin', 'IOType', 'PowerType', 'D2DConnection', 'Pin2PinConnection', 'CpuFamily']
 
 eSubpackages = []
 eSuperPackage = None
@@ -22,7 +22,7 @@ D2DConnection.pin_connections.eType = Pin2PinConnection
 Pin2PinConnection.comp_pin.eType = Pin
 Pin2PinConnection.non_comp_pin.eType = Pin
 
-otherClassifiers = [DeviceType, IOType, PowerType]
+otherClassifiers = [DeviceType, IOType, PowerType, CpuFamily]
 
 for classif in otherClassifiers:
     eClassifiers[classif.name] = classif
