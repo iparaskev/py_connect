@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hw_devices:NonComputational xmlns:xmi="http://www.omg.org/XMI" xmlns:hw_devices="http://www.example.org/hw_devices" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" vcc="5.0" name="hc_sr04_sonar" xmi:version="2.0">
+  <pins xsi:type="hw_devices:PowerPin" number="1" function="POWER_5V"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="2" name="trigger">
+    <functions xsi:type="hw_devices:IOPinFunction"/>
+  </pins>
+  <pins xsi:type="hw_devices:DigitalPin" number="3" name="echo">
+    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_OUTPUT"/>
+  </pins>
+  <pins xsi:type="hw_devices:PowerPin" number="4"/>
+</hw_devices:NonComputational>
