@@ -1,13 +1,13 @@
 
 from .hw_devices import getEClassifier, eClassifiers
 from .hw_devices import name, nsURI, nsPrefix, eClass
-from .hw_devices import Device, Computational, NonComputational, DeviceType, Pin, PowerPin, IOPinFunction, IOPin, IOType, PowerType, D2DConnection, Pin2PinConnection, CpuFamily
+from .hw_devices import Device, Computational, NonComputational, DeviceType, Pin, PowerPin, IOPinFunction, IOPin, IOType, PowerType, D2DConnection, Pin2PinConnection, CpuFamily, DigitalPin, AnalogPin
 
 
 from . import hw_devices
 
-__all__ = ['Device', 'Computational', 'NonComputational', 'DeviceType', 'Pin', 'PowerPin',
-           'IOPinFunction', 'IOPin', 'IOType', 'PowerType', 'D2DConnection', 'Pin2PinConnection', 'CpuFamily']
+__all__ = ['Device', 'Computational', 'NonComputational', 'DeviceType', 'Pin', 'PowerPin', 'IOPinFunction',
+           'IOPin', 'IOType', 'PowerType', 'D2DConnection', 'Pin2PinConnection', 'CpuFamily', 'DigitalPin', 'AnalogPin']
 
 eSubpackages = []
 eSuperPackage = None
@@ -16,11 +16,11 @@ hw_devices.eSuperPackage = eSuperPackage
 
 Device.pins.eType = Pin
 Computational.connected_devices.eType = D2DConnection
-IOPin.functions.eType = IOPinFunction
 D2DConnection.device.eType = NonComputational
 D2DConnection.pin_connections.eType = Pin2PinConnection
 Pin2PinConnection.comp_pin.eType = Pin
 Pin2PinConnection.non_comp_pin.eType = Pin
+DigitalPin.functions.eType = IOPinFunction
 
 otherClassifiers = [DeviceType, IOType, PowerType, CpuFamily]
 

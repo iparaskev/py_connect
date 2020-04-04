@@ -12,7 +12,8 @@
         eType="#//D2DConnection"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="cpu_family" eType="#//CpuFamily"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ram" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rom" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rom" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="max_freq" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="fpu" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="dma" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
@@ -21,12 +22,22 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ethernet" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="timers" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rtc" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="usb2s" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="usb3s" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="i2cs" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="spis" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uarts" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pwms" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="usb2s" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="usb3s" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="i2cs" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="spis" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="uarts" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="pwms" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="external_memory" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="battery" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="adcs" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NonComputational" eSuperTypes="#//Device">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//DeviceType"
@@ -50,8 +61,6 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IOPin" eSuperTypes="#//Pin">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="functions" lowerBound="1"
-        upperBound="-1" eType="#//IOPinFunction" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="IOType" instanceTypeName="IO">
     <eLiterals name="GPIO_INPUT"/>
@@ -60,6 +69,13 @@
     <eLiterals name="I2C_SDA" value="3"/>
     <eLiterals name="I2C_SCL" value="4"/>
     <eLiterals name="PWM" value="5"/>
+    <eLiterals name="GPCLK" value="6"/>
+    <eLiterals name="UART_TX" value="7"/>
+    <eLiterals name="UART_RX" value="8"/>
+    <eLiterals name="SPI_MOSI" value="9"/>
+    <eLiterals name="SPI_MISO" value="10"/>
+    <eLiterals name="SPI_SCLK" value="11"/>
+    <eLiterals name="SPI_CE" value="12"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="PowerType" instanceTypeName="Power">
     <eLiterals name="GND"/>
@@ -79,10 +95,16 @@
         eType="#//Pin"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="CpuFamily">
-    <eLiterals name="ARM_CORTEX-M"/>
+    <eLiterals name="ARM_CORTEX_M"/>
     <eLiterals name="AVR" value="1"/>
     <eLiterals name="MSP430" value="2"/>
     <eLiterals name="MIPS" value="3"/>
     <eLiterals name="EFM32" value="4"/>
+    <eLiterals name="ARM_CORTEX_A" value="5"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DigitalPin" eSuperTypes="#//IOPin">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="functions" lowerBound="1"
+        upperBound="-1" eType="#//IOPinFunction" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalogPin" eSuperTypes="#//IOPin"/>
 </ecore:EPackage>
