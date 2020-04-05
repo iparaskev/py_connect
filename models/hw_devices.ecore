@@ -11,7 +11,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="connected_devices" upperBound="-1"
         eType="#//D2DConnection"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="cpu_family" eType="#//CpuFamily"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ram" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ram" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rom" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="0"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="max_freq" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
@@ -38,6 +38,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="battery" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="adcs" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="digital_pins" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NonComputational" eSuperTypes="#//Device">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//DeviceType"
@@ -75,6 +76,7 @@
     <eLiterals name="SPI_MISO" value="10"/>
     <eLiterals name="SPI_SCLK" value="11"/>
     <eLiterals name="SPI_CE" value="12"/>
+    <eLiterals name="RST" value="13"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="PowerType" instanceTypeName="Power">
     <eLiterals name="GND"/>
@@ -100,10 +102,13 @@
     <eLiterals name="MIPS" value="3"/>
     <eLiterals name="EFM32" value="4"/>
     <eLiterals name="ARM_CORTEX_A" value="5"/>
+    <eLiterals name="XTENSA" value="6"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="DigitalPin" eSuperTypes="#//IOPin">
     <eStructuralFeatures xsi:type="ecore:EReference" name="functions" lowerBound="1"
         upperBound="-1" eType="#//IOPinFunction" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AnalogPin" eSuperTypes="#//IOPin"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AnalogPin" eSuperTypes="#//IOPin">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="vmax" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
 </ecore:EPackage>

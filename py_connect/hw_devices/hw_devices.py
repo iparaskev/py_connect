@@ -15,12 +15,12 @@ getEClassifier = partial(Ecore.getEClassifier, searchspace=eClassifiers)
 DeviceType = EEnum('DeviceType', literals=['SENSOR', 'ACTUATOR'])
 
 IOType = EEnum('IOType', literals=['GPIO_INPUT', 'GPIO_OUTPUT', 'GPIO_BOTH', 'I2C_SDA', 'I2C_SCL',
-                                   'PWM', 'GPCLK', 'UART_TX', 'UART_RX', 'SPI_MOSI', 'SPI_MISO', 'SPI_SCLK', 'SPI_CE'])
+                                   'PWM', 'GPCLK', 'UART_TX', 'UART_RX', 'SPI_MOSI', 'SPI_MISO', 'SPI_SCLK', 'SPI_CE', 'RST'])
 
 PowerType = EEnum('PowerType', literals=['GND', 'POWER_3V3', 'POWER_5V'])
 
-CpuFamily = EEnum('CpuFamily', literals=['ARM_CORTEX_M',
-                                         'AVR', 'MSP430', 'MIPS', 'EFM32', 'ARM_CORTEX_A'])
+CpuFamily = EEnum('CpuFamily', literals=['ARM_CORTEX_M', 'AVR',
+                                         'MSP430', 'MIPS', 'EFM32', 'ARM_CORTEX_A', 'XTENSA'])
 
 
 class Device(EObject, metaclass=MetaEClass):
@@ -116,7 +116,7 @@ class Pin2PinConnection(EObject, metaclass=MetaEClass):
 class Computational(Device):
 
     cpu_family = EAttribute(eType=CpuFamily, derived=False, changeable=True)
-    ram = EAttribute(eType=EInt, derived=False, changeable=True)
+    ram = EAttribute(eType=EFloat, derived=False, changeable=True)
     rom = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
     max_freq = EAttribute(eType=EInt, derived=False, changeable=True)
     fpu = EAttribute(eType=EBoolean, derived=False, changeable=True)
@@ -135,9 +135,10 @@ class Computational(Device):
     external_memory = EAttribute(eType=EInt, derived=False, changeable=True)
     battery = EAttribute(eType=EBoolean, derived=False, changeable=True)
     adcs = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
+    digital_pins = EAttribute(eType=EInt, derived=False, changeable=True)
     connected_devices = EReference(ordered=True, unique=True, containment=False, upper=-1)
 
-    def __init__(self, *, connected_devices=None, cpu_family=None, ram=None, rom=None, max_freq=None, fpu=None, dma=None, wifi=None, ble=None, ethernet=None, timers=None, rtc=None, usb2s=None, usb3s=None, i2cs=None, spis=None, uarts=None, pwms=None, external_memory=None, battery=None, adcs=None, **kwargs):
+    def __init__(self, *, connected_devices=None, cpu_family=None, ram=None, rom=None, max_freq=None, fpu=None, dma=None, wifi=None, ble=None, ethernet=None, timers=None, rtc=None, usb2s=None, usb3s=None, i2cs=None, spis=None, uarts=None, pwms=None, external_memory=None, battery=None, adcs=None, digital_pins=None, **kwargs):
 
         super().__init__(**kwargs)
 
@@ -201,6 +202,9 @@ class Computational(Device):
         if adcs is not None:
             self.adcs = adcs
 
+        if digital_pins is not None:
+            self.digital_pins = digital_pins
+
         if connected_devices:
             self.connected_devices.extend(connected_devices)
 
@@ -255,6 +259,11 @@ class DigitalPin(IOPin):
 
 class AnalogPin(IOPin):
 
-    def __init__(self, **kwargs):
+    vmax = EAttribute(eType=EFloat, derived=False, changeable=True)
+
+    def __init__(self, *, vmax=None, **kwargs):
 
         super().__init__(**kwargs)
+
+        if vmax is not None:
+            self.vmax = vmax
