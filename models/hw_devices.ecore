@@ -6,19 +6,11 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="pins" upperBound="-1" eType="#//Pin"
         containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="operating_voltage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hw_interfaces" upperBound="-1"
+        eType="#//HwInterface" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Computational" eSuperTypes="#//Device">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="connected_devices" upperBound="-1"
-        eType="#//D2DConnection"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cpu_family" eType="#//CpuFamily"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ram" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rom" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
-        defaultValueLiteral="0"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="max_freq" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fpu" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dma" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="wifi" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ble" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Board" eSuperTypes="#//Device">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ethernet" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="timers" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rtc" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
@@ -34,66 +26,38 @@
         defaultValueLiteral="0"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="pwms" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="0"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="external_memory" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="battery" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="adcs" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="0"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="digital_pins" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="dma" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="cpu" lowerBound="1" eType="#//CPU"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="memory" lowerBound="1"
+        eType="#//Memory"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="radio" lowerBound="1" eType="#//Radio"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="NonComputational" eSuperTypes="#//Device">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//DeviceType"
+  <eClassifiers xsi:type="ecore:EClass" name="Peripheral" eSuperTypes="#//Device">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//PeripheralType"
         defaultValueLiteral=""/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="DeviceType" instanceTypeName="DeviceType">
+  <eClassifiers xsi:type="ecore:EEnum" name="PeripheralType" instanceTypeName="DeviceType">
     <eLiterals name="SENSOR"/>
     <eLiterals name="ACTUATOR" value="1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Pin">
+  <eClassifiers xsi:type="ecore:EClass" name="Pin" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="connected" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PowerPin" eSuperTypes="#//Pin">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="function" eType="#//PowerType"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="IOPinFunction">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//IOType"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="hw_port" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
-        defaultValueLiteral="0"/>
-  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IOPin" eSuperTypes="#//Pin">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="IOType" instanceTypeName="IO">
-    <eLiterals name="GPIO_INPUT"/>
-    <eLiterals name="GPIO_OUTPUT" value="1"/>
-    <eLiterals name="GPIO_BOTH" value="2"/>
-    <eLiterals name="I2C_SDA" value="3"/>
-    <eLiterals name="I2C_SCL" value="4"/>
-    <eLiterals name="PWM" value="5"/>
-    <eLiterals name="GPCLK" value="6"/>
-    <eLiterals name="UART_TX" value="7"/>
-    <eLiterals name="UART_RX" value="8"/>
-    <eLiterals name="SPI_MOSI" value="9"/>
-    <eLiterals name="SPI_MISO" value="10"/>
-    <eLiterals name="SPI_SCLK" value="11"/>
-    <eLiterals name="SPI_CE" value="12"/>
-    <eLiterals name="RST" value="13"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="PowerType" instanceTypeName="Power">
     <eLiterals name="GND"/>
     <eLiterals name="POWER_3V3" value="1"/>
     <eLiterals name="POWER_5V" value="2"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="D2DConnection">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="device" lowerBound="1"
-        eType="#//NonComputational"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="pin_connections" lowerBound="1"
-        upperBound="-1" eType="#//Pin2PinConnection" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Pin2PinConnection">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="comp_pin" lowerBound="1"
-        eType="#//Pin"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="non_comp_pin" lowerBound="1"
-        eType="#//Pin"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="CpuFamily">
     <eLiterals name="ARM_CORTEX_M"/>
@@ -102,13 +66,73 @@
     <eLiterals name="MIPS" value="3"/>
     <eLiterals name="EFM32" value="4"/>
     <eLiterals name="ARM_CORTEX_A" value="5"/>
-    <eLiterals name="XTENSA" value="6"/>
+    <eLiterals name="ESP8266" value="6"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="DigitalPin" eSuperTypes="#//IOPin">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="functions" lowerBound="1"
-        upperBound="-1" eType="#//IOPinFunction" containment="true"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DigitalPin" eSuperTypes="#//IOPin"/>
   <eClassifiers xsi:type="ecore:EClass" name="AnalogPin" eSuperTypes="#//IOPin">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="vmax" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HwInterface" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="I2C" eSuperTypes="#//HwInterface">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="addr" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sda" lowerBound="1" eType="#//DigitalPin"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="scl" lowerBound="1" eType="#//DigitalPin"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SPI" eSuperTypes="#//HwInterface">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="addr" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="miso" lowerBound="1" eType="#//DigitalPin"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ce" upperBound="-1" eType="#//DigitalPin"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mosi" lowerBound="1" eType="#//DigitalPin"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="sclk" lowerBound="1" eType="#//DigitalPin"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="UART" eSuperTypes="#//HwInterface">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="baudrate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="rx" lowerBound="1" eType="#//DigitalPin"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="tx" lowerBound="1" eType="#//DigitalPin"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PWM" eSuperTypes="#//HwInterface">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="frequency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pin" lowerBound="1" eType="#//DigitalPin"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="USB" eSuperTypes="#//HwInterface">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//USBType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="GPIOType" instanceTypeName="GPIOType">
+    <eLiterals name="INPUT"/>
+    <eLiterals name="OUTPUT" value="1"/>
+    <eLiterals name="BOTH" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="GPIO" eSuperTypes="#//HwInterface">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//GPIOType"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="pin" lowerBound="1" eType="#//IOPin"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ADC" eSuperTypes="#//HwInterface">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="n_channels" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="channels" upperBound="-1"
+        eType="#//DigitalPin"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Memory">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ram" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rom" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"
+        defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="external_memory" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="CPU">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="cpu_family" eType="#//CpuFamily"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="max_freq" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="fpu" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Radio">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="wifi" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ble" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="USBType" instanceTypeName="USBType">
+    <eLiterals name="USB2"/>
+    <eLiterals name="USB3" value="1"/>
   </eClassifiers>
 </ecore:EPackage>
