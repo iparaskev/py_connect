@@ -1,15 +1,15 @@
 import sys
-from pyecore.resources.xmi import XMIResource
+from pyecore.resources import ResourceSet, URI
 sys.path.append(".")
 
 from py_connect.hw_devices import *  # noqa E402
 
 
-NAME = "rpi_3b_plus.xmi"  # Name of the xmi
+NAME = "devices_db/rpi_3b_plus.xmi"  # Name of the xmi
 
 
 dev = Computational(vcc=5.0, name="pi_3", cpu_family=CpuFamily.ARM_CORTEX_A,
-                    max_freq=1400, ram=1000, external_memory=16000,
+                    max_freq=1400, ram=1000., external_memory=16000,
                     fpu=True, dma=True, wifi=True, 
                     ble=True, ethernet=True, timers=1,
                     rtc=False, usb2s=4, i2cs=2, 
@@ -106,7 +106,7 @@ pin_40 = DigitalPin(name="bcm_21", number=40,
                                IOPinFunction(type=IOType.SPI_SCLK, hw_port=1)])
 
 dev.pins.extend([pin_1, pin_2, pin_3, pin_4, pin_5, pin_6, pin_7, pin_8,
-                 pin_9, pin_10, pin_11, pin_12, pin_13, pin_14, pin_16, pin_16,
+                 pin_9, pin_10, pin_11, pin_12, pin_13, pin_14, pin_15, pin_16,
                  pin_17, pin_18, pin_19, pin_20, pin_21, pin_22, pin_23, pin_24,
                  pin_25, pin_26, pin_27, pin_28, pin_29, pin_30, pin_31, pin_32,
                  pin_33, pin_34, pin_35, pin_36, pin_37, pin_38, pin_39, pin_40])
