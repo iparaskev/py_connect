@@ -1,118 +1,81 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<hw_devices:Computational xmlns:xmi="http://www.omg.org/XMI" xmlns:hw_devices="http://www.example.org/hw_devices" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uarts="2" ethernet="true" external_memory="16000" ram="1000" vcc="5.0" max_freq="1400" cpu_family="ARM_CORTEX_A" spis="2" dma="true" name="pi_3" ble="true" pwms="2" timers="1" usb2s="4" fpu="true" i2cs="2" wifi="true" xmi:version="2.0">
-  <pins xsi:type="hw_devices:PowerPin" number="1" function="POWER_3V3"/>
-  <pins xsi:type="hw_devices:PowerPin" number="2" function="POWER_5V"/>
-  <pins xsi:type="hw_devices:DigitalPin" number="3" name="bcm_2">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" hw_port="1" type="I2C_SDA"/>
-  </pins>
-  <pins xsi:type="hw_devices:PowerPin" number="4" function="POWER_5V"/>
-  <pins xsi:type="hw_devices:DigitalPin" number="5" name="bcm_3">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" hw_port="1" type="I2C_SCL"/>
-  </pins>
+<hw_devices:Board xmlns:xmi="http://www.omg.org/XMI" xmlns:hw_devices="http://www.example.org/hw_devices" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" pwms="2" name="pi_3" digital_pins="28" dma="true" usb2s="4" i2cs="2" uarts="1" timers="1" vcc="5.0" operating_voltage="3.3" ethernet="true" spis="2" xmi:version="2.0">
+  <pins xsi:type="hw_devices:PowerPin" function="POWER_3V3" number="1"/>
+  <pins xsi:type="hw_devices:PowerPin" function="POWER_5V" number="2"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_2" number="3"/>
+  <pins xsi:type="hw_devices:PowerPin" function="POWER_5V" number="4"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_3" number="5"/>
   <pins xsi:type="hw_devices:PowerPin" number="6"/>
-  <pins xsi:type="hw_devices:DigitalPin" number="7" name="bcm_4">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPCLK"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="8" name="bcm_14">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" type="UART_TX"/>
-  </pins>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_4" number="7"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_14" number="8"/>
   <pins xsi:type="hw_devices:PowerPin" number="9"/>
-  <pins xsi:type="hw_devices:DigitalPin" number="10" name="bcm_15">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" type="UART_RX"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="11" name="bcm_17">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" hw_port="1" type="SPI_CE"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="12" name="bcm_18">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" type="PWM"/>
-    <functions xsi:type="hw_devices:IOPinFunction" hw_port="1" type="SPI_CE"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="13" name="bcm_27">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-  </pins>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_15" number="10"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_17" number="11"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_18" number="12"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_27" number="13"/>
   <pins xsi:type="hw_devices:PowerPin" number="14"/>
-  <pins xsi:type="hw_devices:DigitalPin" number="16" name="bcm_23">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-  </pins>
-  <pins xsi:type="hw_devices:PowerPin" number="17" function="POWER_3V3"/>
-  <pins xsi:type="hw_devices:DigitalPin" number="18" name="bcm_24">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="19" name="bcm_10">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" type="SPI_MOSI"/>
-  </pins>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_22" number="15"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_23" number="16"/>
+  <pins xsi:type="hw_devices:PowerPin" function="POWER_3V3" number="17"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_24" number="18"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_10" number="19"/>
   <pins xsi:type="hw_devices:PowerPin" number="20"/>
-  <pins xsi:type="hw_devices:DigitalPin" number="21" name="bcm_9">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" type="SPI_MISO"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="22" name="bcm_25">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="23" name="bcm_11">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" type="SPI_SCLK"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="24" name="bcm_8">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" type="SPI_CE"/>
-  </pins>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_9" number="21"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_25" number="22"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_11" number="23"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_8" number="24"/>
   <pins xsi:type="hw_devices:PowerPin" number="25"/>
-  <pins xsi:type="hw_devices:DigitalPin" number="26" name="bcm_7">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" type="SPI_CE"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="27" name="bcm_0">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" type="I2C_SDA"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="28" name="bcm_1">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" type="I2C_SCL"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="29" name="bcm_5">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-  </pins>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_7" number="26"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_0" number="27"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_1" number="28"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_5" number="29"/>
   <pins xsi:type="hw_devices:PowerPin" number="30"/>
-  <pins xsi:type="hw_devices:DigitalPin" number="31" name="bcm_6">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="32" name="bcm_12">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" type="PWM"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="33" name="bcm_13">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" hw_port="1" type="PWM"/>
-  </pins>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_6" number="31"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_12" number="32"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_13" number="33"/>
   <pins xsi:type="hw_devices:PowerPin" number="34"/>
-  <pins xsi:type="hw_devices:DigitalPin" number="35" name="bcm_19">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" hw_port="1" type="PWM"/>
-    <functions xsi:type="hw_devices:IOPinFunction" hw_port="1" type="SPI_MISO"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="36" name="bcm_16">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" hw_port="1" type="SPI_CE"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="37" name="bcm_26">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="38" name="bcm_20">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" hw_port="1" type="SPI_MOSI"/>
-  </pins>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_19" number="35"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_16" number="36"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_26" number="37"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_20" number="38"/>
   <pins xsi:type="hw_devices:PowerPin" number="39"/>
-  <pins xsi:type="hw_devices:DigitalPin" number="40" name="bcm_21">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" hw_port="1" type="SPI_SCLK"/>
-  </pins>
-</hw_devices:Computational>
+  <pins xsi:type="hw_devices:DigitalPin" name="bcm_21" number="40"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.2" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.4" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.6" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.7" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.9" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.10" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.11" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.12" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.14" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.15" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.17" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.18" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.20" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.21" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.22" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.23" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.25" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.26" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.27" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.28" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.30" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.31" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.32" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.34" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.35" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.36" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.37" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.39" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:PWM" pin="//@pins.11"/>
+  <hw_interfaces xsi:type="hw_devices:PWM" pin="//@pins.34"/>
+  <hw_interfaces xsi:type="hw_devices:I2C" sda="//@pins.2" scl="//@pins.4"/>
+  <hw_interfaces xsi:type="hw_devices:I2C" sda="//@pins.26" scl="//@pins.27"/>
+  <hw_interfaces xsi:type="hw_devices:SPI" sclk="//@pins.22" miso="//@pins.20" ce="//@pins.23 //@pins.25" mosi="//@pins.18"/>
+  <hw_interfaces xsi:type="hw_devices:SPI" sclk="//@pins.39" miso="//@pins.34" ce="//@pins.11 //@pins.10 //@pins.35" mosi="//@pins.37"/>
+  <hw_interfaces xsi:type="hw_devices:UART" rx="//@pins.9" tx="//@pins.7"/>
+  <memory xsi:type="hw_devices:Memory" external_memory="16000.0" ram="1000.0"/>
+  <cpu xsi:type="hw_devices:CPU" max_freq="1400.0" fpu="true" cpu_family="ARM_CORTEX_A"/>
+  <wireless xsi:type="hw_devices:Wireless" ble="true" wifi="true"/>
+</hw_devices:Board>

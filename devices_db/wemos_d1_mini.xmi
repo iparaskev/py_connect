@@ -1,48 +1,34 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<hw_devices:Computational xmlns:xmi="http://www.omg.org/XMI" xmlns:hw_devices="http://www.example.org/hw_devices" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" wifi="true" uarts="1" vcc="3.3" adcs="1" ram="0.8" max_freq="160" cpu_family="XTENSA" spis="1" name="wemos_d1_mini" timers="1" battery="true" digital_pins="13" rom="16" i2cs="2" xmi:version="2.0">
-  <pins xsi:type="hw_devices:DigitalPin" number="1" name="reset">
-    <functions xsi:type="hw_devices:IOPinFunction" type="RST"/>
-  </pins>
-  <pins xsi:type="hw_devices:AnalogPin" number="2" name="a0" vmax="3.3"/>
-  <pins xsi:type="hw_devices:DigitalPin" number="3" name="d0">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="4" name="d5">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" type="SPI_SCLK"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="5" name="d6">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" type="SPI_MISO"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="6" name="d7">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" type="SPI_MOSI"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="7" name="d8">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" type="SPI_CE"/>
-  </pins>
+<hw_devices:Board xmlns:xmi="http://www.omg.org/XMI" xmlns:hw_devices="http://www.example.org/hw_devices" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" operating_voltage="3.3" spis="1" name="wemos_d1_mini" digital_pins="11" i2cs="1" adcs="1" timers="1" uarts="1" battery="true" vcc="3.3" xmi:version="2.0">
+  <cpu xsi:type="hw_devices:CPU" cpu_family="ESP8266" max_freq="160.0"/>
+  <wireless xsi:type="hw_devices:Wireless" wifi="true"/>
+  <memory xsi:type="hw_devices:Memory" ram="0.8" rom="16.0"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.2" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.3" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.4" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.5" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.6" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.11" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.12" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.10" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.13" type="BOTH"/>
+  <hw_interfaces xsi:type="hw_devices:UART" rx="//@pins.9" tx="//@pins.8"/>
+  <hw_interfaces xsi:type="hw_devices:ADC" pin="//@pins.1"/>
+  <hw_interfaces xsi:type="hw_devices:I2C" sda="//@pins.10" scl="//@pins.11"/>
+  <hw_interfaces xsi:type="hw_devices:SPI" mosi="//@pins.5" sclk="//@pins.3" miso="//@pins.4" ce="//@pins.6"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="reset" number="1"/>
+  <pins xsi:type="hw_devices:AnalogPin" name="a0" vmax="3.3" number="2"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="d0" number="3"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="d5" number="4"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="d6" number="5"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="d7" number="6"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="d8" number="7"/>
   <pins xsi:type="hw_devices:PowerPin" number="8" function="POWER_3V3"/>
-  <pins xsi:type="hw_devices:DigitalPin" number="9" name="tx">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" type="UART_TX"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="10" name="rx">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" type="UART_RX"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="11" name="d1">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" type="I2C_SCL"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="12" name="d2">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-    <functions xsi:type="hw_devices:IOPinFunction" type="I2C_SDA"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" number="13" name="d3">
-    <functions xsi:type="hw_devices:IOPinFunction" type="GPIO_BOTH"/>
-  </pins>
-  <pins xsi:type="hw_devices:PowerPin" number="14"/>
-  <pins xsi:type="hw_devices:PowerPin" number="15" function="POWER_5V"/>
-</hw_devices:Computational>
+  <pins xsi:type="hw_devices:DigitalPin" name="tx" number="9"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="rx" number="10"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="d1" number="11"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="d2" number="12"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="d3" number="13"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="d4" number="14"/>
+  <pins xsi:type="hw_devices:PowerPin" number="15"/>
+</hw_devices:Board>
