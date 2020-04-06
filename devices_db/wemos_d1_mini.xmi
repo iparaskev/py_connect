@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<hw_devices:Board xmlns:xmi="http://www.omg.org/XMI" xmlns:hw_devices="http://www.example.org/hw_devices" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" operating_voltage="3.3" spis="1" name="wemos_d1_mini" digital_pins="11" i2cs="1" adcs="1" timers="1" uarts="1" battery="true" vcc="3.3" xmi:version="2.0">
+<hw_devices:Board xmlns:xmi="http://www.omg.org/XMI" xmlns:hw_devices="http://www.example.org/hw_devices" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" operating_voltage="3.3" spis="1" adcs="1" name="wemos_d1_mini" digital_pins="11" i2cs="1" timers="1" uarts="1" battery="true" vcc="3.3" xmi:version="2.0">
   <cpu xsi:type="hw_devices:CPU" cpu_family="ESP8266" max_freq="160.0"/>
   <wireless xsi:type="hw_devices:Wireless" wifi="true"/>
   <memory xsi:type="hw_devices:Memory" ram="0.8" rom="16.0"/>

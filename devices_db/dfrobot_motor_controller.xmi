@@ -1,15 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<hw_devices:NonComputational xmlns:xmi="http://www.omg.org/XMI" xmlns:hw_devices="http://www.example.org/hw_devices" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" vcc="5.0" name="motor_controller" type="ACTUATOR" xmi:version="2.0">
-  <pins xsi:type="hw_devices:DigitalPin" name="m1" number="1">
-    <functions xsi:type="hw_devices:IOPinFunction"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" name="e1" number="2">
-    <functions xsi:type="hw_devices:IOPinFunction" type="PWM"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" name="m2" number="3">
-    <functions xsi:type="hw_devices:IOPinFunction"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" name="e2" number="4">
-    <functions xsi:type="hw_devices:IOPinFunction" type="PWM"/>
-  </pins>
-</hw_devices:NonComputational>
+<hw_devices:Peripheral xmlns:xmi="http://www.omg.org/XMI" xmlns:hw_devices="http://www.example.org/hw_devices" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" vcc="5.0" operating_voltage="5.0" pwms="2" name="motor_controller" digital_pins="2" type="ACTUATOR" xmi:version="2.0">
+  <pins xsi:type="hw_devices:DigitalPin" name="m1" number="1"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="e1" number="2"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="m2" number="3"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="e2" number="4"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.0"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.2"/>
+  <hw_interfaces xsi:type="hw_devices:PWM" frequency="50" pin="//@pins.1"/>
+  <hw_interfaces xsi:type="hw_devices:PWM" frequency="50" pin="//@pins.3"/>
+</hw_devices:Peripheral>

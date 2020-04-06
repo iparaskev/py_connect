@@ -8,17 +8,20 @@ from py_connect.hw_devices import *  # noqa E402
 NAME = "devices_db/tfmini.xmi"  # Name of the xmi
 
 
-dev = NonComputational(vcc=5.0, name="hc_sr04_sonar", type=DeviceType.SENSOR)
+dev = Peripheral(vcc=5.0,
+                 name="tfmini",
+                 type=PeripheralType.SENSOR,
+                 operating_voltage=3.3,
+                 uarts=1)
 pin_1 = PowerPin(function=PowerType.POWER_5V, number=1)
 pin_2 = PowerPin(function=PowerType.GND, number=2)
-pin_3 = DigitalPin(name="tx", number=3,
-                   functions=[IOPinFunction(type=IOType.GPIO_INPUT, hw_port=0),
-                              IOPinFunction(type=IOType.UART_TX)])
-pin_4 = DigitalPin(name="rx", number=4,
-                   functions=[IOPinFunction(type=IOType.GPIO_INPUT, hw_port=0),
-                              IOPinFunction(type=IOType.UART_RX)])
+pin_3 = DigitalPin(name="tx", number=3)
+pin_4 = DigitalPin(name="rx", number=4)
+
+uart = UART(rx=pin_4, tx=pin_3, baudrate=115200)
 
 dev.pins.extend([pin_1, pin_2, pin_3, pin_4])
+dev.hw_interfaces.extend([uart])
 
 # Save model
 rset = ResourceSet()

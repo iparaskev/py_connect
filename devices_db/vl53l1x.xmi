@@ -1,11 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<hw_devices:NonComputational xmlns:xmi="http://www.omg.org/XMI" xmlns:hw_devices="http://www.example.org/hw_devices" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="vl53l1x" vcc="3.3" xmi:version="2.0">
+<hw_devices:Peripheral xmlns:xmi="http://www.omg.org/XMI" xmlns:hw_devices="http://www.example.org/hw_devices" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" vcc="3.3" operating_voltage="3.3" name="vl53l1x" i2cs="1" xmi:version="2.0">
   <pins xsi:type="hw_devices:PowerPin" function="POWER_3V3" number="1"/>
   <pins xsi:type="hw_devices:PowerPin" number="2"/>
-  <pins xsi:type="hw_devices:DigitalPin" name="sda" number="3">
-    <functions xsi:type="hw_devices:IOPinFunction" type="I2C_SDA"/>
-  </pins>
-  <pins xsi:type="hw_devices:DigitalPin" name="scl" number="4">
-    <functions xsi:type="hw_devices:IOPinFunction" type="I2C_SCL"/>
-  </pins>
-</hw_devices:NonComputational>
+  <pins xsi:type="hw_devices:DigitalPin" name="sda" number="3"/>
+  <pins xsi:type="hw_devices:DigitalPin" name="scl" number="4"/>
+  <hw_interfaces xsi:type="hw_devices:I2C" scl="//@pins.3" sda="//@pins.2"/>
+</hw_devices:Peripheral>
