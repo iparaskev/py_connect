@@ -51,16 +51,9 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="connected" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="PowerPin" eSuperTypes="#//Pin">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="function" eType="#//PowerType"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PowerPin" eSuperTypes="#//Pin"/>
   <eClassifiers xsi:type="ecore:EClass" name="IOPin" eSuperTypes="#//Pin">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="PowerType" instanceTypeName="Power">
-    <eLiterals name="GND"/>
-    <eLiterals name="POWER_3V3" value="1"/>
-    <eLiterals name="POWER_5V" value="2"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="CpuFamily">
     <eLiterals name="ARM_CORTEX_M"/>
@@ -147,5 +140,47 @@
   <eClassifiers xsi:type="ecore:EEnum" name="USBType" instanceTypeName="USBType">
     <eLiterals name="USB2"/>
     <eLiterals name="USB3" value="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="B2PConnection">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="board" lowerBound="1" eType="#//Board"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="peripheral" lowerBound="1"
+        eType="#//Peripheral"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hw_int_connections" upperBound="-1"
+        eType="#//HwInt2HwInt" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="power_connections" upperBound="-1"
+        eType="#//Power2Power" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="HwInt2HwInt" eSuperTypes="#//Hw2Hw">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="board_hw" lowerBound="1"
+        eType="#//HwInterface"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="per_hw" lowerBound="1"
+        eType="#//HwInterface"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Power2Power" eSuperTypes="#//Hw2Hw">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="board_power" lowerBound="1"
+        eType="#//PowerPin"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="per_power" lowerBound="1"
+        eType="#//PowerPin"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Gnd" eSuperTypes="#//PowerPin">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outbound" upperBound="-1"
+        eType="#//Gnd" eOpposite="#//Gnd/inbound"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inbound" eType="#//Gnd"
+        eOpposite="#//Gnd/outbound"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Power5V" eSuperTypes="#//PowerPin">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outbound" upperBound="10"
+        eType="#//Power5V" eOpposite="#//Power5V/inbound"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inbound" eType="#//Power5V"
+        eOpposite="#//Power5V/outbound"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Power3V3" eSuperTypes="#//PowerPin">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="outbound" upperBound="10"
+        eType="#//Power3V3" eOpposite="#//Power3V3/inbound"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="inbound" eType="#//Power3V3"
+        eOpposite="#//Power3V3/outbound"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Hw2Hw" abstract="true">
+    <eOperations name="connect"/>
   </eClassifiers>
 </ecore:EPackage>

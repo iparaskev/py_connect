@@ -14,8 +14,6 @@ eClassifiers = {}
 getEClassifier = partial(Ecore.getEClassifier, searchspace=eClassifiers)
 PeripheralType = EEnum('PeripheralType', literals=['SENSOR', 'ACTUATOR'])
 
-PowerType = EEnum('PowerType', literals=['GND', 'POWER_3V3', 'POWER_5V'])
-
 CpuFamily = EEnum('CpuFamily', literals=['ARM_CORTEX_M', 'AVR',
                                          'MSP430', 'MIPS', 'EFM32', 'ARM_CORTEX_A', 'ESP8266'])
 
@@ -177,6 +175,46 @@ class Wireless(EObject, metaclass=MetaEClass):
             self.ble = ble
 
 
+class B2PConnection(EObject, metaclass=MetaEClass):
+
+    board = EReference(ordered=True, unique=True, containment=False)
+    peripheral = EReference(ordered=True, unique=True, containment=False)
+    hw_int_connections = EReference(ordered=True, unique=True, containment=True, upper=-1)
+    power_connections = EReference(ordered=True, unique=True, containment=True, upper=-1)
+
+    def __init__(self, *, board=None, peripheral=None, hw_int_connections=None, power_connections=None, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+        if board is not None:
+            self.board = board
+
+        if peripheral is not None:
+            self.peripheral = peripheral
+
+        if hw_int_connections:
+            self.hw_int_connections.extend(hw_int_connections)
+
+        if power_connections:
+            self.power_connections.extend(power_connections)
+
+
+@abstract
+class Hw2Hw(EObject, metaclass=MetaEClass):
+
+    def __init__(self, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+    def connect(self):
+
+        raise NotImplementedError('operation connect(...) not yet implemented')
+
+
 class Board(Device):
 
     ethernet = EAttribute(eType=EBoolean, derived=False, changeable=True)
@@ -231,14 +269,9 @@ class Peripheral(Device):
 
 class PowerPin(Pin):
 
-    function = EAttribute(eType=PowerType, derived=False, changeable=True)
-
-    def __init__(self, *, function=None, **kwargs):
+    def __init__(self, **kwargs):
 
         super().__init__(**kwargs)
-
-        if function is not None:
-            self.function = function
 
 
 class IOPin(Pin):
@@ -417,6 +450,38 @@ class ADC(HwInterface):
             self.connection = connection
 
 
+class HwInt2HwInt(Hw2Hw):
+
+    board_hw = EReference(ordered=True, unique=True, containment=False)
+    per_hw = EReference(ordered=True, unique=True, containment=False)
+
+    def __init__(self, *, board_hw=None, per_hw=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if board_hw is not None:
+            self.board_hw = board_hw
+
+        if per_hw is not None:
+            self.per_hw = per_hw
+
+
+class Power2Power(Hw2Hw):
+
+    board_power = EReference(ordered=True, unique=True, containment=False)
+    per_power = EReference(ordered=True, unique=True, containment=False)
+
+    def __init__(self, *, board_power=None, per_power=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if board_power is not None:
+            self.board_power = board_power
+
+        if per_power is not None:
+            self.per_power = per_power
+
+
 class DigitalPin(IOPin):
 
     def __init__(self, **kwargs):
@@ -434,3 +499,51 @@ class AnalogPin(IOPin):
 
         if vmax is not None:
             self.vmax = vmax
+
+
+class Gnd(PowerPin):
+
+    outbound = EReference(ordered=True, unique=True, containment=False, upper=-1)
+    inbound = EReference(ordered=True, unique=True, containment=False)
+
+    def __init__(self, *, outbound=None, inbound=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if outbound:
+            self.outbound.extend(outbound)
+
+        if inbound is not None:
+            self.inbound = inbound
+
+
+class Power5V(PowerPin):
+
+    outbound = EReference(ordered=True, unique=True, containment=False, upper=-1)
+    inbound = EReference(ordered=True, unique=True, containment=False)
+
+    def __init__(self, *, outbound=None, inbound=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if outbound:
+            self.outbound.extend(outbound)
+
+        if inbound is not None:
+            self.inbound = inbound
+
+
+class Power3V3(PowerPin):
+
+    outbound = EReference(ordered=True, unique=True, containment=False, upper=-1)
+    inbound = EReference(ordered=True, unique=True, containment=False)
+
+    def __init__(self, *, outbound=None, inbound=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if outbound:
+            self.outbound.extend(outbound)
+
+        if inbound is not None:
+            self.inbound = inbound
