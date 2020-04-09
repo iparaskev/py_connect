@@ -13,9 +13,9 @@ dev = Peripheral(vcc=5.0,
                  type=PeripheralType.ACTUATOR,
                  operating_voltage=5.,
                  pwms=1)
-pin_1 = PowerPin(function=PowerType.POWER_5V, number=1)
+pin_1 = Power5V(number=1)
 pin_2 = DigitalPin(name="data_in", number=2)
-pin_3 = PowerPin(function=PowerType.GND, number=3)
+pin_3 = Gnd(number=3)
 
 pwm = PWM(pin=pin_2)
 

@@ -13,8 +13,8 @@ dev = Peripheral(vcc=5.0,
                  type=PeripheralType.SENSOR,
                  operating_voltage=3.3,
                  uarts=1)
-pin_1 = PowerPin(function=PowerType.POWER_5V, number=1)
-pin_2 = PowerPin(function=PowerType.GND, number=2)
+pin_1 = Power5V(number=1)
+pin_2 = Gnd(number=2)
 pin_3 = DigitalPin(name="tx", number=3)
 pin_4 = DigitalPin(name="rx", number=4)
 

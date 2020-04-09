@@ -15,8 +15,8 @@ dev = Peripheral(vcc=3.3,
                  i2cs=1,
                  spis=1,
                  digital_pins=1)
-pin_1 = PowerPin(function=PowerType.GND, number=1)
-pin_2 = PowerPin(function=PowerType.POWER_3V3, number=2)
+pin_1 = Gnd(number=1)
+pin_2 = Power3V3(number=2)
 pin_3 = DigitalPin(name="sda_mosi", number=3)
 pin_4 = DigitalPin(name="scl", number=4)
 pin_5 = DigitalPin(name="ad0_miso", number=5)

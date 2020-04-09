@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<hw_devices:Peripheral xmlns:xmi="http://www.omg.org/XMI" xmlns:hw_devices="http://www.example.org/hw_devices" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" vcc="5.0" operating_voltage="5.0" name="hc_sr04_sonar" digital_pins="2" xmi:version="2.0">
-  <pins xsi:type="hw_devices:PowerPin" function="POWER_5V" number="1"/>
-  <pins xsi:type="hw_devices:DigitalPin" name="trigger" number="2"/>
-  <pins xsi:type="hw_devices:DigitalPin" name="echo" number="3"/>
-  <pins xsi:type="hw_devices:PowerPin" number="4"/>
+<hw_devices:Peripheral xmlns:xmi="http://www.omg.org/XMI" xmlns:hw_devices="http://www.example.org/hw_devices" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="hc_sr04_sonar" digital_pins="2" vcc="5.0" operating_voltage="5.0" xmi:version="2.0">
   <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.1"/>
   <hw_interfaces xsi:type="hw_devices:GPIO" type="OUTPUT" pin="//@pins.2"/>
+  <pins xsi:type="hw_devices:Power5V" number="1"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="2" name="trigger"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="3" name="echo"/>
+  <pins xsi:type="hw_devices:Gnd" number="4"/>
 </hw_devices:Peripheral>

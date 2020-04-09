@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<hw_devices:Peripheral xmlns:xmi="http://www.omg.org/XMI" xmlns:hw_devices="http://www.example.org/hw_devices" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" vcc="5.0" operating_voltage="3.3" name="tfmini" uarts="1" xmi:version="2.0">
-  <pins xsi:type="hw_devices:PowerPin" function="POWER_5V" number="1"/>
-  <pins xsi:type="hw_devices:PowerPin" number="2"/>
-  <pins xsi:type="hw_devices:DigitalPin" name="tx" number="3"/>
-  <pins xsi:type="hw_devices:DigitalPin" name="rx" number="4"/>
-  <hw_interfaces xsi:type="hw_devices:UART" rx="//@pins.3" tx="//@pins.2" baudrate="115200"/>
+<hw_devices:Peripheral xmlns:xmi="http://www.omg.org/XMI" xmlns:hw_devices="http://www.example.org/hw_devices" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" uarts="1" vcc="5.0" operating_voltage="3.3" name="tfmini" xmi:version="2.0">
+  <hw_interfaces xsi:type="hw_devices:UART" baudrate="115200" rx="//@pins.3" tx="//@pins.2"/>
+  <pins xsi:type="hw_devices:Power5V" number="1"/>
+  <pins xsi:type="hw_devices:Gnd" number="2"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="3" name="tx"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="4" name="rx"/>
 </hw_devices:Peripheral>

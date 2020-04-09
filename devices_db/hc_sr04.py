@@ -13,10 +13,10 @@ dev = Peripheral(vcc=5.0,
                  type=PeripheralType.SENSOR,
                  operating_voltage=5.,
                  digital_pins=2)
-pin_1 = PowerPin(function=PowerType.POWER_5V, number=1)
+pin_1 = Power5V(number=1)
 pin_2 = DigitalPin(name="trigger", number=2)
 pin_3 = DigitalPin(name="echo", number=3)
-pin_4 = PowerPin(function=PowerType.GND, number=4)
+pin_4 = Gnd(number=4)
 
 gpio_1 = GPIO(pin=pin_2, type=GPIOType.INPUT)
 gpio_2 = GPIO(pin=pin_3, type=GPIOType.OUTPUT)
