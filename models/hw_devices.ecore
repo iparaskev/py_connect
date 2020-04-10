@@ -181,6 +181,6 @@
         eOpposite="#//Power3V3/outbound"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Hw2Hw" abstract="true">
-    <eOperations name="connect" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eOperations name="connect"/>
   </eClassifiers>
 </ecore:EPackage>
