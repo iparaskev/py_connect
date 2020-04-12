@@ -3,7 +3,7 @@
 Add behaviours to hardware inteface connections.
 """
 
-from hw_devices import USB, ADC, I2C, SPI, UART, PWM, GPIO, HwInt2HwInt
+from .hw_devices import USB, ADC, I2C, SPI, UART, PWM, GPIO, HwInt2HwInt
 
 
 def connect(self):
@@ -53,7 +53,7 @@ def adc_connect(self):
 
 def i2c_connect(self):
     """I2c connections."""
-    self.board_hw.master_cons = self.peripheral_hw
+    self.board_hw.master_cons.append(self.peripheral_hw)
 
     # TODO: Connectivity check
     # Use cases:
@@ -72,7 +72,7 @@ def i2c_connect(self):
 
 def spi_connect(self):
     """spi connections."""
-    self.board_hw.master_cons = self.peripheral_hw
+    self.board_hw.master_cons.append(self.peripheral_hw)
 
     # TODO: Connectivity check. Same as i2c.
 

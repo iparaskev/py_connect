@@ -3,7 +3,7 @@
 Add behaviours to power connections.
 """
 
-from hw_devices import Power2Power
+from .hw_devices import Power2Power
 
 
 def connect(self):
@@ -11,7 +11,7 @@ def connect(self):
 
     They must be of the same type.
     """
-    self.board_power.outbound = self.peripheral_power
+    self.board_power.outbound.append(self.peripheral_power)
 
 
 Power2Power.connect = connect
