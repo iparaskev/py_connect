@@ -290,12 +290,13 @@ class I2C(HwInterface):
 
     addr = EAttribute(eType=EInt, derived=False, changeable=True, default_value=-1)
     is_master = EAttribute(eType=EBoolean, derived=False, changeable=True)
+    bus = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
     sda = EReference(ordered=True, unique=True, containment=False)
     scl = EReference(ordered=True, unique=True, containment=False)
     master_cons = EReference(ordered=True, unique=True, containment=False, upper=-1)
     slave_cons = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, addr=None, sda=None, scl=None, is_master=None, master_cons=None, slave_cons=None, **kwargs):
+    def __init__(self, *, addr=None, sda=None, scl=None, is_master=None, master_cons=None, slave_cons=None, bus=None, **kwargs):
 
         super().__init__(**kwargs)
 
@@ -304,6 +305,9 @@ class I2C(HwInterface):
 
         if is_master is not None:
             self.is_master = is_master
+
+        if bus is not None:
+            self.bus = bus
 
         if sda is not None:
             self.sda = sda
@@ -321,6 +325,7 @@ class I2C(HwInterface):
 class SPI(HwInterface):
 
     is_master = EAttribute(eType=EBoolean, derived=False, changeable=True)
+    bus = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
     miso = EReference(ordered=True, unique=True, containment=False)
     ce = EReference(ordered=True, unique=True, containment=False, upper=-1)
     mosi = EReference(ordered=True, unique=True, containment=False)
@@ -328,12 +333,15 @@ class SPI(HwInterface):
     master_conns = EReference(ordered=True, unique=True, containment=False, upper=-1)
     slave_conns = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, miso=None, ce=None, mosi=None, sclk=None, is_master=None, master_conns=None, slave_conns=None, **kwargs):
+    def __init__(self, *, miso=None, ce=None, mosi=None, sclk=None, is_master=None, master_conns=None, slave_conns=None, bus=None, **kwargs):
 
         super().__init__(**kwargs)
 
         if is_master is not None:
             self.is_master = is_master
+
+        if bus is not None:
+            self.bus = bus
 
         if miso is not None:
             self.miso = miso
@@ -357,16 +365,20 @@ class SPI(HwInterface):
 class UART(HwInterface):
 
     baudrate = EAttribute(eType=EInt, derived=False, changeable=True, default_value=-1)
+    bus = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
     rx = EReference(ordered=True, unique=True, containment=False)
     tx = EReference(ordered=True, unique=True, containment=False)
     connection = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, baudrate=None, rx=None, tx=None, connection=None, **kwargs):
+    def __init__(self, *, baudrate=None, rx=None, tx=None, connection=None, bus=None, **kwargs):
 
         super().__init__(**kwargs)
 
         if baudrate is not None:
             self.baudrate = baudrate
+
+        if bus is not None:
+            self.bus = bus
 
         if rx is not None:
             self.rx = rx
@@ -401,14 +413,18 @@ class PWM(HwInterface):
 class USB(HwInterface):
 
     type = EAttribute(eType=USBType, derived=False, changeable=True)
+    bus = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
     connection = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, type=None, connection=None, **kwargs):
+    def __init__(self, *, type=None, connection=None, bus=None, **kwargs):
 
         super().__init__(**kwargs)
 
         if type is not None:
             self.type = type
+
+        if bus is not None:
+            self.bus = bus
 
         if connection is not None:
             self.connection = connection
@@ -453,17 +469,17 @@ class ADC(HwInterface):
 class HwInt2HwInt(Hw2Hw):
 
     board_hw = EReference(ordered=True, unique=True, containment=False)
-    per_hw = EReference(ordered=True, unique=True, containment=False)
+    peripheral_hw = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, board_hw=None, per_hw=None, **kwargs):
+    def __init__(self, *, board_hw=None, peripheral_hw=None, **kwargs):
 
         super().__init__(**kwargs)
 
         if board_hw is not None:
             self.board_hw = board_hw
 
-        if per_hw is not None:
-            self.per_hw = per_hw
+        if peripheral_hw is not None:
+            self.peripheral_hw = peripheral_hw
 
     def usb_connect(self):
 
