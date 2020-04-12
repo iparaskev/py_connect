@@ -1,0 +1,41 @@
+import unittest
+import sys
+sys.path.append(".")
+
+from py_connect.hw_devices import B2PConnection  # noqa E402
+from py_connect.hw_devices.hw_connections import *  # noqa E402
+from py_connect.hw_devices.power_connections import *  # noqa E402
+from py_connect.model_loader import *  # noqa E402
+
+
+class TestConnections(unittest.TestCase):
+    """Test meta model connections."""
+
+    def test_sonar_pi(self):
+        """Test a connection between a pi and a sonar."""
+        pi = load_model_py("rpi_3b_plus")
+        sonar = load_model_py("hc_sr04")
+
+        connection = B2PConnection(board=pi, peripheral=sonar)
+
+        # Power connections
+        gnd_con = Power2Power(board_power=pi.pins[5],
+                              peripheral_power=sonar.pins[3])
+        source_con = Power2Power(board_power=pi.pins[1],
+                                 peripheral_power=sonar.pins[0])
+
+        # Hw interfaces connections
+        echo = HwInt2HwInt(board_hw=pi.hw_interfaces[0],
+                           peripheral_hw=sonar.hw_interfaces[1])
+        trigger = HwInt2HwInt(board_hw=pi.hw_interfaces[1],
+                              peripheral_hw=sonar.hw_interfaces[0])
+
+        # Check connections
+        gnd_con.connect()
+        source_con.connect()
+        echo.connect()
+        trigger.connect()
+
+
+if __name__ == "__main__":
+    unittest.main()
