@@ -465,6 +465,34 @@ class HwInt2HwInt(Hw2Hw):
         if per_hw is not None:
             self.per_hw = per_hw
 
+    def usb_connect(self):
+
+        raise NotImplementedError('operation usb_connect(...) not yet implemented')
+
+    def adc_connect(self):
+
+        raise NotImplementedError('operation adc_connect(...) not yet implemented')
+
+    def i2c_connect(self):
+
+        raise NotImplementedError('operation i2c_connect(...) not yet implemented')
+
+    def spi_connect(self):
+
+        raise NotImplementedError('operation spi_connect(...) not yet implemented')
+
+    def uart_connect(self):
+
+        raise NotImplementedError('operation uart_connect(...) not yet implemented')
+
+    def pwm_connect(self):
+
+        raise NotImplementedError('operation pwm_connect(...) not yet implemented')
+
+    def gpio_connect(self):
+
+        raise NotImplementedError('operation gpio_connect(...) not yet implemented')
+
 
 class Power2Power(Hw2Hw):
 

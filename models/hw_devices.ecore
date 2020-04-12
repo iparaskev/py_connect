@@ -151,6 +151,13 @@
         eType="#//Power2Power" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="HwInt2HwInt" eSuperTypes="#//Hw2Hw">
+    <eOperations name="usb_connect"/>
+    <eOperations name="adc_connect"/>
+    <eOperations name="i2c_connect"/>
+    <eOperations name="spi_connect"/>
+    <eOperations name="uart_connect"/>
+    <eOperations name="pwm_connect"/>
+    <eOperations name="gpio_connect"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="board_hw" lowerBound="1"
         eType="#//HwInterface"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="per_hw" lowerBound="1"
