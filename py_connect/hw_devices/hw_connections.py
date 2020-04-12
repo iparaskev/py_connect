@@ -3,7 +3,7 @@
 Add behaviours to hardware inteface connections.
 """
 
-from hw_devices import USB, ADC, I2C, SPI, UART, PWM, GPIO
+from hw_devices import USB, ADC, I2C, SPI, UART, PWM, GPIO, HwInt2HwInt
 
 
 def connect(self):
@@ -108,3 +108,12 @@ def gpio_connect(self):
 
     self.board_hw.connection = self.peripheral_hw
     self.peripheral_hw.connection = self.board_hw.connection
+
+
+# Add the behaviours to the meta classes
+HwInt2HwInt.connect = connect
+HwInt2HwInt.i2c_connect = i2c_connect
+HwInt2HwInt.spi_connect = spi_connect
+HwInt2HwInt.uart_connect = uart_connect
+HwInt2HwInt.pwm_connect = pwm_connect
+HwInt2HwInt.gpio_connect = gpio_connect
