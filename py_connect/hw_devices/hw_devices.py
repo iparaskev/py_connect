@@ -513,17 +513,17 @@ class HwInt2HwInt(Hw2Hw):
 class Power2Power(Hw2Hw):
 
     board_power = EReference(ordered=True, unique=True, containment=False)
-    per_power = EReference(ordered=True, unique=True, containment=False)
+    peripheral_power = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, board_power=None, per_power=None, **kwargs):
+    def __init__(self, *, board_power=None, peripheral_power=None, **kwargs):
 
         super().__init__(**kwargs)
 
         if board_power is not None:
             self.board_power = board_power
 
-        if per_power is not None:
-            self.per_power = per_power
+        if peripheral_power is not None:
+            self.peripheral_power = peripheral_power
 
 
 class DigitalPin(IOPin):

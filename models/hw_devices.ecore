@@ -174,7 +174,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="Power2Power" eSuperTypes="#//Hw2Hw">
     <eStructuralFeatures xsi:type="ecore:EReference" name="board_power" lowerBound="1"
         eType="#//PowerPin"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="per_power" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="peripheral_power" lowerBound="1"
         eType="#//PowerPin"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Gnd" eSuperTypes="#//PowerPin">
