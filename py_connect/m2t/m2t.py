@@ -1,6 +1,6 @@
 """m2t.py
 
-The m2t enginge for producing code for handling the code generation.
+The m2t engine for producing code for handling the code generation.
 """
 
 import os
@@ -12,65 +12,69 @@ from ..hw_devices import *
 class Generator():
     """Generate code"""
 
+    TEMPLATES = {OSType.RASPBIAN: "pidevices"}
+    PIDEVICES_MAP = {"hc_sr04": "HcSr04RPiGPIO"}
+    MAPPER = {"pidevices": PIDEVICES_MAP}
+
     def __init__(self):
         """Construct the generator."""
 
         path = os.path.dirname(os.path.abspath(__file__))
+
         # Load templates
         file_loader = FileSystemLoader(path + "/templates")
         self.env = Environment(loader=file_loader)
 
-    def generate(self, device):
-        """Genearate code from a device.
+    def generate(self, connection):
+        """Genearate code for a connection
 
         Args:
-            device (Computational object): A computational device object. That 
-                has n connected devices.
+            connection (B2PConnection object): A connection between a board and
+                a peripheral device.
 
         Returns:
             (str): A string that contains the generated code.
         """
         # TODO: Use different template regarding the type of the board
         # For example raspberry pi, riot ...
-        tmpl_type = "pidevices"
-        
+        tmpl_type = self.TEMPLATES[connection.board.os]
+
         tmpl = self.env.get_template(tmpl_type + ".py.tmpl")
 
-        for con_dev in device.connected_devices:
-            # Get if it is sensor or actuator
-            is_sensor = \
-                True if con_dev.device.type == DeviceType.SENSOR else False
+        # Get if it is sensor or actuator
+        is_sensor = \
+            True if connection.peripheral.type == PeripheralType.SENSOR else False
 
-            # Get name of driver implementation.
-            driver_class = con_dev.device.driver_name
+        # Get name of driver implementation.
+        driver_class = self.MAPPER[tmpl_type][connection.peripheral.name]
 
-            # Constructor args
-            args = {}
+        # Constructor args
+        args = {}
 
-            # From pins get constructor arguments.
-            for pins in con_dev.pins_connections:
-                if isinstance(pins.non_comp_pin, PowerPin):
-                    continue
-                pin_func = pins.non_comp_pin.functions[0].type
+        for hw_conn in connection.hw_int_connections:
+            # Handle gpio connection
+            if isinstance(hw_conn.board_hw, GPIO) \
+               or isinstance(hw_conn.board_hw, PWM):
+                args[hw_conn.peripheral_hw.pin.name] = \
+                    int(hw_conn.board_hw.pin.name.split("_")[-1])
 
-                # Gpio pins
-                if pin_func == IOType.GPIO_INPUT or \
-                   pin_func == IOType.GPIO_OUTPUT or \
-                   pin_func == IOType.GPIO_BOTH or \
-                   pin_func == IOType.PWM:
-                    args[pins.non_comp_pin.name] = pins.comp_pin.number
+            # Handle i2c connection
+            if isinstance(hw_conn.board_hw, I2C):
+                args["bus"] = hw_conn.board_hw.bus
 
-                if pin_func == IOType.I2C_SDA or pin_func == IOType.I2C_SCL:
-                    for f in pins.comp_pin.functions:
-                        if f.type == pin_func:
-                            args['bus'] = f.hw_port
-            
-            output = tmpl.render(device_class=driver_class,
-                                 is_sensor=is_sensor,
-                                 args=args)
-            output = autopep8.fix_code(output)
-            print(output)
+            # Handle spi connection
+            # TODO: Which chip enable pin?
+            if isinstance(hw_conn.board_hw, SPI):
+                args["port"] = hw_conn.board_hw.bus
+                #args["device"] = hw_conn.board_hw
 
-        return ""
+            # Handle uart connection
+            if isinstance(hw_conn.board_hw, UART):
+                pass
 
+        output = tmpl.render(device_class=driver_class,
+                             is_sensor=is_sensor,
+                             args=args)
+        output = autopep8.fix_code(output)
 
+        return output
