@@ -38,6 +38,7 @@
         eType="#//Memory" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="wireless" lowerBound="1"
         eType="#//Wireless" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="os" eType="#//OSType"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Peripheral" eSuperTypes="#//Device">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//PeripheralType"
@@ -197,5 +198,9 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Hw2Hw" abstract="true">
     <eOperations name="connect"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="OSType" instanceTypeName="OS">
+    <eLiterals name="RASPBIAN"/>
+    <eLiterals name="RIOT" value="1"/>
   </eClassifiers>
 </ecore:EPackage>

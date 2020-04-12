@@ -1,13 +1,13 @@
 
 from .hw_devices import getEClassifier, eClassifiers
 from .hw_devices import name, nsURI, nsPrefix, eClass
-from .hw_devices import Device, Board, Peripheral, PeripheralType, Pin, PowerPin, IOPin, CpuFamily, DigitalPin, AnalogPin, HwInterface, I2C, SPI, UART, PWM, USB, GPIOType, GPIO, ADC, Memory, CPU, Wireless, USBType, B2PConnection, HwInt2HwInt, Power2Power, Gnd, Power5V, Power3V3, Hw2Hw
+from .hw_devices import Device, Board, Peripheral, PeripheralType, Pin, PowerPin, IOPin, CpuFamily, DigitalPin, AnalogPin, HwInterface, I2C, SPI, UART, PWM, USB, GPIOType, GPIO, ADC, Memory, CPU, Wireless, USBType, B2PConnection, HwInt2HwInt, Power2Power, Gnd, Power5V, Power3V3, Hw2Hw, OSType
 
 
 from . import hw_devices
 
-__all__ = ['Device', 'Board', 'Peripheral', 'PeripheralType', 'Pin', 'PowerPin', 'IOPin', 'CpuFamily', 'DigitalPin', 'AnalogPin', 'HwInterface', 'I2C', 'SPI', 'UART',
-           'PWM', 'USB', 'GPIOType', 'GPIO', 'ADC', 'Memory', 'CPU', 'Wireless', 'USBType', 'B2PConnection', 'HwInt2HwInt', 'Power2Power', 'Gnd', 'Power5V', 'Power3V3', 'Hw2Hw']
+__all__ = ['Device', 'Board', 'Peripheral', 'PeripheralType', 'Pin', 'PowerPin', 'IOPin', 'CpuFamily', 'DigitalPin', 'AnalogPin', 'HwInterface', 'I2C', 'SPI', 'UART', 'PWM',
+           'USB', 'GPIOType', 'GPIO', 'ADC', 'Memory', 'CPU', 'Wireless', 'USBType', 'B2PConnection', 'HwInt2HwInt', 'Power2Power', 'Gnd', 'Power5V', 'Power3V3', 'Hw2Hw', 'OSType']
 
 eSubpackages = []
 eSuperPackage = None
@@ -59,7 +59,7 @@ Power3V3.outbound.eType = Power3V3
 Power3V3.inbound.eType = Power3V3
 Power3V3.inbound.eOpposite = Power3V3.outbound
 
-otherClassifiers = [PeripheralType, CpuFamily, GPIOType, USBType]
+otherClassifiers = [PeripheralType, CpuFamily, GPIOType, USBType, OSType]
 
 for classif in otherClassifiers:
     eClassifiers[classif.name] = classif

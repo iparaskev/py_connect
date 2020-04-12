@@ -21,6 +21,8 @@ GPIOType = EEnum('GPIOType', literals=['INPUT', 'OUTPUT', 'BOTH'])
 
 USBType = EEnum('USBType', literals=['USB2', 'USB3'])
 
+OSType = EEnum('OSType', literals=['RASPBIAN', 'RIOT'])
+
 
 class Device(EObject, metaclass=MetaEClass):
 
@@ -222,11 +224,12 @@ class Board(Device):
     rtc = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
     battery = EAttribute(eType=EBoolean, derived=False, changeable=True)
     dma = EAttribute(eType=EBoolean, derived=False, changeable=True)
+    os = EAttribute(eType=OSType, derived=False, changeable=True)
     cpu = EReference(ordered=True, unique=True, containment=True)
     memory = EReference(ordered=True, unique=True, containment=True)
     wireless = EReference(ordered=True, unique=True, containment=True)
 
-    def __init__(self, *, ethernet=None, timers=None, rtc=None, battery=None, dma=None, cpu=None, memory=None, wireless=None, **kwargs):
+    def __init__(self, *, ethernet=None, timers=None, rtc=None, battery=None, dma=None, cpu=None, memory=None, wireless=None, os=None, **kwargs):
 
         super().__init__(**kwargs)
 
@@ -244,6 +247,9 @@ class Board(Device):
 
         if dma is not None:
             self.dma = dma
+
+        if os is not None:
+            self.os = os
 
         if cpu is not None:
             self.cpu = cpu
