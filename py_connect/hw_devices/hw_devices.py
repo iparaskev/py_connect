@@ -299,10 +299,10 @@ class I2C(HwInterface):
     bus = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
     sda = EReference(ordered=True, unique=True, containment=False)
     scl = EReference(ordered=True, unique=True, containment=False)
-    master_cons = EReference(ordered=True, unique=True, containment=False, upper=-1)
-    slave_cons = EReference(ordered=True, unique=True, containment=False)
+    master_conns = EReference(ordered=True, unique=True, containment=False, upper=-1)
+    slave_conns = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, addr=None, sda=None, scl=None, is_master=None, master_cons=None, slave_cons=None, bus=None, **kwargs):
+    def __init__(self, *, addr=None, sda=None, scl=None, is_master=None, master_conns=None, slave_conns=None, bus=None, **kwargs):
 
         super().__init__(**kwargs)
 
@@ -321,11 +321,11 @@ class I2C(HwInterface):
         if scl is not None:
             self.scl = scl
 
-        if master_cons:
-            self.master_cons.extend(master_cons)
+        if master_conns:
+            self.master_conns.extend(master_conns)
 
-        if slave_cons is not None:
-            self.slave_cons = slave_cons
+        if slave_conns is not None:
+            self.slave_conns = slave_conns
 
 
 class SPI(HwInterface):
