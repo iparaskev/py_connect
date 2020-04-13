@@ -53,7 +53,7 @@ def adc_connect(self):
 
 def i2c_connect(self):
     """I2c connections."""
-    self.board_hw.master_cons.append(self.peripheral_hw)
+    self.board_hw.master_conns.append(self.peripheral_hw)
 
     # TODO: Connectivity check
     # Use cases:
@@ -72,7 +72,7 @@ def i2c_connect(self):
 
 def spi_connect(self):
     """spi connections."""
-    self.board_hw.master_cons.append(self.peripheral_hw)
+    self.board_hw.master_conns.append(self.peripheral_hw)
 
     # TODO: Connectivity check. Same as i2c.
 
@@ -81,13 +81,13 @@ def spi_connect(self):
     self.board_hw.mosi.connected = True
     self.board_hw.sclk.connected = True
     ce_index = 0
-    while self.board_hw.ce[ce_index]:
+    while self.board_hw.ce[ce_index].connected:
         ce_index += 1
-    self.board_hw.ce[ce_index] = True
+    self.board_hw.ce[ce_index].connected = True
     self.peripheral_hw.miso.connected = True
     self.peripheral_hw.mosi.connected = True
     self.peripheral_hw.sclk.connected = True
-    self.peripheral_hw.ce[0] = True
+    self.peripheral_hw.ce[0].connected = True
 
 
 def uart_connect(self):
