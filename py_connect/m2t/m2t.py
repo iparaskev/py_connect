@@ -13,7 +13,10 @@ class Generator():
     """Generate code"""
 
     TEMPLATES = {OSType.RASPBIAN: "pidevices"}
-    PIDEVICES_MAP = {"hc_sr04": "HcSr04RPiGPIO"}
+    PIDEVICES_MAP = {
+        "hc_sr04": "HcSr04RPiGPIO",
+        "icm_20948": "ICM_20948"
+    }
     MAPPER = {"pidevices": PIDEVICES_MAP}
 
     def __init__(self):
@@ -66,7 +69,8 @@ class Generator():
             # TODO: Which chip enable pin?
             if isinstance(hw_conn.board_hw, SPI):
                 args["port"] = hw_conn.board_hw.bus
-                #args["device"] = hw_conn.board_hw
+                args["device"] = \
+                    hw_conn.board_hw.master_conns.index(hw_conn.peripheral_hw)
 
             # Handle uart connection
             if isinstance(hw_conn.board_hw, UART):
