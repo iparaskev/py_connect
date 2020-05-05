@@ -11,12 +11,9 @@ NAME = "devices_db/icm_20948.xmi"  # Name of the xmi
 dev = Peripheral(vcc=3.3,
                  name="icm_20948",
                  type=PeripheralType.SENSOR,
-                 operating_voltage=3.3,
-                 i2cs=1,
-                 spis=1,
-                 digital_pins=1)
-pin_1 = Gnd(number=1)
-pin_2 = Power3V3(number=2)
+                 operating_voltage=3.3,)
+pin_1 = PowerPin(type=PowerType.GND, number=1)
+pin_2 = PowerPin(type=PowerType.Power3V3, number=2)
 pin_3 = DigitalPin(name="sda_mosi", number=3)
 pin_4 = DigitalPin(name="scl", number=4)
 pin_5 = DigitalPin(name="ad0_miso", number=5)

@@ -8,15 +8,14 @@ from py_connect.hw_devices import *  # noqa E402
 NAME = "devices_db/bme680.xmi"  # Name of the xmi
 
 
-dev = Peripheral(vcc=3.3, 
+dev = Peripheral(vcc=3.3,
                  name="bme680",
                  type=PeripheralType.SENSOR,
-                 operating_voltage=3.3,
-                 i2cs=1)
-pin_1 = Power5V(number=1)
+                 operating_voltage=3.3)
+pin_1 = PowerPin(type=PowerType.Power5V, number=1)
 pin_2 = DigitalPin(name="sda", number=2)
 pin_3 = DigitalPin(name="scl", number=3)
-pin_4 = Gnd(number=4)
+pin_4 = PowerPin(type=PowerType.GND, number=4)
 
 i2c = I2C(sda=pin_2, scl=pin_3)
 

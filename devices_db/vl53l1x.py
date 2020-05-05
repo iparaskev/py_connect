@@ -11,10 +11,9 @@ NAME = "devices_db/vl53l1x.xmi"  # Name of the xmi
 dev = Peripheral(vcc=3.3,
                  name="vl53l1x",
                  type=PeripheralType.SENSOR,
-                 operating_voltage=3.3,
-                 i2cs=1)
-pin_1 = Power3V3(number=1)
-pin_2 = Gnd(number=2)
+                 operating_voltage=3.3)
+pin_1 = PowerPin(type=PowerType.Power3V3, number=1)
+pin_2 = PowerPin(type=PowerType.GND, number=2)
 pin_3 = DigitalPin(name="sda", number=3)
 pin_4 = DigitalPin(name="scl", number=4)
 

@@ -23,24 +23,20 @@ USBType = EEnum('USBType', literals=['USB2', 'USB3'])
 
 OSType = EEnum('OSType', literals=['RASPBIAN', 'RIOT'])
 
+PowerType = EEnum('PowerType', literals=['GND', 'Power3V3', 'Power5V'])
+
 
 class Device(EObject, metaclass=MetaEClass):
 
     vcc = EAttribute(eType=EFloat, derived=False, changeable=True)
     name = EAttribute(eType=EString, derived=False, changeable=True)
     operating_voltage = EAttribute(eType=EFloat, derived=False, changeable=True)
-    usb2s = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
-    usb3s = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
-    i2cs = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
-    spis = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
-    uarts = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
-    pwms = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
-    adcs = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
-    digital_pins = EAttribute(eType=EInt, derived=False, changeable=True)
     pins = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hw_interfaces = EReference(ordered=True, unique=True, containment=True, upper=-1)
+    has_network = EReference(ordered=True, unique=True, containment=False, upper=-1)
+    bluetooth = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, vcc=None, name=None, pins=None, operating_voltage=None, hw_interfaces=None, usb2s=None, usb3s=None, i2cs=None, spis=None, uarts=None, pwms=None, adcs=None, digital_pins=None, **kwargs):
+    def __init__(self, *, vcc=None, name=None, pins=None, operating_voltage=None, hw_interfaces=None, has_network=None, bluetooth=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -55,35 +51,17 @@ class Device(EObject, metaclass=MetaEClass):
         if operating_voltage is not None:
             self.operating_voltage = operating_voltage
 
-        if usb2s is not None:
-            self.usb2s = usb2s
-
-        if usb3s is not None:
-            self.usb3s = usb3s
-
-        if i2cs is not None:
-            self.i2cs = i2cs
-
-        if spis is not None:
-            self.spis = spis
-
-        if uarts is not None:
-            self.uarts = uarts
-
-        if pwms is not None:
-            self.pwms = pwms
-
-        if adcs is not None:
-            self.adcs = adcs
-
-        if digital_pins is not None:
-            self.digital_pins = digital_pins
-
         if pins:
             self.pins.extend(pins)
 
         if hw_interfaces:
             self.hw_interfaces.extend(hw_interfaces)
+
+        if has_network:
+            self.has_network.extend(has_network)
+
+        if bluetooth is not None:
+            self.bluetooth = bluetooth
 
 
 @abstract
@@ -172,48 +150,30 @@ class CPU(EObject, metaclass=MetaEClass):
             self.fpu = fpu
 
 
-class Wireless(EObject, metaclass=MetaEClass):
-
-    wifi = EAttribute(eType=EBoolean, derived=False, changeable=True)
-    ble = EAttribute(eType=EBoolean, derived=False, changeable=True)
-
-    def __init__(self, *, wifi=None, ble=None, **kwargs):
-        if kwargs:
-            raise AttributeError('unexpected arguments: {}'.format(kwargs))
-
-        super().__init__()
-
-        if wifi is not None:
-            self.wifi = wifi
-
-        if ble is not None:
-            self.ble = ble
-
-
 class B2PConnection(EObject, metaclass=MetaEClass):
 
+    hw_connections = EReference(ordered=True, unique=True, containment=False, upper=-1)
+    gnd_connections = EReference(ordered=True, unique=True, containment=False, upper=-1)
     board = EReference(ordered=True, unique=True, containment=False)
     peripheral = EReference(ordered=True, unique=True, containment=False)
-    hw_int_connections = EReference(ordered=True, unique=True, containment=True, upper=-1)
-    power_connections = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
-    def __init__(self, *, board=None, peripheral=None, hw_int_connections=None, power_connections=None, **kwargs):
+    def __init__(self, *, hw_connections=None, gnd_connections=None, board=None, peripheral=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
         super().__init__()
+
+        if hw_connections:
+            self.hw_connections.extend(hw_connections)
+
+        if gnd_connections:
+            self.gnd_connections.extend(gnd_connections)
 
         if board is not None:
             self.board = board
 
         if peripheral is not None:
             self.peripheral = peripheral
-
-        if hw_int_connections:
-            self.hw_int_connections.extend(hw_int_connections)
-
-        if power_connections:
-            self.power_connections.extend(power_connections)
 
 
 @abstract
@@ -230,6 +190,30 @@ class Hw2Hw(EObject, metaclass=MetaEClass):
         raise NotImplementedError('operation connect(...) not yet implemented')
 
 
+@abstract
+class Network(EObject, metaclass=MetaEClass):
+
+    def __init__(self, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+
+class Bluetooth(EObject, metaclass=MetaEClass):
+
+    version = EAttribute(eType=EFloat, derived=False, changeable=True)
+
+    def __init__(self, *, version=None, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+        if version is not None:
+            self.version = version
+
+
 class Board(Device):
 
     ethernet = EAttribute(eType=EBoolean, derived=False, changeable=True)
@@ -240,9 +224,8 @@ class Board(Device):
     os = EAttribute(eType=OSType, derived=False, changeable=True)
     cpu = EReference(ordered=True, unique=True, containment=True)
     memory = EReference(ordered=True, unique=True, containment=True)
-    wireless = EReference(ordered=True, unique=True, containment=True)
 
-    def __init__(self, *, ethernet=None, timers=None, rtc=None, battery=None, dma=None, cpu=None, memory=None, wireless=None, os=None, **kwargs):
+    def __init__(self, *, ethernet=None, timers=None, rtc=None, battery=None, dma=None, cpu=None, memory=None, os=None, **kwargs):
 
         super().__init__(**kwargs)
 
@@ -270,9 +253,6 @@ class Board(Device):
         if memory is not None:
             self.memory = memory
 
-        if wireless is not None:
-            self.wireless = wireless
-
 
 class Peripheral(Device):
 
@@ -288,9 +268,14 @@ class Peripheral(Device):
 
 class PowerPin(Pin):
 
-    def __init__(self, **kwargs):
+    type = EAttribute(eType=PowerType, derived=False, changeable=True)
+
+    def __init__(self, *, type=None, **kwargs):
 
         super().__init__(**kwargs)
+
+        if type is not None:
+            self.type = type
 
 
 class IOPin(Pin):
@@ -375,17 +360,13 @@ class SPI(HwInterface):
 
 class UART(HwInterface):
 
-    baudrate = EAttribute(eType=EInt, derived=False, changeable=True, default_value=-1)
     bus = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
     rx = EReference(ordered=True, unique=True, containment=False)
     tx = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, baudrate=None, rx=None, tx=None, bus=None, **kwargs):
+    def __init__(self, *, rx=None, tx=None, bus=None, **kwargs):
 
         super().__init__(**kwargs)
-
-        if baudrate is not None:
-            self.baudrate = baudrate
 
         if bus is not None:
             self.bus = bus
@@ -460,34 +441,35 @@ class ADC(HwInterface):
 @abstract
 class HwInt2HwInt(Hw2Hw):
 
-    interface_1 = EReference(ordered=True, unique=True, containment=False)
-    interface_2 = EReference(ordered=True, unique=True, containment=False)
-
-    def __init__(self, *, interface_1=None, interface_2=None, **kwargs):
+    def __init__(self, **kwargs):
 
         super().__init__(**kwargs)
-
-        if interface_1 is not None:
-            self.interface_1 = interface_1
-
-        if interface_2 is not None:
-            self.interface_2 = interface_2
 
 
 class Power2Power(Hw2Hw):
 
-    conn_1 = EReference(ordered=True, unique=True, containment=False)
-    conn_2 = EReference(ordered=True, unique=True, containment=False)
-
-    def __init__(self, *, conn_1=None, conn_2=None, **kwargs):
+    def __init__(self, **kwargs):
 
         super().__init__(**kwargs)
 
-        if conn_1 is not None:
-            self.conn_1 = conn_1
 
-        if conn_2 is not None:
-            self.conn_2 = conn_2
+class Wifi(Network):
+
+    frequency = EAttribute(eType=EFloat, derived=False, changeable=True)
+
+    def __init__(self, *, frequency=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if frequency is not None:
+            self.frequency = frequency
+
+
+class Ethernet(Network):
+
+    def __init__(self, **kwargs):
+
+        super().__init__(**kwargs)
 
 
 class DigitalPin(IOPin):
@@ -507,27 +489,6 @@ class AnalogPin(IOPin):
 
         if vmax is not None:
             self.vmax = vmax
-
-
-class Gnd(PowerPin):
-
-    def __init__(self, **kwargs):
-
-        super().__init__(**kwargs)
-
-
-class Power5V(PowerPin):
-
-    def __init__(self, **kwargs):
-
-        super().__init__(**kwargs)
-
-
-class Power3V3(PowerPin):
-
-    def __init__(self, **kwargs):
-
-        super().__init__(**kwargs)
 
 
 class Usb2Usb(HwInt2HwInt):
@@ -565,9 +526,14 @@ class Spi2Spi(HwInt2HwInt):
 
 class Uart2Uart(HwInt2HwInt):
 
-    def __init__(self, **kwargs):
+    baudrate = EAttribute(eType=EInt, derived=False, changeable=True, default_value=-1)
+
+    def __init__(self, *, baudrate=None, **kwargs):
 
         super().__init__(**kwargs)
+
+        if baudrate is not None:
+            self.baudrate = baudrate
 
 
 class Pwm2Pwm(HwInt2HwInt):

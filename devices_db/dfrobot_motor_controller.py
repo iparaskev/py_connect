@@ -11,9 +11,7 @@ NAME = "devices_db/dfrobot_motor_controller.xmi"  # Name of the xmi
 dev = Peripheral(vcc=5.0,
                  name="motor_controller",
                  type=PeripheralType.ACTUATOR,
-                 operating_voltage=5.,
-                 digital_pins=2,
-                 pwms=2)
+                 operating_voltage=5.)
 pin_1 = DigitalPin(name="m1", number=1)
 pin_2 = DigitalPin(name="e1", number=2)
 pin_3 = DigitalPin(name="m2", number=3)
