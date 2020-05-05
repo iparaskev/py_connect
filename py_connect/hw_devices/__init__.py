@@ -1,13 +1,13 @@
 
 from .hw_devices import getEClassifier, eClassifiers
 from .hw_devices import name, nsURI, nsPrefix, eClass
-from .hw_devices import Device, Board, Peripheral, PeripheralType, Pin, PowerPin, IOPin, CpuFamily, DigitalPin, AnalogPin, HwInterface, I2C, SPI, UART, PWM, USB, GPIOType, GPIO, ADC, Memory, CPU, Wireless, USBType, B2PConnection, HwInt2HwInt, Power2Power, Gnd, Power5V, Power3V3, Hw2Hw, OSType
+from .hw_devices import Device, Board, Peripheral, PeripheralType, Pin, PowerPin, IOPin, CpuFamily, DigitalPin, AnalogPin, HwInterface, I2C, SPI, UART, PWM, USB, GPIOType, GPIO, ADC, Memory, CPU, Wireless, USBType, B2PConnection, HwInt2HwInt, Power2Power, Gnd, Power5V, Power3V3, Hw2Hw, OSType, Usb2Usb, Adc2Adc, I2c2I2c, Spi2Spi, Uart2Uart, Pwm2Pwm, Gpio2Gpio
 
 
 from . import hw_devices
 
-__all__ = ['Device', 'Board', 'Peripheral', 'PeripheralType', 'Pin', 'PowerPin', 'IOPin', 'CpuFamily', 'DigitalPin', 'AnalogPin', 'HwInterface', 'I2C', 'SPI', 'UART', 'PWM',
-           'USB', 'GPIOType', 'GPIO', 'ADC', 'Memory', 'CPU', 'Wireless', 'USBType', 'B2PConnection', 'HwInt2HwInt', 'Power2Power', 'Gnd', 'Power5V', 'Power3V3', 'Hw2Hw', 'OSType']
+__all__ = ['Device', 'Board', 'Peripheral', 'PeripheralType', 'Pin', 'PowerPin', 'IOPin', 'CpuFamily', 'DigitalPin', 'AnalogPin', 'HwInterface', 'I2C', 'SPI', 'UART', 'PWM', 'USB', 'GPIOType', 'GPIO', 'ADC', 'Memory',
+           'CPU', 'Wireless', 'USBType', 'B2PConnection', 'HwInt2HwInt', 'Power2Power', 'Gnd', 'Power5V', 'Power3V3', 'Hw2Hw', 'OSType', 'Usb2Usb', 'Adc2Adc', 'I2c2I2c', 'Spi2Spi', 'Uart2Uart', 'Pwm2Pwm', 'Gpio2Gpio']
 
 eSubpackages = []
 eSuperPackage = None
@@ -27,37 +27,17 @@ SPI.mosi.eType = DigitalPin
 SPI.sclk.eType = DigitalPin
 UART.rx.eType = DigitalPin
 UART.tx.eType = DigitalPin
-UART.connection.eType = UART
 PWM.pin.eType = DigitalPin
-PWM.connection.eType = PWM
-USB.connection.eType = USB
 GPIO.pin.eType = IOPin
-GPIO.connection.eType = GPIO
 ADC.pin.eType = AnalogPin
-ADC.connection.eType = ADC
 B2PConnection.board.eType = Board
 B2PConnection.peripheral.eType = Peripheral
 B2PConnection.hw_int_connections.eType = HwInt2HwInt
 B2PConnection.power_connections.eType = Power2Power
-HwInt2HwInt.board_hw.eType = HwInterface
-HwInt2HwInt.peripheral_hw.eType = HwInterface
-Power2Power.board_power.eType = PowerPin
-Power2Power.peripheral_power.eType = PowerPin
-I2C.master_conns.eType = I2C
-I2C.slave_conns.eType = I2C
-I2C.slave_conns.eOpposite = I2C.master_conns
-SPI.master_conns.eType = SPI
-SPI.slave_conns.eType = SPI
-SPI.slave_conns.eOpposite = SPI.master_conns
-Gnd.outbound.eType = Gnd
-Gnd.inbound.eType = Gnd
-Gnd.inbound.eOpposite = Gnd.outbound
-Power5V.outbound.eType = Power5V
-Power5V.inbound.eType = Power5V
-Power5V.inbound.eOpposite = Power5V.outbound
-Power3V3.outbound.eType = Power3V3
-Power3V3.inbound.eType = Power3V3
-Power3V3.inbound.eOpposite = Power3V3.outbound
+HwInt2HwInt.interface_1.eType = HwInterface
+HwInt2HwInt.interface_2.eType = HwInterface
+Power2Power.conn_1.eType = PowerPin
+Power2Power.conn_2.eType = PowerPin
 
 otherClassifiers = [PeripheralType, CpuFamily, GPIOType, USBType, OSType]
 

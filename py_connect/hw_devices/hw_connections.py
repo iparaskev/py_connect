@@ -3,42 +3,22 @@
 Add behaviours to hardware inteface connections.
 """
 
-from .hw_devices import USB, ADC, I2C, SPI, UART, PWM, GPIO, HwInt2HwInt
+from .hw_devices import USB, ADC, I2C, SPI, UART, PWM, GPIO, Gpio2Gpio
+from .hw_devices import Usb2Usb, Adc2Adc, I2c2I2c, Spi2Spi, Uart2Uart, Pwm2Pwm
+from .hw_devices import Power2Power
 
 
-def connect(self):
-    """Connect two hardware interfaces.
+def check_same(interface_1, interface_2):
+    """Check if two interfaces are the same
 
-    They must be of the same type.
+    Args:
+        interface_1 (HwInterface):
+        interface_2 (HwInterface):
+
+    Returns:
+        (bool): Indicating if the two instances are of the same class.
     """
 
-    # Handle USB connection
-    if isinstance(self.board_hw, USB):
-        self.usb_connect()
-
-    # Handle ADC connection
-    if isinstance(self.board_hw, ADC):
-        self.adc_connect()
-
-    # Handle I2C connection
-    if isinstance(self.board_hw, I2C):
-        self.i2c_connect()
-
-    # Handle SPI connection
-    if isinstance(self.board_hw, SPI):
-        self.spi_connect()
-
-    # Handle UART connection
-    if isinstance(self.board_hw, UART):
-        self.uart_connect()
-
-    # Handle PWM connection
-    if isinstance(self.board_hw, PWM):
-        self.pwm_connect()
-
-    # Handle GPIO connection
-    if isinstance(self.board_hw, GPIO):
-        self.gpio_connect()
 
 
 def usb_connect(self):

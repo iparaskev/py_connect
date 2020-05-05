@@ -81,6 +81,11 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="scl" lowerBound="1" eType="#//DigitalPin"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="bus" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="addr" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="is_master" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="max_master_cons" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="1008"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="SPI" eSuperTypes="#//HwInterface">
     <eStructuralFeatures xsi:type="ecore:EReference" name="miso" lowerBound="1" eType="#//DigitalPin"/>
@@ -90,6 +95,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="bus" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="0"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="is_master" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="max_master_cons" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="UART" eSuperTypes="#//HwInterface">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="baudrate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
@@ -180,9 +186,4 @@
   <eClassifiers xsi:type="ecore:EClass" name="Uart2Uart" eSuperTypes="#//HwInt2HwInt"/>
   <eClassifiers xsi:type="ecore:EClass" name="Pwm2Pwm" eSuperTypes="#//HwInt2HwInt"/>
   <eClassifiers xsi:type="ecore:EClass" name="Gpio2Gpio" eSuperTypes="#//HwInt2HwInt"/>
-  <eClassifiers xsi:type="ecore:EClass" name="I2CSlave" eSuperTypes="#//I2C">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="addr" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
-        defaultValueLiteral="-1"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="I2CMaster" eSuperTypes="#//I2C"/>
 </ecore:EPackage>
