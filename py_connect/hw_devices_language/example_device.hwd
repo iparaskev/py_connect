@@ -1,0 +1,71 @@
+board:
+    name: test_board
+    vcc: 5.0
+    operating_voltage: 3.3
+    timers: 5
+    rtc: 1
+    battery: true
+    dma: false
+    os: raspbian
+    ?i2c_addr: 0x13?
+    ?uart_baudrate?
+    memory:
+	ram: 1000
+	rom: 100 mb
+	external_memory: 100 mb
+    cpu:
+	cpu_family: arm cortex m
+	max_freq: 10 hz
+	fpu: true
+    network:
+	- wifi:
+	- ethernet:
+    pins:
+	- power:
+	    name: power_3v3_1
+	    number: 1
+	    type: 3v3
+	- power:
+	    name: power_5v_1
+	    number: 2
+	    type: 5v
+	- io_digital: -> input, output, sda-0, pwm at 10hz, sclk-1
+	    name: bcm_2
+	    number: 3
+	- power:
+	    name: power_5v_2
+	    number: 4
+	    type: 5v
+	- io_digital: -> scl-0
+	    name: bcm_3
+	    number: 5
+	- power:
+	    name: gnd_1
+	    number: 6
+	    type: gnd
+	- io_digital: 
+	    name: bcm_4
+	    number: 7
+	- io_digital: 
+	    name: bcm_14
+	    number: 8
+	- power:
+	    name: gnd_2
+	    number: 9
+	    type: gnd
+	- io_digital: 
+	    name: bcm_15
+	    number: 10
+	- io_digital: 
+	    name: bcm_17
+	    number: 11
+	- io_digital: 
+	    name: bcm_18
+	    number: 12
+	- io_digital: 
+	    name: bcm_27
+	    number: 13
+	- power:
+	    name: gnd_1
+	    number: 6
+	    type: gnd
