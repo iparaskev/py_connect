@@ -24,6 +24,7 @@ def main(debug=False):
     print(robot_model.attrs[4].val)
     print(robot_model.attrs[4].val[0].freq)
     print(robot_model.attrs[5].version)
+    print(robot_model.attrs[11].val.fpu)
     #robot = Robot()
     #robot.interpret(robot_model)
 

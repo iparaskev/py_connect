@@ -10,7 +10,45 @@ Board:
 ;
 
 BOARD_ATTRS:
-    DEVICE_ATTRS | MEMORY
+    DEVICE_ATTRS | MEMORY | TIMERS | RTC | BATTERY | DMA | OS | CPU
+;
+
+TIMERS:
+	name="timers" ":" val=INT
+;
+
+RTC:
+	name="rtc" ":" val=INT
+;
+
+BATTERY:
+	name="battery" ":" val=BOOL
+;
+
+DMA:
+	name="dma" ":" val=BOOL
+;
+
+OS:
+	name="os" ":" val=OS_TYPE
+;
+
+OS_TYPE:
+	("raspbian" | "riot")
+;
+
+CPU:
+	name="cpu" ":" val=CPU_TYPE
+;
+
+CPU_TYPE:
+	(("cpu_family:" cpu_family=CPU_FAMILY)
+	 ("max_freq:" max_freq=NUMBER)
+	 ("fpu:" fpu=BOOL))#
+;
+
+CPU_FAMILY:
+	("ARM_CORTEX_M" | "ESP32")
 ;
 
 MEMORY:

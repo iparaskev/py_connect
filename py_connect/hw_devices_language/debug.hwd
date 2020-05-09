@@ -14,3 +14,12 @@ board:
 	    name: eth0
     bluetooth:
 	version: 2
+    timers: 5
+    rtc: 0
+    battery: true
+    dma: false
+    os: raspbian
+    cpu:
+	fpu: false
+	cpu_family: ARM_CORTEX_M
+	max_freq: 1000
