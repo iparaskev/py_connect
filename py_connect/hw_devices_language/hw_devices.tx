@@ -1,0 +1,84 @@
+//Device
+Device:
+    Board | Peripheral
+;
+
+// Board meta model
+Board:
+    'board:'
+      attrs*=BOARD_ATTRS
+;
+
+BOARD_ATTRS:
+    DEVICE_ATTRS | MEMORY
+;
+
+MEMORY:
+    name="memory" ":" val=MEM_TYPE
+;
+
+MEM_TYPE:
+    (("ram:" ram=MEM_VALUE)
+    ("rom:" rom=MEM_VALUE )
+    ("external_memory:" external_memory=MEM_VALUE))#
+;
+
+MEM_VALUE:
+    val=NUMBER unit=UNITS?
+;
+
+UNITS:
+    ("kb" | "mb")
+;
+
+Peripheral:
+    'peripheral:'
+;
+
+DEVICE_ATTRS:
+    VCC | NAME | OP_VOLT | NETWORK | BLUETOOTH
+;
+
+VCC:
+    name="vcc" ":" val=NUMBER
+;
+
+NAME:
+   name="name" ":" val=ID
+;
+
+OP_VOLT:
+   name="operating_voltage" ":" val=NUMBER
+;
+
+NETWORK:
+    name="network" ":"
+    val*=NETWORK_TYPE
+;
+
+NETWORK_TYPE:
+    WIFI | ETHERNET
+;
+
+WIFI:
+	"- wifi:" 
+	(("name:" name=ID)
+	 ("freq:" freq=NUMBER)?)#
+;
+
+ETHERNET:
+	"- ethernet:"
+	"name:" name=ID
+;
+
+BLUETOOTH:
+	name="bluetooth" ":" "version:" version=NUMBER
+;
+
+ATTRIBUTE:
+    name=ID ":" val=VAL_TYPE
+;
+
+VAL_TYPE:
+    NUMBER | ID
+;

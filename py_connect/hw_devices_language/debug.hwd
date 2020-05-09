@@ -1,0 +1,16 @@
+board:
+    vcc: 5 
+    name: test 
+    operating_voltage: 3.3 
+    memory:
+        ram: 100
+	external_memory: 1000
+        rom: 10 kb
+    network:
+	- wifi:
+	    freq: 10
+	    name: wlp6s0
+	- ethernet:
+	    name: eth0
+    bluetooth:
+	version: 2
