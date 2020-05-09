@@ -9,8 +9,106 @@ Board:
       attrs*=BOARD_ATTRS
 ;
 
+Peripheral:
+    'peripheral:'
+	  attrs*=PERIPHERAL_ATTRS
+;
+
+PERIPHERAL_ATTRS:
+    DEVICE_ATTRS | PERIPHERAL_TYPE | PINS | I2C_ADDR | UART_BAUD
+;
+
+PERIPHERAL_TYPE:
+	name="type" ":" val=PER_TYPES
+;
+
+PER_TYPES:
+	"sensor" | "actuator"
+;
+
+I2C_ADDR:
+	name="i2c_addr" ":" val=INT
+;
+
+UART_BAUD:
+	name="uart_baudrate" ":" val=INT
+;
+
 BOARD_ATTRS:
-    DEVICE_ATTRS | MEMORY | TIMERS | RTC | BATTERY | DMA | OS | CPU
+    DEVICE_ATTRS | MEMORY | TIMERS | RTC | BATTERY | DMA | OS | CPU | PINS
+;
+
+PINS:
+	name="pins" ":" val*=PIN
+;
+
+PIN:
+	POWER_PIN | IO_DIGITIAL | IO_ANALOG
+;
+
+POWER_PIN:
+	"- power:"
+	(("name:" name=ID)
+	 ("number:" number=INT)
+	 ("type:" type=POWER_TYPE))#
+;
+
+POWER_TYPE:
+	("gnd" | "5v" | "3v3")
+;
+
+IO_DIGITIAL:
+	"- io_digital:" "->" funcs*=PIN_FUNC[","]
+	(("name:" name=ID)
+	 ("number:" number=INT))#
+;
+
+// Functionality of a digital pin.
+PIN_FUNC:
+	GPIO | I2C | SPI | UART | PWM
+;
+
+GPIO:
+	type=GPIO_TYPE
+;
+
+GPIO_TYPE:
+	"input" | "output" | "both"
+;
+
+I2C:
+	type=I2C_TYPE "-" bus=INT
+;
+
+I2C_TYPE:
+	"sda" | "scl"
+;
+
+SPI:
+	type=SPI_TYPE "-" bus=INT
+;
+
+SPI_TYPE:
+	"mosi" | "miso" | "sclk" | "ce"
+;
+
+UART:
+	type=UART_TYPE "-" bus=INT
+;
+
+UART_TYPE:
+	"tx" | "rx"
+;
+
+PWM:
+	"pwm" ("at" freq=NUMBER)?
+;
+
+IO_ANALOG:
+	"- io_analog:"
+	(("name:" name=ID)
+	 ("number:" number=INT)
+	 ("vmax:" vmax=NUMBER))#
 ;
 
 TIMERS:
@@ -43,12 +141,12 @@ CPU:
 
 CPU_TYPE:
 	(("cpu_family:" cpu_family=CPU_FAMILY)
-	 ("max_freq:" max_freq=NUMBER)
+	 ("max_freq:" max_freq=NUMBER unit=FREQ_UNIT)
 	 ("fpu:" fpu=BOOL))#
 ;
 
 CPU_FAMILY:
-	("ARM_CORTEX_M" | "ESP32")
+	("ARM_CORTEX_M" | "ESP32" | "ARM_CORTEX_A")
 ;
 
 MEMORY:
@@ -56,9 +154,9 @@ MEMORY:
 ;
 
 MEM_TYPE:
-    (("ram:" ram=MEM_VALUE)
-    ("rom:" rom=MEM_VALUE )
-    ("external_memory:" external_memory=MEM_VALUE))#
+    (("ram:" ram=MEM_VALUE)?
+    ("rom:" rom=MEM_VALUE)?
+    ("external_memory:" external_memory=MEM_VALUE)?)#
 ;
 
 MEM_VALUE:
@@ -66,11 +164,7 @@ MEM_VALUE:
 ;
 
 UNITS:
-    ("kb" | "mb")
-;
-
-Peripheral:
-    'peripheral:'
+    ("kb" | "mb" | "gb")
 ;
 
 DEVICE_ATTRS:
@@ -101,9 +195,12 @@ NETWORK_TYPE:
 WIFI:
 	"- wifi:" 
 	(("name:" name=ID)
-	 ("freq:" freq=NUMBER)?)#
+	 ("freq:" freq*=NUMBER[","] unit=FREQ_UNIT)?)#
 ;
 
+FREQ_UNIT:
+	"ghz" | "hz"
+;
 ETHERNET:
 	"- ethernet:"
 	"name:" name=ID
