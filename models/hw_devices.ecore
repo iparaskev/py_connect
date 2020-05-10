@@ -9,12 +9,11 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="operating_voltage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="hw_interfaces" upperBound="-1"
         eType="#//HwInterface" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="has_network" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="network" upperBound="-1"
         eType="#//Network"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="bluetooth" eType="#//Bluetooth"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Board" eSuperTypes="#//Device">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ethernet" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="timers" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="rtc" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="0"/>
@@ -37,13 +36,12 @@
   <eClassifiers xsi:type="ecore:EClass" name="Pin" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="number" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="connected" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PowerPin" eSuperTypes="#//Pin">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//PowerType"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="IOPin" eSuperTypes="#//Pin">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IOPin" eSuperTypes="#//Pin"/>
   <eClassifiers xsi:type="ecore:EEnum" name="CpuFamily">
     <eLiterals name="ARM_CORTEX_M"/>
     <eLiterals name="AVR" value="1"/>
@@ -158,9 +156,12 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Pwm2Pwm" eSuperTypes="#//HwInt2HwInt"/>
   <eClassifiers xsi:type="ecore:EClass" name="Gpio2Gpio" eSuperTypes="#//HwInt2HwInt"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Network" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Network" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Wifi" eSuperTypes="#//Network">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="frequency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="freqs" upperBound="-1"
+        eType="#//WifiFreq"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Ethernet" eSuperTypes="#//Network"/>
   <eClassifiers xsi:type="ecore:EClass" name="Bluetooth">
@@ -170,5 +171,8 @@
     <eLiterals name="GND"/>
     <eLiterals name="Power3V3" value="1"/>
     <eLiterals name="Power5V" value="2"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="WifiFreq">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="freq" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
   </eClassifiers>
 </ecore:EPackage>

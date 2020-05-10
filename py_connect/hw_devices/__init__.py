@@ -1,13 +1,13 @@
 
 from .hw_devices import getEClassifier, eClassifiers
 from .hw_devices import name, nsURI, nsPrefix, eClass
-from .hw_devices import Device, Board, Peripheral, PeripheralType, Pin, PowerPin, IOPin, CpuFamily, DigitalPin, AnalogPin, HwInterface, I2C, SPI, UART, PWM, USB, GPIOType, GPIO, ADC, Memory, CPU, USBType, B2PConnection, HwInt2HwInt, Power2Power, Hw2Hw, OSType, Usb2Usb, Adc2Adc, I2c2I2c, Spi2Spi, Uart2Uart, Pwm2Pwm, Gpio2Gpio, Network, Wifi, Ethernet, Bluetooth, PowerType
+from .hw_devices import Device, Board, Peripheral, PeripheralType, Pin, PowerPin, IOPin, CpuFamily, DigitalPin, AnalogPin, HwInterface, I2C, SPI, UART, PWM, USB, GPIOType, GPIO, ADC, Memory, CPU, USBType, B2PConnection, HwInt2HwInt, Power2Power, Hw2Hw, OSType, Usb2Usb, Adc2Adc, I2c2I2c, Spi2Spi, Uart2Uart, Pwm2Pwm, Gpio2Gpio, Network, Wifi, Ethernet, Bluetooth, PowerType, WifiFreq
 
 
 from . import hw_devices
 
-__all__ = ['Device', 'Board', 'Peripheral', 'PeripheralType', 'Pin', 'PowerPin', 'IOPin', 'CpuFamily', 'DigitalPin', 'AnalogPin', 'HwInterface', 'I2C', 'SPI', 'UART', 'PWM', 'USB', 'GPIOType', 'GPIO', 'ADC', 'Memory',
-           'CPU', 'USBType', 'B2PConnection', 'HwInt2HwInt', 'Power2Power', 'Hw2Hw', 'OSType', 'Usb2Usb', 'Adc2Adc', 'I2c2I2c', 'Spi2Spi', 'Uart2Uart', 'Pwm2Pwm', 'Gpio2Gpio', 'Network', 'Wifi', 'Ethernet', 'Bluetooth', 'PowerType']
+__all__ = ['Device', 'Board', 'Peripheral', 'PeripheralType', 'Pin', 'PowerPin', 'IOPin', 'CpuFamily', 'DigitalPin', 'AnalogPin', 'HwInterface', 'I2C', 'SPI', 'UART', 'PWM', 'USB', 'GPIOType', 'GPIO', 'ADC', 'Memory', 'CPU',
+           'USBType', 'B2PConnection', 'HwInt2HwInt', 'Power2Power', 'Hw2Hw', 'OSType', 'Usb2Usb', 'Adc2Adc', 'I2c2I2c', 'Spi2Spi', 'Uart2Uart', 'Pwm2Pwm', 'Gpio2Gpio', 'Network', 'Wifi', 'Ethernet', 'Bluetooth', 'PowerType', 'WifiFreq']
 
 eSubpackages = []
 eSuperPackage = None
@@ -16,7 +16,7 @@ hw_devices.eSuperPackage = eSuperPackage
 
 Device.pins.eType = Pin
 Device.hw_interfaces.eType = HwInterface
-Device.has_network.eType = Network
+Device.network.eType = Network
 Device.bluetooth.eType = Bluetooth
 Board.cpu.eType = CPU
 Board.memory.eType = Memory
@@ -35,6 +35,7 @@ B2PConnection.hw_connections.eType = HwInt2HwInt
 B2PConnection.gnd_connections.eType = Power2Power
 B2PConnection.board.eType = Board
 B2PConnection.peripheral.eType = Peripheral
+Wifi.freqs.eType = WifiFreq
 
 otherClassifiers = [PeripheralType, CpuFamily, GPIOType, USBType, OSType, PowerType]
 

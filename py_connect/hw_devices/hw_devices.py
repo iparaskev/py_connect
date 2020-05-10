@@ -33,10 +33,10 @@ class Device(EObject, metaclass=MetaEClass):
     operating_voltage = EAttribute(eType=EFloat, derived=False, changeable=True)
     pins = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hw_interfaces = EReference(ordered=True, unique=True, containment=True, upper=-1)
-    has_network = EReference(ordered=True, unique=True, containment=False, upper=-1)
+    network = EReference(ordered=True, unique=True, containment=False, upper=-1)
     bluetooth = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, vcc=None, name=None, pins=None, operating_voltage=None, hw_interfaces=None, has_network=None, bluetooth=None, **kwargs):
+    def __init__(self, *, vcc=None, name=None, pins=None, operating_voltage=None, hw_interfaces=None, network=None, bluetooth=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -57,8 +57,8 @@ class Device(EObject, metaclass=MetaEClass):
         if hw_interfaces:
             self.hw_interfaces.extend(hw_interfaces)
 
-        if has_network:
-            self.has_network.extend(has_network)
+        if network:
+            self.network.extend(network)
 
         if bluetooth is not None:
             self.bluetooth = bluetooth
@@ -69,8 +69,9 @@ class Pin(EObject, metaclass=MetaEClass):
 
     number = EAttribute(eType=EInt, derived=False, changeable=True)
     connected = EAttribute(eType=EBoolean, derived=False, changeable=True)
+    name = EAttribute(eType=EString, derived=False, changeable=True)
 
-    def __init__(self, *, number=None, connected=None, **kwargs):
+    def __init__(self, *, number=None, connected=None, name=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -81,6 +82,9 @@ class Pin(EObject, metaclass=MetaEClass):
 
         if connected is not None:
             self.connected = connected
+
+        if name is not None:
+            self.name = name
 
 
 @abstract
@@ -193,11 +197,16 @@ class Hw2Hw(EObject, metaclass=MetaEClass):
 @abstract
 class Network(EObject, metaclass=MetaEClass):
 
-    def __init__(self, **kwargs):
+    name = EAttribute(eType=EString, derived=False, changeable=True)
+
+    def __init__(self, *, name=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
         super().__init__()
+
+        if name is not None:
+            self.name = name
 
 
 class Bluetooth(EObject, metaclass=MetaEClass):
@@ -214,9 +223,22 @@ class Bluetooth(EObject, metaclass=MetaEClass):
             self.version = version
 
 
+class WifiFreq(EObject, metaclass=MetaEClass):
+
+    freq = EAttribute(eType=EFloat, derived=False, changeable=True)
+
+    def __init__(self, *, freq=None, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+        if freq is not None:
+            self.freq = freq
+
+
 class Board(Device):
 
-    ethernet = EAttribute(eType=EBoolean, derived=False, changeable=True)
     timers = EAttribute(eType=EInt, derived=False, changeable=True)
     rtc = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
     battery = EAttribute(eType=EBoolean, derived=False, changeable=True)
@@ -225,12 +247,9 @@ class Board(Device):
     cpu = EReference(ordered=True, unique=True, containment=True)
     memory = EReference(ordered=True, unique=True, containment=True)
 
-    def __init__(self, *, ethernet=None, timers=None, rtc=None, battery=None, dma=None, cpu=None, memory=None, os=None, **kwargs):
+    def __init__(self, *, timers=None, rtc=None, battery=None, dma=None, cpu=None, memory=None, os=None, **kwargs):
 
         super().__init__(**kwargs)
-
-        if ethernet is not None:
-            self.ethernet = ethernet
 
         if timers is not None:
             self.timers = timers
@@ -280,14 +299,9 @@ class PowerPin(Pin):
 
 class IOPin(Pin):
 
-    name = EAttribute(eType=EString, derived=False, changeable=True)
-
-    def __init__(self, *, name=None, **kwargs):
+    def __init__(self, **kwargs):
 
         super().__init__(**kwargs)
-
-        if name is not None:
-            self.name = name
 
 
 class I2C(HwInterface):
@@ -455,14 +469,14 @@ class Power2Power(Hw2Hw):
 
 class Wifi(Network):
 
-    frequency = EAttribute(eType=EFloat, derived=False, changeable=True)
+    freqs = EReference(ordered=True, unique=True, containment=False, upper=-1)
 
-    def __init__(self, *, frequency=None, **kwargs):
+    def __init__(self, *, freqs=None, **kwargs):
 
         super().__init__(**kwargs)
 
-        if frequency is not None:
-            self.frequency = frequency
+        if freqs:
+            self.freqs.extend(freqs)
 
 
 class Ethernet(Network):
