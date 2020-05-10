@@ -164,7 +164,7 @@ MEM_VALUE:
 ;
 
 UNITS:
-    ("kb" | "mb" | "gb")
+    ("kb" | "mb" | "gb" | "b")
 ;
 
 DEVICE_ATTRS:
@@ -207,7 +207,11 @@ ETHERNET:
 ;
 
 BLUETOOTH:
-	name="bluetooth" ":" "version:" version=NUMBER
+	name="bluetooth" ":" val=BLUETOOTH_VAL
+;
+
+BLUETOOTH_VAL:
+	"version:" version=NUMBER
 ;
 
 ATTRIBUTE:
