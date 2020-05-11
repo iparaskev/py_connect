@@ -124,10 +124,10 @@ board:
 	- io_digital: -> both
 	    name: bcm_6
 	    number: 31
-	- io_digital: -> both
+	- io_digital: -> both, pwm
 	    name: bcm_12
 	    number: 32
-	- io_digital: -> both
+	- io_digital: -> both, pwm
 	    name: bcm_13
 	    number: 33
 	- power:
