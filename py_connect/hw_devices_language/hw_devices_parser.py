@@ -3,6 +3,7 @@
 from os.path import join, dirname
 from textx import metamodel_from_file
 from textx.export import metamodel_export, model_export
+from pyecore.ecore import BadValueError
 
 import sys
 sys.path.append(".")
@@ -69,6 +70,9 @@ class DeviceHandler():
         #print(self.hw_interfaces["i2c"]["i2c_0"].sda.name)
         #print(self.hw_interfaces["i2c"]["i2c_0"].scl.name)
         #print(self.hw_interfaces["uart"]["uart_0"].tx.name)
+        #print(self.hw_interfaces["spi"]["spi_0"].mosi.name)
+        #print(self.hw_interfaces["spi"]["spi_0"].miso.name)
+        #print(self.hw_interfaces["spi"]["spi_0"].sclk.name)
 
     def parse_model(self):
         """Parse the textx model.
@@ -171,7 +175,9 @@ class DeviceHandler():
                                 pin_obj, func.type, func.bus, "i2c", I2C
                             )
                         elif func.type in self.SPI_TYPES:
-                            self._spi_pin(pin_obj, func.type, func.bus)
+                            self._busable_pin(
+                                pin_obj, func.type, func.bus, "spi", SPI
+                            )
                         elif func.type in self.UART_TYPES:
                             self._busable_pin(
                                 pin_obj, func.type, func.bus, "uart", UART
@@ -207,14 +213,13 @@ class DeviceHandler():
         """
         name = f"{prefix}_{bus}"
         try:
-            setattr(self.hw_interfaces[prefix][name], type, pin_obj)
-        except KeyError:
-            self.hw_interfaces[prefix][name] = clss(name=name, bus=bus)
-            setattr(self.hw_interfaces[prefix][name], type, pin_obj)
-
-    def _spi_pin(self, pin_obj, spi_type, bus):
-        """Handle an spi pin."""
-        pass
+            try:
+                setattr(self.hw_interfaces[prefix][name], type, pin_obj)
+            except KeyError:
+                self.hw_interfaces[prefix][name] = clss(name=name, bus=bus)
+                setattr(self.hw_interfaces[prefix][name], type, pin_obj)
+        except BadValueError:
+            getattr(self.hw_interfaces[prefix][name], type).append(pin_obj)
 
     def _pwm_pin(self, pin_obj, freq):
         """Handle an pwm pin."""
