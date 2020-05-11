@@ -27,6 +27,11 @@ class DeviceHandler():
         "sensor": PeripheralType.SENSOR,
         "actuator": PeripheralType.ACTUATOR
     }
+    POWER_MAPPER = {
+        "gnd": PowerType.GND,
+        "3v3": PowerType.Power3V3,
+        "5v": PowerType.Power5V,
+    }
     FREQ_MULT = {"hz": 1., "ghz": 10.**9}
     MEM_MULT = {"b": 1., "kb": 1024, "mb": 1024*1024, "gb": 1024*1024*1024}
 
@@ -75,30 +80,30 @@ class DeviceHandler():
 
             self._handle_attr(attr, dev)
 
-    #TODO cleaner setattr
+    #TODO: cleaner setattr
     def _handle_attr(self, attr, dev):  # noqa C901
         """Handle an attribute"""
         attr_val = None
-        net_flag = False
+        list_flag = False
 
-        if attr.name == "os":
+        if attr.name == "os":                             # os attribute
             attr_val = self.OS_MAPPER[attr.val]
-        elif attr.name == "network":
+        elif attr.name == "network":                      # network attribute
             # Create new interfaces and append to list
             net_ls = []
             for net_inter in attr.val:
                 net = self._instantiate_network(net_inter)
                 net_ls.append(net)
             attr_val = net_ls
-            net_flag = True
-        elif attr.name == "bluetooth":
+            list_flag = True
+        elif attr.name == "bluetooth":                   # bluetooth attribute
             attr_val = Bluetooth(version=attr.val.version)
         elif attr.name == "cpu":
             attr_val = CPU(cpu_family=attr.val.cpu_family,
                            max_freq=float(attr.val.max_freq
                                           * self.FREQ_MULT[attr.val.unit]),
                            fpu=attr.val.fpu)
-        elif attr.name == "memory":
+        elif attr.name == "memory":                      # memory attribute
             ram_val = float(attr.val.ram.val * self.MEM_MULT[attr.val.ram.unit])\
                 if attr.val.ram is not None else None
             rom_val = float(attr.val.rom.val * self.MEM_MULT[attr.val.rom.unit])\
@@ -113,12 +118,32 @@ class DeviceHandler():
         elif attr.name == "type":
             pass
         elif attr.name == "pins":
-            pass
+            list_flag = True
+            attr_val = []
+            # Iterate through all pins
+            for pin in attr.val:
+                pin_obj = None  # The pin object to be appended
+
+                # Power pin
+                if isinstance(pin, self._get_class("POWER_PIN")):
+                    pin_obj = PowerPin(name=pin.name, number=pin.number,
+                                       type=self.POWER_MAPPER[pin.type])
+                # Analog pin
+                elif isinstance(pin, self._get_class("IO_ANALOG")):
+                    pin_obj = AnalogPin(name=pin.name,
+                                        number=pin.number,
+                                        vmax=pin.vmax)
+                # Digital pin
+                else:
+                    pin_obj = DigitalPin(name=pin.name,
+                                         number=pin.number)
+                    print(pin_obj.name)
+                attr_val.append(pin_obj)
         else:
             attr_val = attr.val
 
         # Set attribute
-        if net_flag:
+        if list_flag:
             getattr(dev, attr.name).extend(attr_val)
         else:
             setattr(dev, attr.name, attr_val)
