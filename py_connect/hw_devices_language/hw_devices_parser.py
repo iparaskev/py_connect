@@ -32,8 +32,18 @@ class DeviceHandler():
         "3v3": PowerType.Power3V3,
         "5v": PowerType.Power5V,
     }
+    GPIO_MAPPER = {
+        "input": GPIOType.INPUT,
+        "output": GPIOType.OUTPUT,
+        "both": GPIOType.BOTH,
+    }
     FREQ_MULT = {"hz": 1., "ghz": 10.**9}
     MEM_MULT = {"b": 1., "kb": 1024, "mb": 1024*1024, "gb": 1024*1024*1024}
+    GPIO_TYPES = ["input", "output", "both"]
+    I2C_TYPES = ["sda", "scl"]
+    SPI_TYPES = ["mosi", "miso", "sclk", "ce"]
+    UART_TYPES = ["rx", "tx"]
+    PWM_TYPES = ["pwm"]
 
     def __init__(self, device_file):
         """Constructor"""
@@ -43,8 +53,19 @@ class DeviceHandler():
         # Load model.
         self._model = self._hw_mm.model_from_file(join(self.DEVICE_DB, device_file))
 
+        # A dictionary for storing the hw interfaces
+        self.hw_interfaces = {
+            "gpio": [],
+            "i2c": [],
+            "spi": [],
+            "uart": [],
+            "adc": [],
+            "pwm": []
+        }
+
         # Parse model.
         self.parse_model()
+        print(self.hw_interfaces)
 
     def parse_model(self):
         """Parse the textx model.
@@ -137,7 +158,19 @@ class DeviceHandler():
                 else:
                     pin_obj = DigitalPin(name=pin.name,
                                          number=pin.number)
-                    print(pin_obj.name)
+
+                    # Parse function to make hw interfaces
+                    for func in pin.funcs:
+                        if func.type in self.GPIO_TYPES:
+                            self._gpio_pin(pin_obj, func.type)
+                        elif func.type in self.I2C_TYPES:
+                            self._i2c_pin(pin_obj, func.type, func.bus)
+                        elif func.type in self.SPI_TYPES:
+                            self._spi_pin(pin_obj, func.type, func.bus)
+                        elif func.type in self.UART_TYPES:
+                            self._uart_pin(pin_obj, func.type, func.bus)
+                        elif func.type in self.PWM_TYPES:
+                            self._pwm_pin(pin_obj, func.type, func.freq)
                 attr_val.append(pin_obj)
         else:
             attr_val = attr.val
@@ -148,6 +181,27 @@ class DeviceHandler():
         else:
             setattr(dev, attr.name, attr_val)
         print(f"Attribute: {attr.name} Value: {getattr(dev, attr.name)}")
+
+    def _gpio_pin(self, pin_obj, gpio_type):
+        """Instanciate a gpio hw interface."""
+        self.hw_interfaces["gpio"].append(GPIO(pin=pin_obj,
+                                               type=self.GPIO_MAPPER[gpio_type]))
+
+    def _i2c_pin(self, pin_obj, i2c_type, bus):
+        """Handle an i2c pin."""
+        pass
+
+    def _spi_pin(self, pin_obj, spi_type, bus):
+        """Handle an spi pin."""
+        pass
+
+    def _uart_pin(self, pin_obj, uart_type, bus):
+        """Handle an uart pin."""
+        pass
+
+    def _pwm_pin(self, pin_obj, freq):
+        """Handle an pwm pin."""
+        pass
 
     def _instantiate_network(self, net_inter):
         if isinstance(net_inter, self._get_class("WIFI")):
