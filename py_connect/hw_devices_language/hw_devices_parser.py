@@ -55,12 +55,12 @@ class DeviceHandler():
 
         # A dictionary for storing the hw interfaces
         self.hw_interfaces = {
-            "gpio": [],
-            "i2c": [],
-            "spi": [],
-            "uart": [],
-            "adc": [],
-            "pwm": []
+            "gpio": {},
+            "i2c": {},
+            "spi": {},
+            "uart": {},
+            "adc": {},
+            "pwm": {}
         }
 
         # Parse model.
@@ -180,16 +180,21 @@ class DeviceHandler():
             getattr(dev, attr.name).extend(attr_val)
         else:
             setattr(dev, attr.name, attr_val)
-        print(f"Attribute: {attr.name} Value: {getattr(dev, attr.name)}")
+        #print(f"Attribute: {attr.name} Value: {getattr(dev, attr.name)}")
 
     def _gpio_pin(self, pin_obj, gpio_type):
         """Instanciate a gpio hw interface."""
-        self.hw_interfaces["gpio"].append(GPIO(pin=pin_obj,
-                                               type=self.GPIO_MAPPER[gpio_type]))
+        self.hw_interfaces["gpio"][pin_obj.name] = \
+            GPIO(name=pin_obj.name, pin=pin_obj, type=self.GPIO_MAPPER[gpio_type])
 
     def _i2c_pin(self, pin_obj, i2c_type, bus):
         """Handle an i2c pin."""
-        pass
+        name = f"i2c_{bus}"
+        try:
+            setattr(self.hw_interfaces["i2c"][name], i2c_type, pin_obj)
+        except KeyError:
+            self.hw_interfaces["i2c"][name] = I2C(name=name, bus=bus)
+            setattr(self.hw_interfaces["i2c"][name], i2c_type, pin_obj)
 
     def _spi_pin(self, pin_obj, spi_type, bus):
         """Handle an spi pin."""
