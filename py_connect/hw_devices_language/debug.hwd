@@ -59,7 +59,7 @@ board:
 	- io_digital: -> both, ce-1
 	    name: bcm_17
 	    number: 11
-	- io_digital: -> both, ce-0
+	- io_digital: -> both, ce-1
 	    name: bcm_18
 	    number: 12
 	- io_digital: -> both
@@ -105,7 +105,7 @@ board:
 	    name: gnd_5
 	    number: 25
 	    type: gnd
-	- io_digital: -> both, ce-1
+	- io_digital: -> both, ce-0
 	    name: bcm_7
 	    number: 26
 	- io_digital: -> both, sda-0
