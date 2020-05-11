@@ -66,6 +66,9 @@ class DeviceHandler():
         # Parse model.
         self.parse_model()
         print(self.hw_interfaces)
+        #print(self.hw_interfaces["i2c"]["i2c_0"].sda.name)
+        #print(self.hw_interfaces["i2c"]["i2c_0"].scl.name)
+        #print(self.hw_interfaces["uart"]["uart_0"].tx.name)
 
     def parse_model(self):
         """Parse the textx model.
@@ -164,11 +167,15 @@ class DeviceHandler():
                         if func.type in self.GPIO_TYPES:
                             self._gpio_pin(pin_obj, func.type)
                         elif func.type in self.I2C_TYPES:
-                            self._i2c_pin(pin_obj, func.type, func.bus)
+                            self._busable_pin(
+                                pin_obj, func.type, func.bus, "i2c", I2C
+                            )
                         elif func.type in self.SPI_TYPES:
                             self._spi_pin(pin_obj, func.type, func.bus)
                         elif func.type in self.UART_TYPES:
-                            self._uart_pin(pin_obj, func.type, func.bus)
+                            self._busable_pin(
+                                pin_obj, func.type, func.bus, "uart", UART
+                            )
                         elif func.type in self.PWM_TYPES:
                             self._pwm_pin(pin_obj, func.type, func.freq)
                 attr_val.append(pin_obj)
@@ -187,21 +194,26 @@ class DeviceHandler():
         self.hw_interfaces["gpio"][pin_obj.name] = \
             GPIO(name=pin_obj.name, pin=pin_obj, type=self.GPIO_MAPPER[gpio_type])
 
-    def _i2c_pin(self, pin_obj, i2c_type, bus):
-        """Handle an i2c pin."""
-        name = f"i2c_{bus}"
+    def _busable_pin(self, pin_obj, type, bus, prefix, clss):
+        """_busable_pin
+
+        Args:
+            pin_obj ():
+            type ():
+            bus ():
+            prefix ():
+
+        Returns:
+        """
+        name = f"{prefix}_{bus}"
         try:
-            setattr(self.hw_interfaces["i2c"][name], i2c_type, pin_obj)
+            setattr(self.hw_interfaces[prefix][name], type, pin_obj)
         except KeyError:
-            self.hw_interfaces["i2c"][name] = I2C(name=name, bus=bus)
-            setattr(self.hw_interfaces["i2c"][name], i2c_type, pin_obj)
+            self.hw_interfaces[prefix][name] = clss(name=name, bus=bus)
+            setattr(self.hw_interfaces[prefix][name], type, pin_obj)
 
     def _spi_pin(self, pin_obj, spi_type, bus):
         """Handle an spi pin."""
-        pass
-
-    def _uart_pin(self, pin_obj, uart_type, bus):
-        """Handle an uart pin."""
         pass
 
     def _pwm_pin(self, pin_obj, freq):
