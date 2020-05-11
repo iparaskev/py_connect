@@ -183,7 +183,7 @@ class DeviceHandler():
                                 pin_obj, func.type, func.bus, "uart", UART
                             )
                         elif func.type in self.PWM_TYPES:
-                            self._pwm_pin(pin_obj, func.type, func.freq)
+                            self._pwm_pin(pin_obj, func.freq)
                 attr_val.append(pin_obj)
         else:
             attr_val = attr.val
@@ -223,7 +223,8 @@ class DeviceHandler():
 
     def _pwm_pin(self, pin_obj, freq):
         """Handle an pwm pin."""
-        pass
+        self.hw_interfaces["pwm"][pin_obj.name] = PWM(pin=pin_obj,
+                                                      frequency=freq)
 
     def _instantiate_network(self, net_inter):
         if isinstance(net_inter, self._get_class("WIFI")):
