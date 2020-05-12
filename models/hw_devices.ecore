@@ -88,8 +88,6 @@
         defaultValueLiteral="0"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="PWM" eSuperTypes="#//HwInterface">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="frequency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
-        defaultValueLiteral="0"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="pin" lowerBound="1" eType="#//DigitalPin"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="USB" eSuperTypes="#//HwInterface">
@@ -154,7 +152,10 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="baudrate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="-1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Pwm2Pwm" eSuperTypes="#//HwInt2HwInt"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Pwm2Pwm" eSuperTypes="#//HwInt2HwInt">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="frequency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="0"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Gpio2Gpio" eSuperTypes="#//HwInt2HwInt"/>
   <eClassifiers xsi:type="ecore:EClass" name="Network" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

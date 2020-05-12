@@ -307,21 +307,17 @@ class IOPin(Pin):
 class I2C(HwInterface):
 
     bus = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
-    addr = EAttribute(eType=EInt, derived=False, changeable=True, default_value=-1)
     is_master = EAttribute(eType=EBoolean, derived=False, changeable=True)
     max_master_cons = EAttribute(eType=EInt, derived=False, changeable=True, default_value=1008)
     sda = EReference(ordered=True, unique=True, containment=False)
     scl = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, sda=None, scl=None, bus=None, addr=None, is_master=None, max_master_cons=None, **kwargs):
+    def __init__(self, *, sda=None, scl=None, bus=None, is_master=None, max_master_cons=None, **kwargs):
 
         super().__init__(**kwargs)
 
         if bus is not None:
             self.bus = bus
-
-        if addr is not None:
-            self.addr = addr
 
         if is_master is not None:
             self.is_master = is_master
@@ -375,19 +371,15 @@ class SPI(HwInterface):
 class UART(HwInterface):
 
     bus = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
-    baudrate = EAttribute(eType=EInt, derived=False, changeable=True, default_value=-1)
     rx = EReference(ordered=True, unique=True, containment=False)
     tx = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, rx=None, tx=None, bus=None, baudrate=None, **kwargs):
+    def __init__(self, *, rx=None, tx=None, bus=None, **kwargs):
 
         super().__init__(**kwargs)
 
         if bus is not None:
             self.bus = bus
-
-        if baudrate is not None:
-            self.baudrate = baudrate
 
         if rx is not None:
             self.rx = rx
@@ -398,15 +390,11 @@ class UART(HwInterface):
 
 class PWM(HwInterface):
 
-    frequency = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
     pin = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, frequency=None, pin=None, **kwargs):
+    def __init__(self, *, pin=None, **kwargs):
 
         super().__init__(**kwargs)
-
-        if frequency is not None:
-            self.frequency = frequency
 
         if pin is not None:
             self.pin = pin
@@ -525,9 +513,14 @@ class Adc2Adc(HwInt2HwInt):
 
 class I2c2I2c(HwInt2HwInt):
 
-    def __init__(self, **kwargs):
+    slave_address = EAttribute(eType=EInt, derived=False, changeable=True)
+
+    def __init__(self, *, slave_address=None, **kwargs):
 
         super().__init__(**kwargs)
+
+        if slave_address is not None:
+            self.slave_address = slave_address
 
 
 class Spi2Spi(HwInt2HwInt):
@@ -544,16 +537,26 @@ class Spi2Spi(HwInt2HwInt):
 
 class Uart2Uart(HwInt2HwInt):
 
-    def __init__(self, **kwargs):
+    baudrate = EAttribute(eType=EInt, derived=False, changeable=True, default_value=-1)
+
+    def __init__(self, *, baudrate=None, **kwargs):
 
         super().__init__(**kwargs)
+
+        if baudrate is not None:
+            self.baudrate = baudrate
 
 
 class Pwm2Pwm(HwInt2HwInt):
 
-    def __init__(self, **kwargs):
+    frequency = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
+
+    def __init__(self, *, frequency=None, **kwargs):
 
         super().__init__(**kwargs)
+
+        if frequency is not None:
+            self.frequency = frequency
 
 
 class Gpio2Gpio(HwInt2HwInt):
