@@ -15,7 +15,7 @@ Peripheral:
 ;
 
 PERIPHERAL_ATTRS:
-    DEVICE_ATTRS | PERIPHERAL_TYPE | PINS | I2C_ADDR | UART_BAUD
+    DEVICE_ATTRS | PERIPHERAL_TYPE | PINS 
 ;
 
 PERIPHERAL_TYPE:
@@ -24,14 +24,6 @@ PERIPHERAL_TYPE:
 
 PER_TYPES:
 	"sensor" | "actuator"
-;
-
-I2C_ADDR:
-	name="i2c_addr" ":" val=INT
-;
-
-UART_BAUD:
-	name="uart_baudrate" ":" val=INT
 ;
 
 BOARD_ATTRS:
