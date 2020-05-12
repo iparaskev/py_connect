@@ -26,6 +26,7 @@ class ConnectionsHandler():
         self._model = self._hw_mm.model_from_file(join(self.DEVICE_DB,
                                                        connections_file))
         print(dir(self._model))
+        print(self._model.includes)
         print(self._model.connections)
         print(self._model.includes)
         print(self._model.connections[0].name)
