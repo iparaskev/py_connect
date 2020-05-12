@@ -164,7 +164,7 @@ DEVICE_ATTRS:
 ;
 
 VCC:
-    name="vcc" ":" val=NUMBER
+    name="vcc" ":" val=FLOAT
 ;
 
 NAME:
@@ -172,7 +172,7 @@ NAME:
 ;
 
 OP_VOLT:
-   name="operating_voltage" ":" val=NUMBER
+   name="operating_voltage" ":" val=FLOAT
 ;
 
 NETWORK:
