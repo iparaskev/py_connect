@@ -69,6 +69,8 @@ class DeviceHandler():
             "adc": {},
             "pwm": {}
         }
+        # Dictionary for power pins
+        self.power_pins = {}
 
         # Parse model.
         self.parse_model()
@@ -242,6 +244,7 @@ class DeviceHandler():
             if isinstance(pin, self._get_class("POWER_PIN")):
                 pin_obj = PowerPin(name=pin.name, number=pin.number,
                                    type=self.POWER_MAPPER[pin.type])
+                self.power_pins[pin.name] = pin_obj
             # Analog pin
             elif isinstance(pin, self._get_class("IO_ANALOG")):
                 pin_obj = AnalogPin(name=pin.name,
@@ -288,6 +291,9 @@ class DeviceHandler():
 
 def main():
     pi = DeviceHandler("debug.hwd")
+    sonar = DeviceHandler("sonar.hwd")
+    #print(pi.power_pins)
+    #print(sonar.power_pins)
 
 
 if __name__ == "__main__":
