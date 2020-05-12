@@ -67,8 +67,6 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="scl" lowerBound="1" eType="#//DigitalPin"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="bus" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="0"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="addr" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
-        defaultValueLiteral="-1"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="is_master" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="max_master_cons" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="1008"/>
@@ -146,7 +144,9 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Usb2Usb" eSuperTypes="#//HwInt2HwInt"/>
   <eClassifiers xsi:type="ecore:EClass" name="Adc2Adc" eSuperTypes="#//HwInt2HwInt"/>
-  <eClassifiers xsi:type="ecore:EClass" name="I2c2I2c" eSuperTypes="#//HwInt2HwInt"/>
+  <eClassifiers xsi:type="ecore:EClass" name="I2c2I2c" eSuperTypes="#//HwInt2HwInt">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="slave_address" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Spi2Spi" eSuperTypes="#//HwInt2HwInt">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ce_index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>

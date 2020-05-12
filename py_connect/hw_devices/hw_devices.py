@@ -375,15 +375,19 @@ class SPI(HwInterface):
 class UART(HwInterface):
 
     bus = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
+    baudrate = EAttribute(eType=EInt, derived=False, changeable=True, default_value=-1)
     rx = EReference(ordered=True, unique=True, containment=False)
     tx = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, rx=None, tx=None, bus=None, **kwargs):
+    def __init__(self, *, rx=None, tx=None, bus=None, baudrate=None, **kwargs):
 
         super().__init__(**kwargs)
 
         if bus is not None:
             self.bus = bus
+
+        if baudrate is not None:
+            self.baudrate = baudrate
 
         if rx is not None:
             self.rx = rx
@@ -540,14 +544,9 @@ class Spi2Spi(HwInt2HwInt):
 
 class Uart2Uart(HwInt2HwInt):
 
-    baudrate = EAttribute(eType=EInt, derived=False, changeable=True, default_value=-1)
-
-    def __init__(self, *, baudrate=None, **kwargs):
+    def __init__(self, **kwargs):
 
         super().__init__(**kwargs)
-
-        if baudrate is not None:
-            self.baudrate = baudrate
 
 
 class Pwm2Pwm(HwInt2HwInt):
