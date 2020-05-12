@@ -125,11 +125,12 @@
   <eClassifiers xsi:type="ecore:EClass" name="B2PConnection">
     <eStructuralFeatures xsi:type="ecore:EReference" name="hw_connections" upperBound="-1"
         eType="#//HwInt2HwInt"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="gnd_connections" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="power_connections" upperBound="-1"
         eType="#//Power2Power"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="board" lowerBound="1" eType="#//Board"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="peripheral" lowerBound="1"
         eType="#//Peripheral"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="HwInt2HwInt" abstract="true" eSuperTypes="#//Hw2Hw"/>
   <eClassifiers xsi:type="ecore:EClass" name="Power2Power" eSuperTypes="#//Hw2Hw"/>

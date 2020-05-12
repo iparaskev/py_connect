@@ -1,0 +1,62 @@
+// Grammar for a shema. A shema can have a board and multiple devices.
+
+SHEMA:
+	includes*=INCLUDE
+	connections*=CONNECTION
+;
+
+INCLUDE:
+	"include" name=ID
+;
+
+CONNECTION:
+	"connection:"
+	(("name:" name=ID)
+	 ("board:" board=ID)
+	 ("peripheral:" peripheral=ID)
+	("power_connections:"? power_conns*=POWER_CONNECTION)
+	("hw_connections:" hw_conns+=HW_CONNECTION))#
+;
+
+POWER_CONNECTION:
+	"-" board_power=ID "--" peripheral_power=ID
+;
+
+HW_CONNECTION:
+	GPIO | I2C | SPI | PWM | UART
+;
+
+GPIO:
+	"-" type="gpio" ":" board_int=ID "--" peripheral_int=ID
+;
+
+PWM:
+	"-" type="pwm" ":" board_int=ID "--" peripheral_int=ID
+	"frequency:" frequency=FREQUENCY
+;
+
+FREQUENCY:
+	val=FLOAT unit=FREQ_UNIT
+;
+
+FREQ_UNIT:
+	"hz" | "khz" | "mhz" | "ghz"
+;
+
+SPI:
+	"-" type="spi" ":" board_int=ID "--" peripheral_int=ID
+;
+
+I2C:
+	"-" type="i2c" ":" board_int=ID "--" peripheral_int=ID
+	"slave_address:" slave_addr=INT
+;
+
+UART:
+	"-" type="uart" ":" board_int=ID "--" peripheral_int=ID
+	"baudrate:" baudrate=INT
+;
+
+Comment:
+  /\/\/.*$/
+;

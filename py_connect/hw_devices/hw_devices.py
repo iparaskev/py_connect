@@ -156,22 +156,26 @@ class CPU(EObject, metaclass=MetaEClass):
 
 class B2PConnection(EObject, metaclass=MetaEClass):
 
+    name = EAttribute(eType=EString, derived=False, changeable=True)
     hw_connections = EReference(ordered=True, unique=True, containment=False, upper=-1)
-    gnd_connections = EReference(ordered=True, unique=True, containment=False, upper=-1)
+    power_connections = EReference(ordered=True, unique=True, containment=False, upper=-1)
     board = EReference(ordered=True, unique=True, containment=False)
     peripheral = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, hw_connections=None, gnd_connections=None, board=None, peripheral=None, **kwargs):
+    def __init__(self, *, hw_connections=None, power_connections=None, board=None, peripheral=None, name=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
         super().__init__()
 
+        if name is not None:
+            self.name = name
+
         if hw_connections:
             self.hw_connections.extend(hw_connections)
 
-        if gnd_connections:
-            self.gnd_connections.extend(gnd_connections)
+        if power_connections:
+            self.power_connections.extend(power_connections)
 
         if board is not None:
             self.board = board
