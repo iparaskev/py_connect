@@ -18,28 +18,34 @@ class DeviceHandler():
     Args:
     """
 
-    MM_GRAMMAR = join(dirname(__file__), "hw_devices.tx")
-    DEVICE_DB = dirname(__file__)
+    MM_GRAMMAR = join(dirname(__file__), "hw_devices.tx")  # path of grammar
+    DEVICE_DB = dirname(__file__)  # path of devices db
+    # Mapper of os ecore types.
     OS_MAPPER = {
         "raspbian": OSType.RASPBIAN,
         "riot": OSType.RIOT
     }
+    # Mapper of peripheral type ecore types.
     PER_MAPPER = {
         "sensor": PeripheralType.SENSOR,
         "actuator": PeripheralType.ACTUATOR
     }
+    # Mapper of power_pin type ecore types.
     POWER_MAPPER = {
         "gnd": PowerType.GND,
         "3v3": PowerType.Power3V3,
         "5v": PowerType.Power5V,
     }
+    # Mapper of gpio type ecore types.
     GPIO_MAPPER = {
         "input": GPIOType.INPUT,
         "output": GPIOType.OUTPUT,
         "both": GPIOType.BOTH,
     }
+    # Multipliers for values
     FREQ_MULT = {"hz": 1., "ghz": 10.**9}
     MEM_MULT = {"b": 1., "kb": 1024, "mb": 1024*1024, "gb": 1024*1024*1024}
+    # Possible values of gpio pin functionalities per hw interface.
     GPIO_TYPES = ["input", "output", "both"]
     I2C_TYPES = ["sda", "scl"]
     SPI_TYPES = ["mosi", "miso", "sclk", "ce"]
@@ -66,7 +72,8 @@ class DeviceHandler():
 
         # Parse model.
         self.parse_model()
-        print(self.hw_interfaces)
+        print(self.dev)
+        #print(self.hw_interfaces["i2c"]["i2c_0"].is_master)
         #print(self.hw_interfaces["i2c"]["i2c_0"].sda.name)
         #print(self.hw_interfaces["i2c"]["i2c_0"].scl.name)
         #print(self.hw_interfaces["uart"]["uart_0"].tx.name)
@@ -81,20 +88,28 @@ class DeviceHandler():
         """
         # Create proper device object
         if isinstance(self._model, self._get_class("Board")):
-            self.dev = self._instantiate_board(self._model)
-        elif isinstance(self._model, self._get_class("Peripheral")):
-            self.dev = self._instantiate_peripheral(self._model)
+            self.dev = self._instantiate_device(self._model, Board)
 
-    def _instantiate_board(self, model):
+            # Make master all i2c and spi interfaces
+            for key, i2c in self.hw_interfaces["i2c"].items():
+                i2c.is_master = True
+            for key, spi in self.hw_interfaces["spi"].items():
+                spi.is_master = True
+        elif isinstance(self._model, self._get_class("Peripheral")):
+            self.dev = self._instantiate_device(self._model, Peripheral)
+            setattr(self.dev, "type", self._per_type)
+
+    def _instantiate_device(self, model, device_class):
         """Instantiate a board object from textx model.
 
         Args:
             model (textx model): The model.
+            device_class
 
         Returns:
             (Board instance): A Board instance
         """
-        dev = Board()
+        dev = device_class()
 
         count_dic = {}  # Dictionary for checking duplicates
 
@@ -108,90 +123,44 @@ class DeviceHandler():
 
             self._handle_attr(attr, dev)
 
-    #TODO: cleaner setattr
-    def _handle_attr(self, attr, dev):  # noqa C901
+        # Create hw_interfaces
+        for hw_key in self.hw_interfaces.keys():
+            for key, interface in self.hw_interfaces[hw_key].items():
+                dev.hw_interfaces.append(interface)
+
+        return dev
+
+    def _handle_attr(self, attr, dev):
         """Handle an attribute"""
         attr_val = None
         list_flag = False
 
-        if attr.name == "os":                             # os attribute
+        if attr.name == "os":
             attr_val = self.OS_MAPPER[attr.val]
-        elif attr.name == "network":                      # network attribute
-            # Create new interfaces and append to list
-            net_ls = []
-            for net_inter in attr.val:
-                net = self._instantiate_network(net_inter)
-                net_ls.append(net)
-            attr_val = net_ls
+        elif attr.name == "network":
+            attr_val = self._create_network(attr.val)
             list_flag = True
-        elif attr.name == "bluetooth":                   # bluetooth attribute
+        elif attr.name == "bluetooth":
             attr_val = Bluetooth(version=attr.val.version)
         elif attr.name == "cpu":
             attr_val = CPU(cpu_family=attr.val.cpu_family,
                            max_freq=float(attr.val.max_freq
                                           * self.FREQ_MULT[attr.val.unit]),
                            fpu=attr.val.fpu)
-        elif attr.name == "memory":                      # memory attribute
-            ram_val = float(attr.val.ram.val * self.MEM_MULT[attr.val.ram.unit])\
-                if attr.val.ram is not None else None
-            rom_val = float(attr.val.rom.val * self.MEM_MULT[attr.val.rom.unit])\
-                if attr.val.rom is not None else None
-            external_memory_val =\
-                float(attr.val.external_memory.val
-                      * self.MEM_MULT[attr.val.external_memory.unit]) \
-                if attr.val.external_memory is not None else None
-            attr_val = \
-                Memory(ram=ram_val, rom=rom_val,
-                       external_memory=external_memory_val)
+        elif attr.name == "memory":
+            attr_val = self._create_memory(attr.val)
         elif attr.name == "type":
-            pass
+            self._per_type = self.PER_MAPPER[attr.val]
         elif attr.name == "pins":
             list_flag = True
-            attr_val = []
-            # Iterate through all pins
-            for pin in attr.val:
-                pin_obj = None  # The pin object to be appended
-
-                # Power pin
-                if isinstance(pin, self._get_class("POWER_PIN")):
-                    pin_obj = PowerPin(name=pin.name, number=pin.number,
-                                       type=self.POWER_MAPPER[pin.type])
-                # Analog pin
-                elif isinstance(pin, self._get_class("IO_ANALOG")):
-                    pin_obj = AnalogPin(name=pin.name,
-                                        number=pin.number,
-                                        vmax=pin.vmax)
-                # Digital pin
-                else:
-                    pin_obj = DigitalPin(name=pin.name,
-                                         number=pin.number)
-
-                    # Parse function to make hw interfaces
-                    for func in pin.funcs:
-                        if func.type in self.GPIO_TYPES:
-                            self._gpio_pin(pin_obj, func.type)
-                        elif func.type in self.I2C_TYPES:
-                            self._busable_pin(
-                                pin_obj, func.type, func.bus, "i2c", I2C
-                            )
-                        elif func.type in self.SPI_TYPES:
-                            self._busable_pin(
-                                pin_obj, func.type, func.bus, "spi", SPI
-                            )
-                        elif func.type in self.UART_TYPES:
-                            self._busable_pin(
-                                pin_obj, func.type, func.bus, "uart", UART
-                            )
-                        elif func.type in self.PWM_TYPES:
-                            self._pwm_pin(pin_obj, func.freq)
-                attr_val.append(pin_obj)
+            attr_val = self._create_pins(attr.val)
         else:
             attr_val = attr.val
 
         # Set attribute
         if list_flag:
             getattr(dev, attr.name).extend(attr_val)
-        else:
+        elif attr_val:
             setattr(dev, attr.name, attr_val)
         #print(f"Attribute: {attr.name} Value: {getattr(dev, attr.name)}")
 
@@ -226,35 +195,84 @@ class DeviceHandler():
         self.hw_interfaces["pwm"][pin_obj.name] = PWM(pin=pin_obj,
                                                       frequency=freq)
 
-    def _instantiate_network(self, net_inter):
-        if isinstance(net_inter, self._get_class("WIFI")):
-            net = Wifi()
-            freq_ls = []
-            # Append frequencies.
-            for f in net_inter.freq:
-                freq_ls.append(
-                    WifiFreq(freq=f*self.FREQ_MULT[net_inter.unit])
-                )
-            getattr(net, "freqs").extend(freq_ls)
+    def _create_network(self, networks):
+        # Create new interfaces and append to list
+        net_ls = []
+        for net_inter in networks:
+            if isinstance(net_inter, self._get_class("WIFI")):
+                net = Wifi()
+                freq_ls = []
+                # Append frequencies.
+                for f in net_inter.freq:
+                    freq_ls.append(
+                        WifiFreq(freq=f*self.FREQ_MULT[net_inter.unit])
+                    )
+                getattr(net, "freqs").extend(freq_ls)
+                #print(f"Wifi: {[f.freq for f in net.freqs]}")
+            elif isinstance(net_inter, self._get_class("ETHERNET")):
+                net = Ethernet()
+            setattr(net, "name", net_inter.name)
+            net_ls.append(net)
+        #print(f"Net: {net.name}")
 
-            print(f"Wifi: {[f.freq for f in net.freqs]}")
-        elif isinstance(net_inter, self._get_class("ETHERNET")):
-            net = Ethernet()
-        setattr(net, "name", net_inter.name)
-        print(f"Net: {net.name}")
+        return net_ls
 
-        return net
+    def _create_memory(self, memory):
+        """Create memory object"""
+        ram_val = float(memory.ram.val * self.MEM_MULT[memory.ram.unit])\
+            if memory.ram is not None else None
+        rom_val = float(memory.rom.val * self.MEM_MULT[memory.rom.unit])\
+            if memory.rom is not None else None
+        external_memory_val =\
+            float(memory.external_memory.val
+                  * self.MEM_MULT[memory.external_memory.unit]) \
+            if memory.external_memory is not None else None
 
-    def _instantiate_peripheral(self, model):
-        """Instantiate a peripheral object from textx model.
+        return \
+            Memory(ram=ram_val, rom=rom_val, external_memory=external_memory_val)
 
-        Args:
-            model (textx model): The model.
+    def _create_pins(self, pins):
+        """Create pins"""
+        attr_val = []
+        # Iterate through all pins
+        for pin in pins:
+            pin_obj = None  # The pin object to be appended
 
-        Returns:
-            (Peripheral instance): A Peripheral instance
-        """
-        pass
+            # Power pin
+            if isinstance(pin, self._get_class("POWER_PIN")):
+                pin_obj = PowerPin(name=pin.name, number=pin.number,
+                                   type=self.POWER_MAPPER[pin.type])
+            # Analog pin
+            elif isinstance(pin, self._get_class("IO_ANALOG")):
+                pin_obj = AnalogPin(name=pin.name,
+                                    number=pin.number,
+                                    vmax=pin.vmax)
+            # Digital pin
+            else:
+                pin_obj = DigitalPin(name=pin.name,
+                                     number=pin.number)
+
+                # Parse function to make hw interfaces
+                for func in pin.funcs:
+                    if func.type in self.GPIO_TYPES:
+                        self._gpio_pin(pin_obj, func.type)
+                    elif func.type in self.I2C_TYPES:
+                        self._busable_pin(
+                            pin_obj, func.type, func.bus, "i2c", I2C
+                        )
+                    elif func.type in self.SPI_TYPES:
+                        self._busable_pin(
+                            pin_obj, func.type, func.bus, "spi", SPI
+                        )
+                    elif func.type in self.UART_TYPES:
+                        self._busable_pin(
+                            pin_obj, func.type, func.bus, "uart", UART
+                        )
+                    elif func.type in self.PWM_TYPES:
+                        self._pwm_pin(pin_obj, func.freq)
+            attr_val.append(pin_obj)
+
+        return attr_val
 
     def _get_class(self, name):
         """Get class from textx meta model.
