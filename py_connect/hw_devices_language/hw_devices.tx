@@ -93,7 +93,7 @@ UART_TYPE:
 ;
 
 PWM:
-	type="pwm" ("at" freq=INT)?
+	type="pwm" 
 ;
 
 IO_ANALOG:

@@ -74,14 +74,6 @@ class DeviceHandler():
 
         # Parse model.
         self.parse_model()
-        print(self.dev)
-        #print(self.hw_interfaces["i2c"]["i2c_0"].is_master)
-        #print(self.hw_interfaces["i2c"]["i2c_0"].sda.name)
-        #print(self.hw_interfaces["i2c"]["i2c_0"].scl.name)
-        #print(self.hw_interfaces["uart"]["uart_0"].tx.name)
-        #print(self.hw_interfaces["spi"]["spi_0"].mosi.name)
-        #print(self.hw_interfaces["spi"]["spi_0"].miso.name)
-        #print(self.hw_interfaces["spi"]["spi_0"].sclk.name)
 
     def parse_model(self):
         """Parse the textx model.
@@ -106,7 +98,7 @@ class DeviceHandler():
 
         Args:
             model (textx model): The model.
-            device_class
+            device_class (class): Class for devices.
 
         Returns:
             (Board instance): A Board instance
@@ -133,7 +125,12 @@ class DeviceHandler():
         return dev
 
     def _handle_attr(self, attr, dev):
-        """Handle an attribute"""
+        """Set an attribute in the device object.
+
+        Args:
+            attr (textx object): The attribute to be added
+            dev (Device object): The device to be updated
+        """
         attr_val = None
         list_flag = False
 
@@ -164,23 +161,20 @@ class DeviceHandler():
             getattr(dev, attr.name).extend(attr_val)
         elif attr_val:
             setattr(dev, attr.name, attr_val)
-        #print(f"Attribute: {attr.name} Value: {getattr(dev, attr.name)}")
 
     def _gpio_pin(self, pin_obj, gpio_type):
-        """Instanciate a gpio hw interface."""
+        """Instantiate a gpio hw interface."""
         self.hw_interfaces["gpio"][pin_obj.name] = \
             GPIO(name=pin_obj.name, pin=pin_obj, type=self.GPIO_MAPPER[gpio_type])
 
     def _busable_pin(self, pin_obj, type, bus, prefix, clss):
-        """_busable_pin
+        """Create a hw interface for a busable pin update attrs.
 
         Args:
-            pin_obj ():
-            type ():
-            bus ():
-            prefix ():
-
-        Returns:
+            pin_obj (Pin object): The pin to be added as attribute.
+            type (str): The name of the attribute.
+            bus (int): The bus of the hw interface.
+            prefix (str): Prefix for getting the right dictionary. Ex i2c
         """
         name = f"{prefix}_{bus}"
         try:
@@ -192,10 +186,14 @@ class DeviceHandler():
         except BadValueError:
             getattr(self.hw_interfaces[prefix][name], type).append(pin_obj)
 
-    def _pwm_pin(self, pin_obj, freq):
-        """Handle an pwm pin."""
-        self.hw_interfaces["pwm"][pin_obj.name] = PWM(pin=pin_obj,
-                                                      frequency=freq)
+    def _pwm_pin(self, pin_obj):
+        """Create a pwm hw interface
+
+        Args:
+            pin_obj (Pin object): The pin to be added as attribute.
+
+        """
+        self.hw_interfaces["pwm"][pin_obj.name] = PWM(pin=pin_obj)
 
     def _create_network(self, networks):
         # Create new interfaces and append to list
@@ -272,7 +270,7 @@ class DeviceHandler():
                             pin_obj, func.type, func.bus, "uart", UART
                         )
                     elif func.type in self.PWM_TYPES:
-                        self._pwm_pin(pin_obj, func.freq)
+                        self._pwm_pin(pin_obj)
             attr_val.append(pin_obj)
 
         return attr_val
@@ -290,8 +288,9 @@ class DeviceHandler():
 
 
 def main():
-    pi = DeviceHandler("debug.hwd")
-    sonar = DeviceHandler("sonar.hwd")
+    pass
+    #pi = DeviceHandler("debug.hwd")
+    #sonar = DeviceHandler("sonar.hwd")
     #print(pi.power_pins)
     #print(sonar.power_pins)
 
