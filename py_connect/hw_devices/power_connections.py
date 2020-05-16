@@ -11,7 +11,11 @@ def connect(self):
 
     They must be of the same type.
     """
-    self.board_power.outbound.append(self.peripheral_power)
+    if self.pin_1.type == self.pin_2.type:
+        self.pin_1.connected = True
+        self.pin_2.connected = True
+    else:
+        print("Not the same types")
 
 
 Power2Power.connect = connect

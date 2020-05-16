@@ -18,7 +18,7 @@ def check_same(interface_1, interface_2):
     Returns:
         (bool): Indicating if the two instances are of the same class.
     """
-
+    pass
 
 
 def usb_connect(self):
@@ -91,9 +91,9 @@ def gpio_connect(self):
 
 
 # Add the behaviours to the meta classes
-HwInt2HwInt.connect = connect
-HwInt2HwInt.i2c_connect = i2c_connect
-HwInt2HwInt.spi_connect = spi_connect
-HwInt2HwInt.uart_connect = uart_connect
-HwInt2HwInt.pwm_connect = pwm_connect
-HwInt2HwInt.gpio_connect = gpio_connect
+#HwInt2HwInt.connect = connect
+#HwInt2HwInt.i2c_connect = i2c_connect
+#HwInt2HwInt.spi_connect = spi_connect
+#HwInt2HwInt.uart_connect = uart_connect
+#HwInt2HwInt.pwm_connect = pwm_connect
+#HwInt2HwInt.gpio_connect = gpio_connect
