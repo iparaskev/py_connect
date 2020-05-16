@@ -37,6 +37,8 @@ B2PConnection.board.eType = Board
 B2PConnection.peripheral.eType = Peripheral
 Power2Power.pin_1.eType = PowerPin
 Power2Power.pin_2.eType = PowerPin
+Gpio2Gpio.hwint_1.eType = GPIO
+Gpio2Gpio.hwint_2.eType = GPIO
 Wifi.freqs.eType = WifiFreq
 
 otherClassifiers = [PeripheralType, CpuFamily, GPIOType, USBType, OSType, PowerType]

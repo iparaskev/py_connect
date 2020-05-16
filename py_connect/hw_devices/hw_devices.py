@@ -574,6 +574,15 @@ class Pwm2Pwm(HwInt2HwInt):
 
 class Gpio2Gpio(HwInt2HwInt):
 
-    def __init__(self, **kwargs):
+    hwint_1 = EReference(ordered=True, unique=True, containment=False)
+    hwint_2 = EReference(ordered=True, unique=True, containment=False)
+
+    def __init__(self, *, hwint_1=None, hwint_2=None, **kwargs):
 
         super().__init__(**kwargs)
+
+        if hwint_1 is not None:
+            self.hwint_1 = hwint_1
+
+        if hwint_2 is not None:
+            self.hwint_2 = hwint_2
