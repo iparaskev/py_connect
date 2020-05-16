@@ -61,13 +61,48 @@ class ConnectionsHandler():
         power_connections = []
         for p_con in connection.power_conns:
             #TODO: key error means wrong pin name of device
-            p2p_con = Power2Power(pin_1=board.power_pins[p_con.board_power],
-                                  pin_2=periph.power_pins[p_con.peripheral_power])
-            p2p_con.connect()
+            #p2p_con = Power2Power(pin_1=board.power_pins[p_con.board_power],
+            #                      pin_2=periph.power_pins[p_con.peripheral_power])
+            #p2p_con.connect()
+            p2p_con =\
+                self._create_connection(
+                    Power2Power, "pin_1", board.power_pins[p_con.board_power],
+                    "pin_2", periph.power_pins[p_con.peripheral_power]
+                )
             power_connections.append(p2p_con)
         getattr(conn, "power_connections").extend(power_connections)
 
         # Hardware connections
+        return conn
+
+    def _con_args(self, key_1, val_1, key_2, val_2):
+        """Make a dictionary for Hw2Hw connection args
+
+        Args:
+            key_1 (str): The name of the first arg
+            val_1 (HwInterface): Value of the first arg
+            key_2 (str): The name of the second arg
+            val_2 (HwInterface): Value of the second arg
+
+        Returns:
+            (dict)
+        """
+        return {key_1: val_1, key_2: val_2}
+
+    def _create_connection(self, clss, key_1, val_1, key_2, val_2):
+        """_create_connection
+
+        Args:
+            key_1 ():
+            val_1 ():
+            key_2 ():
+            val_2 ():
+
+        Returns:
+        """
+        args = self._con_args(key_1, val_1, key_2, val_2)
+        conn = clss(**args)
+        conn.connect()
         return conn
 
     def get_device(self, key, number=0):
