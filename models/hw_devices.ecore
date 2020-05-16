@@ -10,8 +10,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="hw_interfaces" upperBound="-1"
         eType="#//HwInterface" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="network" upperBound="-1"
-        eType="#//Network"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="bluetooth" eType="#//Bluetooth"/>
+        eType="#//Network" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="bluetooth" eType="#//Bluetooth"
+        containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Board" eSuperTypes="#//Device">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="timers" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
@@ -127,10 +128,10 @@
         eType="#//HwInt2HwInt"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="power_connections" upperBound="-1"
         eType="#//Power2Power"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="board" lowerBound="1" eType="#//Board"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="peripheral" lowerBound="1"
         eType="#//Peripheral"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="HwInt2HwInt" abstract="true" eSuperTypes="#//Hw2Hw"/>
   <eClassifiers xsi:type="ecore:EClass" name="Power2Power" eSuperTypes="#//Hw2Hw"/>
@@ -163,7 +164,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Wifi" eSuperTypes="#//Network">
     <eStructuralFeatures xsi:type="ecore:EReference" name="freqs" upperBound="-1"
-        eType="#//WifiFreq"/>
+        eType="#//WifiFreq" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Ethernet" eSuperTypes="#//Network"/>
   <eClassifiers xsi:type="ecore:EClass" name="Bluetooth">

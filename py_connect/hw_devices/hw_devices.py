@@ -33,8 +33,8 @@ class Device(EObject, metaclass=MetaEClass):
     operating_voltage = EAttribute(eType=EFloat, derived=False, changeable=True)
     pins = EReference(ordered=True, unique=True, containment=True, upper=-1)
     hw_interfaces = EReference(ordered=True, unique=True, containment=True, upper=-1)
-    network = EReference(ordered=True, unique=True, containment=False, upper=-1)
-    bluetooth = EReference(ordered=True, unique=True, containment=False)
+    network = EReference(ordered=True, unique=True, containment=True, upper=-1)
+    bluetooth = EReference(ordered=True, unique=True, containment=True)
 
     def __init__(self, *, vcc=None, name=None, pins=None, operating_voltage=None, hw_interfaces=None, network=None, bluetooth=None, **kwargs):
         if kwargs:
@@ -162,7 +162,7 @@ class B2PConnection(EObject, metaclass=MetaEClass):
     board = EReference(ordered=True, unique=True, containment=False)
     peripheral = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, hw_connections=None, power_connections=None, board=None, peripheral=None, name=None, **kwargs):
+    def __init__(self, *, hw_connections=None, power_connections=None, name=None, board=None, peripheral=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -465,7 +465,7 @@ class Power2Power(Hw2Hw):
 
 class Wifi(Network):
 
-    freqs = EReference(ordered=True, unique=True, containment=False, upper=-1)
+    freqs = EReference(ordered=True, unique=True, containment=True, upper=-1)
 
     def __init__(self, *, freqs=None, **kwargs):
 
