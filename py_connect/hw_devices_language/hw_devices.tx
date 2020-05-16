@@ -6,16 +6,30 @@ Device:
 // Board meta model
 Board:
     'board:'
-      attrs*=BOARD_ATTRS
+	((memory=MEMORY)
+	 (timers=TIMERS)
+	 (rtc=RTC)?
+	 (battery=BATTERY)?
+	 (dma=DMA)?
+	 (os=OS)
+	 (cpu=CPU)
+	 (pins=PINS)
+	 (vcc=VCC) 
+	 (name=NAME)
+	 (op_volt=OP_VOLT)
+	 (network=NETWORK)?
+	 (bluetooth=BLUETOOTH)?)#
 ;
 
 Peripheral:
     'peripheral:'
-	  attrs*=PERIPHERAL_ATTRS
-;
-
-PERIPHERAL_ATTRS:
-    DEVICE_ATTRS | PERIPHERAL_TYPE | PINS 
+	 ((type=PERIPHERAL_TYPE)
+	 (pins=PINS)
+	 (vcc=VCC) 
+	 (name=NAME)
+	 (op_volt=OP_VOLT)
+	 (network=NETWORK)?
+	 (bluetooth=BLUETOOTH)?)#
 ;
 
 PERIPHERAL_TYPE:
@@ -24,10 +38,6 @@ PERIPHERAL_TYPE:
 
 PER_TYPES:
 	"sensor" | "actuator"
-;
-
-BOARD_ATTRS:
-    DEVICE_ATTRS | MEMORY | TIMERS | RTC | BATTERY | DMA | OS | CPU | PINS
 ;
 
 PINS:
@@ -159,10 +169,6 @@ UNITS:
     ("kb" | "mb" | "gb" | "b")
 ;
 
-DEVICE_ATTRS:
-    VCC | NAME | OP_VOLT | NETWORK | BLUETOOTH
-;
-
 VCC:
     name="vcc" ":" val=FLOAT
 ;
@@ -212,4 +218,8 @@ ATTRIBUTE:
 
 VAL_TYPE:
     NUMBER | ID
+;
+
+Comment:
+  /\/\/.*$/
 ;

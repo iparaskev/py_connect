@@ -108,14 +108,9 @@ class DeviceHandler():
         count_dic = {}  # Dictionary for checking duplicates
 
         # Parse attributes
-        for attr in model.attrs:
-            try:
-                count_dic[attr.name] += 1
-                # TODO raise duplicate exception
-            except KeyError:
-                count_dic[attr.name] = 1
-
-            self._handle_attr(attr, dev)
+        for key, val in model.__dict__.items():
+            if key[0] != "_" and val:
+                self._handle_attr(val, dev)
 
         # Create hw_interfaces
         for hw_key in self.hw_interfaces.keys():
