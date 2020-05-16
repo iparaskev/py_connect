@@ -458,9 +458,18 @@ class HwInt2HwInt(Hw2Hw):
 
 class Power2Power(Hw2Hw):
 
-    def __init__(self, **kwargs):
+    pin_1 = EReference(ordered=True, unique=True, containment=False)
+    pin_2 = EReference(ordered=True, unique=True, containment=False)
+
+    def __init__(self, *, pin_1=None, pin_2=None, **kwargs):
 
         super().__init__(**kwargs)
+
+        if pin_1 is not None:
+            self.pin_1 = pin_1
+
+        if pin_2 is not None:
+            self.pin_2 = pin_2
 
 
 class Wifi(Network):
