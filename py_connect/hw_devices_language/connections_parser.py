@@ -20,6 +20,17 @@ class ConnectionsHandler():
     MM_GRAMMAR = join(dirname(__file__), "connection.tx")  # path of grammar
     DEVICE_DB = dirname(__file__)  # path of devices db
 
+    # Map for the hw interface connections.
+    CONN_MAP = {
+        "power": Power2Power,
+        "gpio": Gpio2Gpio,
+        "i2c": I2c2I2c,
+        "spi": Spi2Spi,
+        "uart": Uart2Uart,
+        "pwm": Pwm2Pwm,
+        "adc": Adc2Adc,
+    }
+
     def __init__(self, connections_file):
         """Constructor"""
         # Load metamodel.
@@ -61,35 +72,28 @@ class ConnectionsHandler():
         power_connections = []
         for p_con in connection.power_conns:
             #TODO: key error means wrong pin name of device
-            #p2p_con = Power2Power(pin_1=board.power_pins[p_con.board_power],
-            #                      pin_2=periph.power_pins[p_con.peripheral_power])
-            #p2p_con.connect()
             p2p_con =\
-                self._create_connection(
-                    Power2Power, "pin_1", board.power_pins[p_con.board_power],
-                    "pin_2", periph.power_pins[p_con.peripheral_power]
-                )
+                self._create_conn(self.CONN_MAP["power"], "pin_1",
+                                  board.power_pins[p_con.board_power], "pin_2",
+                                  periph.power_pins[p_con.peripheral_power])
             power_connections.append(p2p_con)
         getattr(conn, "power_connections").extend(power_connections)
 
         # Hardware connections
+        hw_connections = []
+        for h_conn in connection.hw_conns:
+            h2h_con =\
+                self._create_conn(
+                    self.CONN_MAP[h_conn.type], "hwint_1",
+                    board.hw_interfaces[h_conn.type][h_conn.board_int], "hwint_2",
+                    periph.hw_interfaces[h_conn.type][h_conn.peripheral_int]
+                )
+            hw_connections.append(h2h_con)
+        getattr(conn, "hw_connections").extend(hw_connections)
+
         return conn
 
-    def _con_args(self, key_1, val_1, key_2, val_2):
-        """Make a dictionary for Hw2Hw connection args
-
-        Args:
-            key_1 (str): The name of the first arg
-            val_1 (HwInterface): Value of the first arg
-            key_2 (str): The name of the second arg
-            val_2 (HwInterface): Value of the second arg
-
-        Returns:
-            (dict)
-        """
-        return {key_1: val_1, key_2: val_2}
-
-    def _create_connection(self, clss, key_1, val_1, key_2, val_2):
+    def _create_conn(self, clss, key_1, val_1, key_2, val_2):
         """_create_connection
 
         Args:
@@ -100,7 +104,7 @@ class ConnectionsHandler():
 
         Returns:
         """
-        args = self._con_args(key_1, val_1, key_2, val_2)
+        args = {key_1: val_1, key_2: val_2}
         conn = clss(**args)
         conn.connect()
         return conn
@@ -133,6 +137,14 @@ def main():
     print(connections.connections["rpi_sonar_2"].board)
     print(connections.connections["rpi_sonar_2"].peripheral)
     print(connections.connections["rpi_sonar"].power_connections[0].pin_1.name)
+    print(connections.connections["rpi_sonar"].hw_connections[0].hwint_1.pin.name)
+    print(connections.connections["rpi_sonar"].hw_connections[0].hwint_2.pin.name)
+    print(connections.connections["rpi_sonar"].hw_connections[1].hwint_1.pin.name)
+    print(connections.connections["rpi_sonar"].hw_connections[1].hwint_2.pin.name)
+    print(connections.connections["rpi_sonar_2"].hw_connections[0].hwint_1.pin.name)
+    print(connections.connections["rpi_sonar_2"].hw_connections[0].hwint_2.pin.name)
+    print(connections.connections["rpi_sonar_2"].hw_connections[1].hwint_1.pin.name)
+    print(connections.connections["rpi_sonar_2"].hw_connections[1].hwint_2.pin.name)
 
 
 if __name__ == "__main__":
