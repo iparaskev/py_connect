@@ -18,7 +18,8 @@ class ConnectionsHandler():
     """Class for handling connections"""
 
     MM_GRAMMAR = join(dirname(__file__), "connection.tx")  # path of grammar
-    DEVICE_DB = dirname(__file__)  # path of devices db
+    #TODO fix this ugly thing when the structure will be ready
+    DEVICE_DB = "/home/iasonas/Projects/thesis/devices_db"
 
     # Map for the hw interface connections.
     CONN_MAP = {

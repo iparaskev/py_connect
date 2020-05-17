@@ -1,10 +1,10 @@
-include debug
-include sonar
+include rpi_3b_plus
+include hc_sr04
 
 connection:
     name: rpi_sonar
-    board: debug
-    peripheral: sonar
+    board: rpi_3b_plus
+    peripheral: hc_sr04
     power_connections:
 	- gnd_1 -- gnd
 	- power_5v_1 -- vcc 
@@ -14,8 +14,8 @@ connection:
 
 connection:
     name: rpi_sonar_2
-    board: debug
-    peripheral: sonar (2)
+    board: rpi_3b_plus
+    peripheral: hc_sr04 (2)
     power_connections:
 	- gnd_1 -- gnd
 	- power_5v_2 -- vcc 

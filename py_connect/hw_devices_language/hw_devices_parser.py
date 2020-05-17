@@ -19,7 +19,9 @@ class DeviceHandler():
     """
 
     MM_GRAMMAR = join(dirname(__file__), "hw_devices.tx")  # path of grammar
-    DEVICE_DB = dirname(__file__)  # path of devices db
+    # path of devices db
+    #TODO fix this ugly thing when the structure will be ready
+    DEVICE_DB = "/home/iasonas/Projects/thesis/devices_db"
     # Mapper of os ecore types.
     OS_MAPPER = {
         "raspbian": OSType.RASPBIAN,
@@ -284,8 +286,7 @@ class DeviceHandler():
 
 
 def main():
-    pass
-    #pi = DeviceHandler("debug.hwd")
+    pi = DeviceHandler("rpi_3b_plus.hwd")
     #sonar = DeviceHandler("sonar.hwd")
     #print(pi.power_pins)
     #print(sonar.power_pins)
