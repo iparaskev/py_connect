@@ -88,6 +88,8 @@ class ConnectionsHandler():
                     board.hw_interfaces[h_conn.type][h_conn.board_int], "hwint_2",
                     periph.hw_interfaces[h_conn.type][h_conn.peripheral_int]
                 )
+
+            # Extra steps for specific hw interfaces.
             hw_connections.append(h2h_con)
         getattr(conn, "hw_connections").extend(hw_connections)
 
