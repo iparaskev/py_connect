@@ -84,16 +84,52 @@ def pwm_connect(self):
 
 def gpio_connect(self):
     """gpio connections."""
-    # TODO check valid connectivity. If it is connected no connection.
+    # GPIO logic error
+    if self.hwint_1.type == self.hwint_2.type and not self.hwint_1 == GPIOType.BOTH:
+        print("Invalid connection. GPIO types should be input-output")
 
-    self.board_hw.connection = self.peripheral_hw
-    self.peripheral_hw.connection = self.board_hw.connection
+    # General hw int erros
+    check_ints(self.hwint_1, self.hwint_2)
+
+    # Update interfaces
+    update_int(self.hwint_1, [self.hwint_1.pin])
+    update_int(self.hwint_2, [self.hwint_2.pin])
+
+
+def update_int(hw_int, pins):
+    """Update the connections for a hw interface and the state of the pins that
+    it has.
+
+    Args:
+        hw_int (HwInterface):
+        pins (list): A list with Pin objects.
+    """
+    hw_int.num_connections += 1
+    for pin in pins:
+        pin.connected = True
+
+
+def check_ints(hwint_1, hwint_2):
+    """Check if two hw interfaces have exceed the max connections before their
+    connection.
+
+    Args:
+        hwint_1 (HwInterface):
+        hwint_2 (HwInterface):
+
+    Raises:
+    """
+    max_c = hwint_1.max_connections
+    if hwint_1.num_connections == hwint_1.max_connections:
+        print(f"{hwint_1.name} can't make more than {max_c} connections.")
+
+    if hwint_2.num_connections == hwint_2.max_connections:
+        print(f"{hwint_2.name} can't make more than {max_c} connections.")
+
+
+def _update_int(hw_int, pin):
+    pass
 
 
 # Add the behaviours to the meta classes
-#HwInt2HwInt.connect = connect
-#HwInt2HwInt.i2c_connect = i2c_connect
-#HwInt2HwInt.spi_connect = spi_connect
-#HwInt2HwInt.uart_connect = uart_connect
-#HwInt2HwInt.pwm_connect = pwm_connect
-#HwInt2HwInt.gpio_connect = gpio_connect
+Gpio2Gpio.connect = gpio_connect
