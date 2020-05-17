@@ -149,17 +149,33 @@
   <eClassifiers xsi:type="ecore:EClass" name="Adc2Adc" eSuperTypes="#//HwInt2HwInt"/>
   <eClassifiers xsi:type="ecore:EClass" name="I2c2I2c" eSuperTypes="#//HwInt2HwInt">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="slave_address" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hwint_1" lowerBound="1"
+        eType="#//I2C"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hwint_2" lowerBound="1"
+        eType="#//I2C"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Spi2Spi" eSuperTypes="#//HwInt2HwInt">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ce_index" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hwint_1" lowerBound="1"
+        eType="#//SPI"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hwint_2" lowerBound="1"
+        eType="#//SPI"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Uart2Uart" eSuperTypes="#//HwInt2HwInt">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="baudrate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hwint_1" lowerBound="1"
+        eType="#//UART"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hwint_2" lowerBound="1"
+        eType="#//UART"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Pwm2Pwm" eSuperTypes="#//HwInt2HwInt">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="frequency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
         defaultValueLiteral="0"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hwint_1" lowerBound="1"
+        eType="#//PWM"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="hwint_2" lowerBound="1"
+        eType="#//PWM"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Gpio2Gpio" eSuperTypes="#//HwInt2HwInt">
     <eStructuralFeatures xsi:type="ecore:EReference" name="hwint_1" lowerBound="1"

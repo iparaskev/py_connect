@@ -527,49 +527,81 @@ class Adc2Adc(HwInt2HwInt):
 class I2c2I2c(HwInt2HwInt):
 
     slave_address = EAttribute(eType=EInt, derived=False, changeable=True)
+    hwint_1 = EReference(ordered=True, unique=True, containment=False)
+    hwint_2 = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, slave_address=None, **kwargs):
+    def __init__(self, *, slave_address=None, hwint_1=None, hwint_2=None, **kwargs):
 
         super().__init__(**kwargs)
 
         if slave_address is not None:
             self.slave_address = slave_address
 
+        if hwint_1 is not None:
+            self.hwint_1 = hwint_1
+
+        if hwint_2 is not None:
+            self.hwint_2 = hwint_2
+
 
 class Spi2Spi(HwInt2HwInt):
 
     ce_index = EAttribute(eType=EInt, derived=False, changeable=True)
+    hwint_1 = EReference(ordered=True, unique=True, containment=False)
+    hwint_2 = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, ce_index=None, **kwargs):
+    def __init__(self, *, ce_index=None, hwint_1=None, hwint_2=None, **kwargs):
 
         super().__init__(**kwargs)
 
         if ce_index is not None:
             self.ce_index = ce_index
 
+        if hwint_1 is not None:
+            self.hwint_1 = hwint_1
+
+        if hwint_2 is not None:
+            self.hwint_2 = hwint_2
+
 
 class Uart2Uart(HwInt2HwInt):
 
     baudrate = EAttribute(eType=EInt, derived=False, changeable=True, default_value=-1)
+    hwint_1 = EReference(ordered=True, unique=True, containment=False)
+    hwint_2 = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, baudrate=None, **kwargs):
+    def __init__(self, *, baudrate=None, hwint_1=None, hwint_2=None, **kwargs):
 
         super().__init__(**kwargs)
 
         if baudrate is not None:
             self.baudrate = baudrate
 
+        if hwint_1 is not None:
+            self.hwint_1 = hwint_1
+
+        if hwint_2 is not None:
+            self.hwint_2 = hwint_2
+
 
 class Pwm2Pwm(HwInt2HwInt):
 
     frequency = EAttribute(eType=EInt, derived=False, changeable=True, default_value=0)
+    hwint_1 = EReference(ordered=True, unique=True, containment=False)
+    hwint_2 = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, frequency=None, **kwargs):
+    def __init__(self, *, frequency=None, hwint_1=None, hwint_2=None, **kwargs):
 
         super().__init__(**kwargs)
 
         if frequency is not None:
             self.frequency = frequency
+
+        if hwint_1 is not None:
+            self.hwint_1 = hwint_1
+
+        if hwint_2 is not None:
+            self.hwint_2 = hwint_2
 
 
 class Gpio2Gpio(HwInt2HwInt):
