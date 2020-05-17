@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<hw_devices:Peripheral xmlns:xmi="http://www.omg.org/XMI" xmlns:hw_devices="http://www.example.org/hw_devices" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" vcc="5.0" operating_voltage="5.0" pwms="1" type="ACTUATOR" name="neopixel_ledstrip" xmi:version="2.0">
-  <pins xsi:type="hw_devices:Power5V" number="1"/>
-  <pins xsi:type="hw_devices:DigitalPin" number="2" name="data_in"/>
-  <pins xsi:type="hw_devices:Gnd" number="3"/>
-  <hw_interfaces xsi:type="hw_devices:PWM" pin="//@pins.1"/>
-</hw_devices:Peripheral>
