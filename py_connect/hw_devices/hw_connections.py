@@ -8,21 +8,8 @@ from .hw_devices import Usb2Usb, Adc2Adc, I2c2I2c, Spi2Spi, Uart2Uart, Pwm2Pwm
 from .hw_devices import Power2Power
 
 
-def check_same(interface_1, interface_2):
-    """Check if two interfaces are the same
-
-    Args:
-        interface_1 (HwInterface):
-        interface_2 (HwInterface):
-
-    Returns:
-        (bool): Indicating if the two instances are of the same class.
-    """
-    pass
-
-
 def usb_connect(self):
-    """Adc connections."""
+    """Usb connections."""
     pass
 
 
@@ -41,6 +28,9 @@ def i2c_connect(self):
     #                     erroneous connection.
     #     * i2c-i2c: Both connected and master_cons ,no problem.
     # I2C logic error
+    i2c_check(self.hwint_1)
+    i2c_check(self.hwint_2)
+
     if self.hwint_1.is_master and self.hwint_2.is_master:
         print("Can't connect two master interfaces.")
 
@@ -50,6 +40,19 @@ def i2c_connect(self):
     # Update interfaces
     update_int(self.hwint_1, [self.hwint_1.sda, self.hwint_1.scl])
     update_int(self.hwint_2, [self.hwint_2.sda, self.hwint_2.scl])
+
+
+def i2c_check(i2c):
+    # Check if one pin is already used.
+    if (i2c.sda.connected and not i2c.scl.connected) or\
+            (i2c.scl.connected and not i2c.sda.connected):
+        print(f"Can't use {i2c.name} because one pin"
+              " is used in another connection of another hw interface.")
+
+    # Check if both pins connected but no interface connection
+    if i2c.sda.connected and i2c.scl.connected and not i2c.num_connections:
+        print(f"Can't use {i2c.name} because both pins are already used"
+              "in other connections.")
 
 
 def spi_connect(self):
@@ -81,8 +84,8 @@ def uart_connect(self):
 
 def pwm_connect(self):
     """pwm connections."""
-    # General hw int erros
-    check_ints(self.hwint_1, self.hwint_2)
+    # Check if the pins are already connected.
+    check_single_pin(self.hwint_1, self.hwint_2)
 
     # Update interfaces
     update_int(self.hwint_1, [self.hwint_1.pin])
@@ -91,12 +94,12 @@ def pwm_connect(self):
 
 def gpio_connect(self):
     """gpio connections."""
-    # GPIO logic error
+    # Check if the pins are already connected.
+    check_single_pin(self.hwint_1, self.hwint_2)
+
+    # gpio pins must be input-output or both-both.
     if self.hwint_1.type == self.hwint_2.type and not self.hwint_1 == GPIOType.BOTH:
         print("Invalid connection. GPIO types should be input-output")
-
-    # General hw int erros
-    check_ints(self.hwint_1, self.hwint_2)
 
     # Update interfaces
     update_int(self.hwint_1, [self.hwint_1.pin])
@@ -114,6 +117,14 @@ def update_int(hw_int, pins):
     hw_int.num_connections += 1
     for pin in pins:
         pin.connected = True
+
+
+def check_single_pin(hwint_1, hwint_2):
+    """Check single pin connections"""
+    if hwint_1.pin.connected:
+        print(f"Pin of {hwint_1.name} is used in another connection.")
+    if hwint_2.pin.connected:
+        print(f"Pin of {hwint_2.name} is used in another connection.")
 
 
 def check_ints(hwint_1, hwint_2, master_flag=False):
