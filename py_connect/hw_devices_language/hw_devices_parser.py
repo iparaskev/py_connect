@@ -89,6 +89,8 @@ class DeviceHandler():
                 i2c.is_master = True
             for key, spi in self.hw_interfaces["spi"].items():
                 spi.is_master = True
+                # Update the max master conns
+                spi.max_master_cons = len(spi.ce)
         elif isinstance(self._model, self._get_class("Peripheral")):
             self.dev = self._instantiate_device(self._model, Peripheral)
             setattr(self.dev, "type", self._per_type)
@@ -208,7 +210,6 @@ class DeviceHandler():
                 net = Ethernet()
             setattr(net, "name", net_inter.name)
             net_ls.append(net)
-        #print(f"Net: {net.name}")
 
         return net_ls
 
