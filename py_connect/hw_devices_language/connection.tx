@@ -53,7 +53,7 @@ SPI:
 
 I2C:
 	"-" type="i2c" ":" board_int=ID "--" peripheral_int=ID
-	"slave_address:" slave_addr=INT
+	"slave_address:" "0x" slave_addr=INT
 ;
 
 UART:
