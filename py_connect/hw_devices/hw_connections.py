@@ -33,8 +33,6 @@ def adc_connect(self):
 
 def i2c_connect(self):
     """I2c connections."""
-    self.board_hw.master_conns.append(self.peripheral_hw)
-
     # TODO: Connectivity check
     # Use cases:
     #     * i2c-gpio: In gpio we have an error
@@ -42,44 +40,53 @@ def i2c_connect(self):
     #     * gpio-gpio-i2c: Both pins connected but no master conns so
     #                     erroneous connection.
     #     * i2c-i2c: Both connected and master_cons ,no problem.
+    # I2C logic error
+    if self.hwint_1.is_master and self.hwint_1.is_master:
+        print("Can't connect two master interfaces.")
 
-    # Change connected flag for individual pins
-    self.board_hw.sda.connected = True
-    self.board_hw.scl.connected = True
-    self.peripheral_hw.sda.connected = True
-    self.peripheral_hw.scl.connected = True
+    # General hw int erros
+    check_ints(self.hwint_1, self.hwint_2)
+
+    # Update interfaces
+    update_int(self.hwint_1, [self.hwint_1.sda, self.hwint_1.scl])
+    update_int(self.hwint_2, [self.hwint_2.sda, self.hwint_2.scl])
 
 
 def spi_connect(self):
     """spi connections."""
-    self.board_hw.master_conns.append(self.peripheral_hw)
-
     # TODO: Connectivity check. Same as i2c.
+    # Find proper ce index
+    self.ce_index = self.hwint_1.num_connections
 
-    # Change connected flag for individual pins
-    self.board_hw.miso.connected = True
-    self.board_hw.mosi.connected = True
-    self.board_hw.sclk.connected = True
-    ce_index = 0
-    while self.board_hw.ce[ce_index].connected:
-        ce_index += 1
-    self.board_hw.ce[ce_index].connected = True
-    self.peripheral_hw.miso.connected = True
-    self.peripheral_hw.mosi.connected = True
-    self.peripheral_hw.sclk.connected = True
-    self.peripheral_hw.ce[0].connected = True
+    # Spi logic error
+    if self.hwint_1.is_master and self.hwint_1.is_master:
+        print("Can't connect two master interfaces.")
+
+    # General hw int erros
+    check_ints(self.hwint_1, self.hwint_2, master_flag=True)
+
+    # Update interfaces
+    update_int(self.hwint_1,
+               [self.hwint_1.mosi, self.hwint_1.miso,
+                self.hwint_1.sclk, self.hwint_1.ce[self.ce_index]])
+    update_int(self.hwint_2,
+               [self.hwint_2.mosi, self.hwint_2.miso,
+                self.hwint_2.sclk, self.hwint_2.ce[0]])
 
 
 def uart_connect(self):
     """uart connections."""
-    self.board_hw.connection = self.peripheral_hw
-    self.peripheral_hw.connection = self.board_hw
+    pass
 
 
 def pwm_connect(self):
     """pwm connections."""
-    self.board_hw.connection = self.peripheral_hw
-    self.peripheral_hw.connection = self.board_hw
+    # General hw int erros
+    check_ints(self.hwint_1, self.hwint_2)
+
+    # Update interfaces
+    update_int(self.hwint_1, [self.hwint_1.pin])
+    update_int(self.hwint_2, [self.hwint_2.pin])
 
 
 def gpio_connect(self):
@@ -109,27 +116,26 @@ def update_int(hw_int, pins):
         pin.connected = True
 
 
-def check_ints(hwint_1, hwint_2):
+def check_ints(hwint_1, hwint_2, master_flag=False):
     """Check if two hw interfaces have exceed the max connections before their
     connection.
 
     Args:
         hwint_1 (HwInterface):
         hwint_2 (HwInterface):
+        master_flag (bool):
 
     Raises:
     """
-    max_c = hwint_1.max_connections
-    if hwint_1.num_connections == hwint_1.max_connections:
+    max_c = hwint_1.max_master_cons if master_flag else hwint_1.max_connections
+    if hwint_1.num_connections == max_c:
         print(f"{hwint_1.name} can't make more than {max_c} connections.")
 
-    if hwint_2.num_connections == hwint_2.max_connections:
+    max_c = hwint_2.max_connections
+    if hwint_2.num_connections == max_c:
         print(f"{hwint_2.name} can't make more than {max_c} connections.")
-
-
-def _update_int(hw_int, pin):
-    pass
 
 
 # Add the behaviours to the meta classes
 Gpio2Gpio.connect = gpio_connect
+Pwm2Pwm.connect = pwm_connect
