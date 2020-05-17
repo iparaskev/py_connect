@@ -91,6 +91,13 @@ class ConnectionsHandler():
                 )
 
             # Extra steps for specific hw interfaces.
+            if h_conn.type == "i2c":
+                h2h_con.slave_address = int(str(h_conn.slave_addr), 16)
+            elif h_conn.type == "uart":
+                h2h_con.baudrate = h_conn.baudrate
+            # TODO: Use multiplier
+            elif h_conn.type == "pwm":
+                h2h_con.frequency = h_conn.frequency.val
             hw_connections.append(h2h_con)
         getattr(conn, "hw_connections").extend(hw_connections)
 
@@ -134,20 +141,13 @@ class ConnectionsHandler():
 
 def main():
     connections = ConnectionsHandler("debug_connection.cd")
-    print(connections.connections)
-    print(connections.connections["rpi_sonar"].board)
-    print(connections.connections["rpi_sonar"].peripheral)
-    print(connections.connections["rpi_sonar_2"].board)
-    print(connections.connections["rpi_sonar_2"].peripheral)
-    print(connections.connections["rpi_sonar"].power_connections[0].pin_1.name)
-    print(connections.connections["rpi_sonar"].hw_connections[0].hwint_1.pin.name)
-    print(connections.connections["rpi_sonar"].hw_connections[0].hwint_2.pin.name)
-    print(connections.connections["rpi_sonar"].hw_connections[1].hwint_1.pin.name)
-    print(connections.connections["rpi_sonar"].hw_connections[1].hwint_2.pin.name)
-    print(connections.connections["rpi_sonar_2"].hw_connections[0].hwint_1.pin.name)
-    print(connections.connections["rpi_sonar_2"].hw_connections[0].hwint_2.pin.name)
-    print(connections.connections["rpi_sonar_2"].hw_connections[1].hwint_1.pin.name)
-    print(connections.connections["rpi_sonar_2"].hw_connections[1].hwint_2.pin.name)
+    #print(connections.connections["rpi_bme680"].hw_connections[0].slave_address)
+    #print(connections.connections["rpi_bme680"].board)
+    #print(connections.connections["rpi_bme680"].peripheral)
+    #print(connections.connections["rpi_bme680"].hw_connections[0].slave_address)
+    #print(connections.connections["rpi_sonar_2"].board)
+    #print(connections.connections["rpi_sonar_2"].peripheral)
+    #print(connections.connections["rpi_sonar"].power_connections[0].pin_1.name)
 
 
 if __name__ == "__main__":
