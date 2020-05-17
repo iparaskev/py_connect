@@ -41,10 +41,10 @@ def i2c_connect(self):
     #                     erroneous connection.
     #     * i2c-i2c: Both connected and master_cons ,no problem.
     # I2C logic error
-    if self.hwint_1.is_master and self.hwint_1.is_master:
+    if self.hwint_1.is_master and self.hwint_2.is_master:
         print("Can't connect two master interfaces.")
 
-    # General hw int erros
+    # General hw int errors
     check_ints(self.hwint_1, self.hwint_2)
 
     # Update interfaces
@@ -59,7 +59,7 @@ def spi_connect(self):
     self.ce_index = self.hwint_1.num_connections
 
     # Spi logic error
-    if self.hwint_1.is_master and self.hwint_1.is_master:
+    if self.hwint_1.is_master and self.hwint_2.is_master:
         print("Can't connect two master interfaces.")
 
     # General hw int erros
@@ -139,3 +139,5 @@ def check_ints(hwint_1, hwint_2, master_flag=False):
 # Add the behaviours to the meta classes
 Gpio2Gpio.connect = gpio_connect
 Pwm2Pwm.connect = pwm_connect
+Spi2Spi.connect = spi_connect
+I2c2I2c.connect = i2c_connect
