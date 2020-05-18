@@ -4,11 +4,11 @@ from os.path import join, dirname
 from textx import metamodel_from_file
 from textx.export import metamodel_export, model_export
 from pyecore.ecore import BadValueError
-from hw_devices_parser import DeviceHandler
 
 import sys
 sys.path.append(".")
 
+from py_connect.hw_devices_language.hw_devices_parser import DeviceHandler # noqa E402
 from py_connect.hw_devices import B2PConnection  # noqa E402
 from py_connect.hw_devices.hw_connections import *  # noqa E402
 from py_connect.hw_devices.power_connections import *  # noqa E402
