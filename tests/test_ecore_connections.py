@@ -62,6 +62,50 @@ class TestHwConnections(unittest.TestCase):
             con.hwint_2 = tmp.hw_interfaces["gpio"]["echo"]
             con.connect()
 
+    def test_pwm(self):
+        """Test pwm connection."""
+        pass
+
+    def test_i2c(self):
+        """Test i2c connection."""
+        self.devices()
+        bme = DeviceHandler("bme680.hwd")
+
+        gpio_con = Gpio2Gpio(hwint_1=self.pi.hw_interfaces["gpio"]["bcm_2"],
+                             hwint_2=self.sonar.hw_interfaces["gpio"]["echo"])
+        gpio_con_2 = Gpio2Gpio(hwint_1=self.pi.hw_interfaces["gpio"]["bcm_3"],
+                               hwint_2=self.sonar.hw_interfaces["gpio"]["trigger"])
+        i2c_con = I2c2I2c(hwint_1=self.pi.hw_interfaces["i2c"]["i2c_1"],
+                          hwint_2=bme.hw_interfaces["i2c"]["i2c_0"])
+
+        # Two master error
+        with self.assertRaises(TwoMasterError):
+            i2c_con.hwint_2 = self.pi.hw_interfaces["i2c"]["i2c_0"]
+            i2c_con.connect()
+        # Two slave error
+        with self.assertRaises(TwoSlaveError):
+            i2c_con.hwint_1 = bme.hw_interfaces["i2c"]["i2c_0"]
+            i2c_con.hwint_2 = bme.hw_interfaces["i2c"]["i2c_0"]
+            i2c_con.connect()
+
+        i2c_con.hwint_1 = self.pi.hw_interfaces["i2c"]["i2c_1"]
+        # Check already connected errors.
+        with self.assertRaises(AlreadyConnectedError):
+            gpio_con.connect()
+            i2c_con.connect()
+        with self.assertRaises(AlreadyConnectedError):
+            gpio_con_2.connect()
+            i2c_con.connect()
+        with self.assertRaises(AlreadyConnectedError):
+            gpio_con.hwint_1 = self.pi.hw_interfaces["gpio"]["bcm_0"]
+            gpio_con_2.hwint_1 = self.pi.hw_interfaces["gpio"]["bcm_1"]
+            sonar = DeviceHandler("hc_sr04.hwd")
+            gpio_con.hwint_2 = sonar.hw_interfaces["gpio"]["echo"]
+            gpio_con_2.hwint_2 = sonar.hw_interfaces["gpio"]["trigger"]
+            gpio_con.connect()
+            gpio_con_2.connect()
+            i2c_con.connect()
+
 
 if __name__ == "__main__":
     unittest.main()
