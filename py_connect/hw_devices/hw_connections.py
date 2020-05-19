@@ -6,6 +6,8 @@ Add behaviours to hardware inteface connections.
 from .hw_devices import USB, ADC, I2C, SPI, UART, PWM, GPIO, Gpio2Gpio
 from .hw_devices import Usb2Usb, Adc2Adc, I2c2I2c, Spi2Spi, Uart2Uart, Pwm2Pwm
 from .hw_devices import Power2Power
+from .hw_devices import GPIOType
+from .exceptions import *
 
 
 def usb_connect(self):
@@ -31,8 +33,11 @@ def i2c_connect(self):
     i2c_check(self.hwint_1)
     i2c_check(self.hwint_2)
 
+    # More clever could be is_master == is_master
     if self.hwint_1.is_master and self.hwint_2.is_master:
-        print("Can't connect two master interfaces.")
+        raise TwoMasterError("Can't connect two master interfaces.")
+    if (not self.hwint_1.is_master) and (not self.hwint_2.is_master):
+        raise TwoSlaveError("Can't connect two slave interfaces.")
 
     # General hw int errors
     check_ints(self.hwint_1, self.hwint_2)
@@ -43,27 +48,27 @@ def i2c_connect(self):
 
 
 def i2c_check(i2c):
-    # Check if one pin is already used.
-    if (i2c.sda.connected and not i2c.scl.connected) or\
-            (i2c.scl.connected and not i2c.sda.connected):
-        print(f"Can't use {i2c.name} because one pin"
-              " is used in another connection of another hw interface.")
-
     # Check if both pins connected but no interface connection
-    if i2c.sda.connected and i2c.scl.connected and not i2c.num_connections:
-        print(f"Can't use {i2c.name} because both pins are already used"
-              "in other connections.")
+    ored = i2c.sda.connected | i2c.scl.connected
+    if ored and not i2c.num_connections:
+        raise AlreadyConnectedError(f"Can't use {i2c.name} because one/both pins"
+                                    "are already used in other connections.")
 
 
 def spi_connect(self):
     """spi connections."""
-    # TODO: Connectivity check. Same as i2c.
-    # Find proper ce index
-    self.ce_index = self.hwint_1.num_connections
+    spi_check(self.hwint_1)
+    spi_check(self.hwint_1)
+
+    self.ce_index = 0
+    while self.hwint_1.ce[self.ce_index].connected:
+        self.ce_index += 1
 
     # Spi logic error
     if self.hwint_1.is_master and self.hwint_2.is_master:
-        print("Can't connect two master interfaces.")
+        raise TwoMasterError("Can't connect two master interfaces.")
+    if (not self.hwint_1.is_master) and (not self.hwint_2.is_master):
+        raise TwoSlaveError("Can't connect two slave interfaces.")
 
     # General hw int erros
     check_ints(self.hwint_1, self.hwint_2, master_flag=True)
@@ -75,6 +80,22 @@ def spi_connect(self):
     update_int(self.hwint_2,
                [self.hwint_2.mosi, self.hwint_2.miso,
                 self.hwint_2.sclk, self.hwint_2.ce[0]])
+
+
+def spi_check(spi):
+    """Check an spi pin."""
+    ored = spi.mosi.connected | spi.miso.connected | spi.sclk.connected
+
+    if ored and not spi.num_connections:
+        raise AlreadyConnectedError(f"Can't use {spi.name} because some pins "
+                                    "are already used in other connections.")
+
+    # Check if all chip enable pins are in use
+    chip_en = True
+    for ce in spi.ce:
+        chip_en &= ce.connected
+    if chip_en:
+        raise ChipEnabledFullError(f"All chip enable pins are in use.")
 
 
 def uart_connect(self):
@@ -98,8 +119,10 @@ def gpio_connect(self):
     check_single_pin(self.hwint_1, self.hwint_2)
 
     # gpio pins must be input-output or both-both.
-    if self.hwint_1.type == self.hwint_2.type and not self.hwint_1 == GPIOType.BOTH:
-        print("Invalid connection. GPIO types should be input-output")
+    if self.hwint_1.type == self.hwint_2.type \
+            and not self.hwint_1.type == GPIOType.BOTH:
+        raise InvalidGpioError("Invalid connection. GPIO types should be "
+                               "input-output")
 
     # Update interfaces
     update_int(self.hwint_1, [self.hwint_1.pin])
@@ -122,9 +145,11 @@ def update_int(hw_int, pins):
 def check_single_pin(hwint_1, hwint_2):
     """Check single pin connections"""
     if hwint_1.pin.connected:
-        print(f"Pin of {hwint_1.name} is used in another connection.")
+        raise MaxConnectionsError(f"Pin of {hwint_1.name} is used "
+                                  "in another connection.")
     if hwint_2.pin.connected:
-        print(f"Pin of {hwint_2.name} is used in another connection.")
+        raise MaxConnectionsError(f"Pin of {hwint_2.name} is used "
+                                  "in another connection.")
 
 
 def check_ints(hwint_1, hwint_2, master_flag=False):
