@@ -2,6 +2,7 @@
 
 import unittest
 import sys
+import time
 sys.path.append(".")
 
 from py_connect.hw_devices.power_connections import *  # noqa E402
@@ -105,6 +106,81 @@ class TestHwConnections(unittest.TestCase):
             gpio_con.connect()
             gpio_con_2.connect()
             i2c_con.connect()
+
+    def test_spi(self):
+        self.devices()
+        icm = DeviceHandler("icm_20948.hwd")
+        sonar = DeviceHandler("hc_sr04.hwd")
+
+        gpio_con = Gpio2Gpio(hwint_1=self.pi.hw_interfaces["gpio"]["bcm_10"],
+                             hwint_2=self.sonar.hw_interfaces["gpio"]["echo"])
+        gpio_con_2 = Gpio2Gpio(hwint_1=self.pi.hw_interfaces["gpio"]["bcm_9"],
+                               hwint_2=self.sonar.hw_interfaces["gpio"]["trigger"])
+        gpio_con_3 = Gpio2Gpio(hwint_1=self.pi.hw_interfaces["gpio"]["bcm_11"],
+                               hwint_2=sonar.hw_interfaces["gpio"]["echo"])
+        gpio_con_4 = Gpio2Gpio(hwint_1=self.pi.hw_interfaces["gpio"]["bcm_7"],
+                               hwint_2=sonar.hw_interfaces["gpio"]["trigger"])
+        gpio_con_5 = Gpio2Gpio(hwint_1=self.pi.hw_interfaces["gpio"]["bcm_8"],
+                               hwint_2=self.pi.hw_interfaces["gpio"]["bcm_2"])
+
+        spi_con = Spi2Spi(hwint_1=self.pi.hw_interfaces["spi"]["spi_0"],
+                          hwint_2=icm.hw_interfaces["spi"]["spi_0"])
+
+        # Two master error
+        with self.assertRaises(TwoMasterError):
+            spi_con.hwint_2 = self.pi.hw_interfaces["spi"]["spi_1"]
+            spi_con.connect()
+        # Two slave error
+        with self.assertRaises(TwoSlaveError):
+            spi_con.hwint_1 = icm.hw_interfaces["spi"]["spi_0"]
+            spi_con.hwint_2 = icm.hw_interfaces["spi"]["spi_0"]
+            spi_con.connect()
+
+        spi_con.hwint_1 = self.pi.hw_interfaces["spi"]["spi_0"]
+
+        # Check connected mosi, miso sclk
+        with self.assertRaises(AlreadyConnectedError):
+            gpio_con.connect()
+            spi_con.connect()
+        with self.assertRaises(AlreadyConnectedError):
+            self.pi.hw_interfaces["gpio"]["bcm_10"].pin.connected = False
+            gpio_con_2.connect()
+            spi_con.connect()
+        with self.assertRaises(AlreadyConnectedError):
+            self.pi.hw_interfaces["gpio"]["bcm_9"].pin.connected = False
+            gpio_con_3.connect()
+            spi_con.connect()
+        with self.assertRaises(AlreadyConnectedError):
+            self.pi.hw_interfaces["gpio"]["bcm_11"].pin.connected = False
+            self.sonar.hw_interfaces["gpio"]["echo"].pin.connected = False
+            sonar.hw_interfaces["gpio"]["echo"].pin.connected = False
+            gpio_con.connect()
+            gpio_con_3.connect()
+            spi_con.connect()
+
+        self.pi.hw_interfaces["gpio"]["bcm_10"].pin.connected = False
+        self.pi.hw_interfaces["gpio"]["bcm_11"].pin.connected = False
+
+        # Check if chip enabled are in use.
+        with self.assertRaises(ChipEnabledFullError):
+            gpio_con_4.connect()
+            gpio_con_5.connect()
+            spi_con.connect()
+        self.pi.hw_interfaces["gpio"]["bcm_7"].pin.connected = False
+
+        # Check right spi index.
+        spi_con.connect()
+        self.assertEqual(
+            self.pi.hw_interfaces["spi"]["spi_0"].ce[spi_con.ce_index].name,
+            "bcm_7", "Wrong chip enable pin."
+        )
+
+        # Use one chip enable and on spi and try one more
+        with self.assertRaises(ChipEnabledFullError):
+            icm_2 = DeviceHandler("icm_20948.hwd")
+            spi_con_2 = Spi2Spi(hwint_1=self.pi.hw_interfaces["spi"]["spi_0"],
+                                hwint_2=icm_2.hw_interfaces["spi"]["spi_0"])
+            spi_con_2.connect()
 
 
 if __name__ == "__main__":
