@@ -7,3 +7,27 @@ class PyConnectError(Exception):
 
 class InvalidPowerCombination(PyConnectError):
     """Connection of different power pins."""
+
+
+class MaxConnectionsError(PyConnectError):
+    """Interface has exceeded it's max connections limit."""
+
+
+class InvalidGpioError(PyConnectError):
+    """Invalid connection of two gpio pins."""
+
+
+class AlreadyConnectedError(PyConnectError):
+    """One or more pins of the interface are already connected."""
+
+
+class TwoMasterError(PyConnectError):
+    """Error when connecting two master interfaces."""
+
+
+class TwoSlaveError(PyConnectError):
+    """Error when connecting two slave interfaces."""
+
+
+class ChipEnabledFullError(PyConnectError):
+    """All chip enable pins are in use."""
