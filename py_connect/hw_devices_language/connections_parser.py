@@ -137,18 +137,3 @@ class ConnectionsHandler():
             dev = DeviceHandler(key + ".hwd")
             self._devices[dev_name] = dev
         return dev
-
-
-def main():
-    connections = ConnectionsHandler("debug_connection.cd")
-    #print(connections.connections["rpi_bme680"].hw_connections[0].slave_address)
-    #print(connections.connections["rpi_bme680"].board)
-    #print(connections.connections["rpi_bme680"].peripheral)
-    #print(connections.connections["rpi_bme680"].hw_connections[0].slave_address)
-    #print(connections.connections["rpi_sonar_2"].board)
-    #print(connections.connections["rpi_sonar_2"].peripheral)
-    #print(connections.connections["rpi_sonar"].power_connections[0].pin_1.name)
-
-
-if __name__ == "__main__":
-    main()
