@@ -57,9 +57,6 @@ class TestConnection(unittest.TestCase):
         self.assertNotEqual(gpio_con.peripheral, gpio_con_2.peripheral,
                             "Should be different.")
 
-    def test_wrong_power(self):
-        pass
-
     def target(self, ls, name):
         for p in ls:
             if p.name == name:
