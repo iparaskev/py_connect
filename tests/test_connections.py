@@ -41,7 +41,7 @@ class TestConnection(unittest.TestCase):
 
         # Check right hw_connections
         self.assertEqual(gpio_con.hw_connections[0].hwint_1,
-                         self.target(gpio_con.board.hw_interfaces, "bcm_23"),
+                         self.target(gpio_con.board.hw_interfaces, "bcm_7"),
                          "Should be bcm_23")
         self.assertEqual(gpio_con.hw_connections[0].hwint_2,
                          self.target(gpio_con.peripheral.hw_interfaces, "echo"),
@@ -61,6 +61,33 @@ class TestConnection(unittest.TestCase):
         for p in ls:
             if p.name == name:
                 return p
+
+    def test_i2c(self):
+        connections = ConnectionsHandler("debug_connection.cd")
+        i2c_con = connections.connections["rpi_bme680"]
+
+        self.assertEqual(i2c_con.hw_connections[0].hwint_1,
+                         self.target(i2c_con.board.hw_interfaces, "i2c_1"),
+                         "Should be i2c_1 of rpi.")
+        self.assertEqual(i2c_con.hw_connections[0].hwint_2,
+                         self.target(i2c_con.peripheral.hw_interfaces, "i2c_0"),
+                         "Should be i2c_0 of bme.")
+        self.assertEqual(i2c_con.hw_connections[0].slave_address, int(0x77),
+                         "Should be 0x77.")
+
+    def test_spi(self):
+        connections = ConnectionsHandler("debug_connection.cd")
+        spi_con = connections.connections["rpi_icm"]
+
+        self.assertEqual(spi_con.hw_connections[0].hwint_1,
+                         self.target(spi_con.board.hw_interfaces, "spi_0"),
+                         "Should be spi_0 of rpi.")
+        self.assertEqual(spi_con.hw_connections[0].hwint_2,
+                         self.target(spi_con.peripheral.hw_interfaces, "spi_0"),
+                         "Should be spi_0 of bme.")
+        ce_index = spi_con.hw_connections[0].ce_index
+        ce_pin = spi_con.hw_connections[0].hwint_1.ce[ce_index]
+        self.assertEqual(ce_pin.name, "bcm_8", "Should be bcm_8.")
 
 
 if __name__ == "__main__":
