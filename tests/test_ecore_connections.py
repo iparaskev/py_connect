@@ -40,9 +40,12 @@ class TestHwConnections(unittest.TestCase):
     def test_gpio(self):
         """Test gpio connection."""
         self.devices()
+        bme = DeviceHandler("bme680.hwd")
 
         con = Gpio2Gpio(hwint_1=self.pi.hw_interfaces["gpio"]["bcm_2"],
                         hwint_2=self.sonar.hw_interfaces["gpio"]["echo"])
+        i2c_con = I2c2I2c(hwint_1=self.pi.hw_interfaces["i2c"]["i2c_1"],
+                          hwint_2=bme.hw_interfaces["i2c"]["i2c_0"])
         con.connect()
 
         # Exceed max connections
@@ -61,6 +64,13 @@ class TestHwConnections(unittest.TestCase):
             tmp = DeviceHandler("hc_sr04.hwd")
             con.hwint_1 = tmp.hw_interfaces["gpio"]["echo"]
             con.hwint_2 = tmp.hw_interfaces["gpio"]["echo"]
+            con.connect()
+
+        con.hwint_1 = self.pi.hw_interfaces["gpio"]["bcm_2"]
+        self.pi.hw_interfaces["gpio"]["bcm_2"].pin.connected = False
+        # Check already connected with other interface.
+        with self.assertRaises(MaxConnectionsError):
+            i2c_con.connect()
             con.connect()
 
     def test_pwm(self):

@@ -52,7 +52,7 @@ def i2c_check(i2c):
     ored = i2c.sda.connected | i2c.scl.connected
     if ored and not i2c.num_connections:
         raise AlreadyConnectedError(f"Can't use {i2c.name} because one/both pins"
-                                    "are already used in other connections.")
+                                    " are already used in other connections.")
 
 
 def spi_connect(self):
