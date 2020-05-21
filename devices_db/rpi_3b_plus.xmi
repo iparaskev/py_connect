@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hw_devices:Board xmlns:xmi="http://www.omg.org/XMI" xmlns:hw_devices="http://www.example.org/hw_devices" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="rpi_3b_plus" vcc="5.0" dma="true" timers="1" operating_voltage="3.3" xmi:version="2.0">
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.2" type="BOTH" name="bcm_2"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.4" type="BOTH" name="bcm_3"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.6" type="BOTH" name="bcm_4"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.7" type="BOTH" name="bcm_14"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.9" type="BOTH" name="bcm_15"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.10" type="BOTH" name="bcm_17"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.11" type="BOTH" name="bcm_18"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.12" type="BOTH" name="bcm_27"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.14" type="BOTH" name="bcm_22"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.15" type="BOTH" name="bcm_23"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.17" type="BOTH" name="bcm_24"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.18" type="BOTH" name="bcm_10"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.20" type="BOTH" name="bcm_9"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.21" type="BOTH" name="bcm_25"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.22" type="BOTH" name="bcm_11"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.23" type="BOTH" name="bcm_8"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.25" type="BOTH" name="bcm_7"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.26" type="BOTH" name="bcm_0"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.27" type="BOTH" name="bcm_1"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.28" type="BOTH" name="bcm_5"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.30" type="BOTH" name="bcm_6"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.31" type="BOTH" name="bcm_12"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.32" type="BOTH" name="bcm_13"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.34" type="BOTH" name="bcm_19"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.35" type="BOTH" name="bcm_16"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.36" type="BOTH" name="bcm_26"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.37" type="BOTH" name="bcm_20"/>
+  <hw_interfaces xsi:type="hw_devices:GPIO" pin="//@pins.39" type="BOTH" name="bcm_21"/>
+  <hw_interfaces xsi:type="hw_devices:I2C" scl="//@pins.4" is_master="true" sda="//@pins.2" bus="1" name="i2c_1"/>
+  <hw_interfaces xsi:type="hw_devices:I2C" scl="//@pins.27" is_master="true" sda="//@pins.26" name="i2c_0"/>
+  <hw_interfaces xsi:type="hw_devices:SPI" name="spi_1" mosi="//@pins.37" max_master_cons="3" ce="//@pins.10 //@pins.11 //@pins.35" bus="1" sclk="//@pins.39" is_master="true" miso="//@pins.34"/>
+  <hw_interfaces xsi:type="hw_devices:SPI" name="spi_0" mosi="//@pins.18" max_master_cons="2" ce="//@pins.23 //@pins.25" sclk="//@pins.22" is_master="true" miso="//@pins.20"/>
+  <hw_interfaces xsi:type="hw_devices:UART" tx="//@pins.7" name="uart_0" rx="//@pins.9"/>
+  <hw_interfaces xsi:type="hw_devices:PWM" pin="//@pins.31"/>
+  <hw_interfaces xsi:type="hw_devices:PWM" pin="//@pins.32"/>
+  <bluetooth xsi:type="hw_devices:Bluetooth" version="5.2"/>
+  <memory xsi:type="hw_devices:Memory" external_memory="17179869184.0" ram="1048576.0"/>
+  <pins xsi:type="hw_devices:PowerPin" number="1" name="power_3v3_1" type="Power3V3"/>
+  <pins xsi:type="hw_devices:PowerPin" number="2" name="power_5v_1" type="Power5V"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="3" name="bcm_2"/>
+  <pins xsi:type="hw_devices:PowerPin" number="4" name="power_5v_2" type="Power5V"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="5" name="bcm_3"/>
+  <pins xsi:type="hw_devices:PowerPin" number="6" name="gnd_1"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="7" name="bcm_4"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="8" name="bcm_14"/>
+  <pins xsi:type="hw_devices:PowerPin" number="9" name="gnd_2"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="10" name="bcm_15"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="11" name="bcm_17"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="12" name="bcm_18"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="13" name="bcm_27"/>
+  <pins xsi:type="hw_devices:PowerPin" number="14" name="gnd_3"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="15" name="bcm_22"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="16" name="bcm_23"/>
+  <pins xsi:type="hw_devices:PowerPin" number="17" name="power_3v3_2" type="Power3V3"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="18" name="bcm_24"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="19" name="bcm_10"/>
+  <pins xsi:type="hw_devices:PowerPin" number="20" name="gnd_4"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="21" name="bcm_9"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="22" name="bcm_25"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="23" name="bcm_11"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="24" name="bcm_8"/>
+  <pins xsi:type="hw_devices:PowerPin" number="25" name="gnd_5"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="26" name="bcm_7"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="27" name="bcm_0"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="28" name="bcm_1"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="29" name="bcm_5"/>
+  <pins xsi:type="hw_devices:PowerPin" number="30" name="gnd_6"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="31" name="bcm_6"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="32" name="bcm_12"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="33" name="bcm_13"/>
+  <pins xsi:type="hw_devices:PowerPin" number="34" name="gnd_7"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="35" name="bcm_19"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="36" name="bcm_16"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="37" name="bcm_26"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="38" name="bcm_20"/>
+  <pins xsi:type="hw_devices:PowerPin" number="39" name="gnd_8"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="40" name="bcm_21"/>
+  <cpu xsi:type="hw_devices:CPU" cpu_family="ARM_CORTEX_A" fpu="true" max_freq="1400.0"/>
+  <network xsi:type="hw_devices:Wifi" name="wlan0">
+    <freqs xsi:type="hw_devices:WifiFreq" freq="2500000000.0"/>
+    <freqs xsi:type="hw_devices:WifiFreq" freq="5000000000.0"/>
+  </network>
+  <network xsi:type="hw_devices:Ethernet" name="eth0"/>
+</hw_devices:Board>

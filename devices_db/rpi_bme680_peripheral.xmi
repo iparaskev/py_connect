@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hw_devices:Peripheral xmlns:xmi="http://www.omg.org/XMI" xmlns:hw_devices="http://www.example.org/hw_devices" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="bme680" vcc="3.3" operating_voltage="3.3" xmi:version="2.0">
+  <hw_interfaces xsi:type="hw_devices:I2C" scl="//@pins.2" num_connections="1" sda="//@pins.1" name="i2c_0"/>
+  <pins xsi:type="hw_devices:PowerPin" number="1" name="vcc" connected="true" type="Power5V"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="2" name="sda" connected="true"/>
+  <pins xsi:type="hw_devices:DigitalPin" number="3" name="scl" connected="true"/>
+  <pins xsi:type="hw_devices:PowerPin" number="4" name="gnd" connected="true"/>
+</hw_devices:Peripheral>
