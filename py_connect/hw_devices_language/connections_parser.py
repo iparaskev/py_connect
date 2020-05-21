@@ -4,12 +4,13 @@ from os.path import join, dirname
 from textx import metamodel_from_file
 from textx.export import metamodel_export, model_export
 from pyecore.ecore import BadValueError
+from pyecore.resources import ResourceSet, URI
 
 import sys
 sys.path.append(".")
 
 from py_connect.hw_devices_language.hw_devices_parser import DeviceHandler # noqa E402
-from py_connect.hw_devices import B2PConnection  # noqa E402
+from py_connect.hw_devices import B2PConnection # noqa E402
 from py_connect.hw_devices.hw_connections import *  # noqa E402
 from py_connect.hw_devices.power_connections import *  # noqa E402
 
@@ -137,3 +138,29 @@ class ConnectionsHandler():
             dev = DeviceHandler(key + ".hwd")
             self._devices[dev_name] = dev
         return dev
+
+    def export_xmi(self, connection):
+        """Export model xmi.
+
+        Args:
+            connection ():
+
+        Returns:
+        """
+        try:
+            con = self.connections[connection]
+        except KeyError:
+            print("Invalid connection name.")
+        prefix = self.DEVICE_DB + "/" + con.name
+        name = prefix + ".xmi"
+        # Save model
+        rset = ResourceSet()
+        r = rset.create_resource(URI(name))
+        r_b = rset.create_resource(prefix + "_board.xmi")
+        r_p = rset.create_resource(prefix + "_peripheral.xmi")
+        r_b.append(con.board)
+        r_p.append(con.peripheral)
+        r.append(con)
+        r.save()
+        r_b.save()
+        r_p.save()

@@ -4,6 +4,7 @@ from os.path import join, dirname
 from textx import metamodel_from_file
 from textx.export import metamodel_export, model_export
 from pyecore.ecore import BadValueError
+from pyecore.resources import ResourceSet, URI
 
 import sys
 sys.path.append(".")
@@ -284,13 +285,11 @@ class DeviceHandler():
         """
         return self._hw_mm.namespaces["hw_devices"][name]
 
-
-def main():
-    pi = DeviceHandler("rpi_3b_plus.hwd")
-    #sonar = DeviceHandler("sonar.hwd")
-    #print(pi.power_pins)
-    #print(sonar.power_pins)
-
-
-if __name__ == "__main__":
-    main()
+    def export_xmi(self):
+        """Export model xmi."""
+        name = self.DEVICE_DB + "/" + self.dev.name + ".xmi"
+        # Save model
+        rset = ResourceSet()
+        r = rset.create_resource(URI(name))
+        r.append(self.dev)
+        r.save()
