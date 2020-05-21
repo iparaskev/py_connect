@@ -157,8 +157,8 @@ class CPU(EObject, metaclass=MetaEClass):
 class B2PConnection(EObject, metaclass=MetaEClass):
 
     name = EAttribute(eType=EString, derived=False, changeable=True)
-    hw_connections = EReference(ordered=True, unique=True, containment=False, upper=-1)
-    power_connections = EReference(ordered=True, unique=True, containment=False, upper=-1)
+    hw_connections = EReference(ordered=True, unique=True, containment=True, upper=-1)
+    power_connections = EReference(ordered=True, unique=True, containment=True, upper=-1)
     board = EReference(ordered=True, unique=True, containment=False)
     peripheral = EReference(ordered=True, unique=True, containment=False)
 
