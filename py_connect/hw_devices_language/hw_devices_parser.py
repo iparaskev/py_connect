@@ -56,13 +56,13 @@ class DeviceHandler():
         # Update devices db path
         if devices_db_path:
             devices_db_path = devices_db_path.rstrip("/") + "/"
-            db_path = devices_db_path
+            self.db_path = devices_db_path
         else:
-            db_path = DEVICES_DB
+            self.db_path = DEVICES_DB
 
         # Load model.
         try:
-            self._model = self._hw_mm.model_from_file(db_path + device_file)
+            self._model = self._hw_mm.model_from_file(self.db_path + device_file)
         except FileNotFoundError:
             print("File not found in db. Use absolute path.")
             self._model = self._hw_mm.model_from_file(device_file)
