@@ -1,0 +1,47 @@
+include rpi_3b_plus
+include hc_sr04
+include bme680
+include icm_20948
+
+connection:
+    name: rpi_sonar
+    board: rpi_3b_plus
+    peripheral: hc_sr04
+    power_connections:
+	- gnd_1 -- gnd
+	- power_5v_1 -- vcc 
+    hw_connections:
+	- gpio: bcm_7 -- echo
+	- gpio: bcm_24 -- trigger
+
+connection:
+    name: rpi_sonar_2
+    board: rpi_3b_plus
+    peripheral: hc_sr04 (2)
+    power_connections:
+	- gnd_1 -- gnd
+	- power_5v_2 -- vcc 
+    hw_connections:
+	- gpio: bcm_4 -- echo
+	- gpio: bcm_5 -- trigger
+
+connection:
+    name: rpi_bme680
+    board: rpi_3b_plus
+    peripheral: bme680
+    power_connections:
+	- gnd_1 -- gnd
+	- power_5v_2 -- vcc 
+    hw_connections:
+	- i2c: i2c_1 -- i2c_0
+	    slave_address: 0x77
+
+connection:
+    name: rpi_icm
+    board: rpi_3b_plus
+    peripheral: icm_20948
+    power_connections:
+	- gnd_1 -- gnd
+	- power_3v3_1 -- vcc 
+    hw_connections:
+	- spi: spi_0 -- spi_0
