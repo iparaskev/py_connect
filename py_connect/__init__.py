@@ -23,9 +23,14 @@ def parse_args():
     parser.add_argument("--xmi", help="Export xmi.",
                         action="store_true")
     parser.add_argument("--xmi_path", help="Folder for saving xmi files.")
+    parser.add_argument("--db_path", help="Path to custom devices db.")
     parser.add_argument("--connections",
                         help="Path to a connection specification.")
-    parser.add_argument("--db_path", help="Path to custom devices db.")
+    parser.add_argument("--m2t",
+                        help="Flag for enabling m2t",
+                        action="store_true")
+    parser.add_argument("--specific_con",
+                        help="The name of the specific connection.")
 
     return parser.parse_args()
 
@@ -47,6 +52,19 @@ def main():
                 lines = f.readlines()
             with open(dev.db_path + args.device, "w") as f:
                 f.writelines(lines)
+
+    # Connection args
+    if args.connections:
+        connections = ConnectionsHandler(args.connections)
+        print(connections.connections)
+
+        # Save to xmi.
+        if args.xmi:
+            if args.specific_con:
+                connections.export_xmi(args.specific_con, path=args.xmi_path)
+            else:
+                for key in connections.connections.keys():
+                    connections.export_xmi(key, path=args.xmi_path)
 
 
 if __name__ == "__main__":
