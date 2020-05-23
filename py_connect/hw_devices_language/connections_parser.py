@@ -133,7 +133,7 @@ class ConnectionsHandler():
             self._devices[dev_name] = dev
         return dev
 
-    def export_xmi(self, connection):
+    def export_xmi(self, connection, path=None):
         """Export model xmi.
 
         Args:
@@ -145,7 +145,11 @@ class ConnectionsHandler():
             con = self.connections[connection]
         except KeyError:
             print("Invalid connection name.")
-        prefix = self.DEVICE_DB + "/" + con.name
+        prefix = con.name
+        if path:
+            path = path.rstrip("/") + "/"
+            prefix = path + prefix
+
         name = prefix + ".xmi"
         # Save model
         rset = ResourceSet()
