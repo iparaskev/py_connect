@@ -2,3 +2,4 @@ include README.md
 include requirements.txt
 include py_connect/hw_devices_language/hw_devices.tx
 include py_connect/hw_devices_language/connection.tx
+include py_connect/devices_db/*.hwd
