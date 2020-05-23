@@ -16,7 +16,6 @@ class DeviceHandler():
     """
 
     MM_GRAMMAR = DEVICE_GRAMMAR  # path of grammar
-    DEVICE_DB = DEVICES_DB       # path of devices db
     # Mapper of os ecore types.
     OS_MAPPER = {
         "raspbian": OSType.RASPBIAN,
@@ -49,14 +48,20 @@ class DeviceHandler():
     UART_TYPES = ["rx", "tx"]
     PWM_TYPES = ["pwm"]
 
-    def __init__(self, device_file):
+    def __init__(self, device_file, devices_db_path=None):
         """Constructor"""
         # Load metamodel.
         self._hw_mm = metamodel_from_file(self.MM_GRAMMAR, debug=False)
 
+        # Update devices db path
+        if devices_db_path:
+            db_path = devices_db_path
+        else:
+            db_path = DEVICES_DB
+
         # Load model.
         try:
-            self._model = self._hw_mm.model_from_file(self.DEVICE_DB + device_file)
+            self._model = self._hw_mm.model_from_file(db_path + device_file)
         except FileNotFoundError:
             print("File not found in db. Use absolute path.")
             self._model = self._hw_mm.model_from_file(device_file)
