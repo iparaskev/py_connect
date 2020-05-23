@@ -5,11 +5,7 @@ from textx import metamodel_from_file
 from textx.export import metamodel_export, model_export
 from pyecore.ecore import BadValueError
 from pyecore.resources import ResourceSet, URI
-
-import sys
-sys.path.append(".")
-
-from py_connect.hw_devices import *  # noqa E402
+from ..hw_devices import *
 
 
 class DeviceHandler():
