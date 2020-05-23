@@ -1,11 +1,11 @@
 """hw_devices_parser.py"""
 
-from os.path import join, dirname
 from textx import metamodel_from_file
 from textx.export import metamodel_export, model_export
 from pyecore.ecore import BadValueError
 from pyecore.resources import ResourceSet, URI
 from ..hw_devices import *
+from ..definitions import DEVICE_GRAMMAR, DEVICES_DB
 
 
 class DeviceHandler():
@@ -15,10 +15,8 @@ class DeviceHandler():
     Args:
     """
 
-    MM_GRAMMAR = join(dirname(__file__), "hw_devices.tx")  # path of grammar
-    # path of devices db
-    #TODO fix this ugly thing when the structure will be ready
-    DEVICE_DB = "/home/iasonas/Projects/thesis/devices_db"
+    MM_GRAMMAR = DEVICE_GRAMMAR  # path of grammar
+    DEVICE_DB = DEVICES_DB       # path of devices db
     # Mapper of os ecore types.
     OS_MAPPER = {
         "raspbian": OSType.RASPBIAN,
@@ -57,7 +55,11 @@ class DeviceHandler():
         self._hw_mm = metamodel_from_file(self.MM_GRAMMAR, debug=False)
 
         # Load model.
-        self._model = self._hw_mm.model_from_file(join(self.DEVICE_DB, device_file))
+        try:
+            self._model = self._hw_mm.model_from_file(self.DEVICE_DB + device_file)
+        except FileNotFoundError:
+            print("File not found in db. Use absolute path.")
+            self._model = self._hw_mm.model_from_file(device_file)
 
         # A dictionary for storing the hw interfaces
         self.hw_interfaces = {

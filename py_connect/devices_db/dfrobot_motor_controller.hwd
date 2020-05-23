@@ -1,0 +1,20 @@
+//dfrobot motor controller
+
+peripheral:
+    name: motor_controller
+    vcc: 5
+    type: actuator
+    operating_voltage: 5
+    pins:
+	- io_digital: -> input
+	    name: M1
+	    number: 1
+	- io_digital: -> pwm
+	    name: E1
+	    number: 2
+	- io_digital: -> input
+	    name: M2
+	    number: 3
+	- io_digital: -> pwm
+	    name: E2
+	    number: 4

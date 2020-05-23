@@ -1,0 +1,28 @@
+//icm20948 imu.
+
+peripheral:
+    name: icm_20948
+    vcc: 3.3
+    type: sensor
+    operating_voltage: 3.3
+    pins:
+	- power:
+	    name: gnd
+	    number: 1
+	    type: gnd
+	- power:
+	    name: vcc
+	    number: 2
+	    type: 3v3
+	- io_digital: -> sda-0, mosi-0
+	    name: sda_mosi
+	    number: 3
+	- io_digital: -> scl-0, sclk-0
+	    name: sclk
+	    number: 4
+	- io_digital: -> input, miso-0
+	    name: ad0_miso
+	    number: 5
+	- io_digital: -> ce-0
+	    name: nc_ce
+	    number: 6

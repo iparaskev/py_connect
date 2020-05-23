@@ -9,14 +9,13 @@ from .hw_devices_parser import DeviceHandler
 from ..hw_devices import B2PConnection
 from ..hw_devices.hw_connections import *
 from ..hw_devices.power_connections import *
+from ..definitions import CONNECTION_GRAMMAR
 
 
 class ConnectionsHandler():
     """Class for handling connections"""
 
-    MM_GRAMMAR = join(dirname(__file__), "connection.tx")  # path of grammar
-    #TODO fix this ugly thing when the structure will be ready
-    DEVICE_DB = "/home/iasonas/Projects/thesis/devices_db"
+    MM_GRAMMAR = CONNECTION_GRAMMAR  # path of grammar
 
     # Map for the hw interface connections.
     CONN_MAP = {
@@ -35,8 +34,7 @@ class ConnectionsHandler():
         self._hw_mm = metamodel_from_file(self.MM_GRAMMAR, debug=False)
 
         # Load model.
-        self._model = self._hw_mm.model_from_file(join(self.DEVICE_DB,
-                                                       connections_file))
+        self._model = self._hw_mm.model_from_file(connections_file)
 
         # Load initial devices
         self._devices =\
