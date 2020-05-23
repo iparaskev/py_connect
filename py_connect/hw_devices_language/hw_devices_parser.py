@@ -55,6 +55,7 @@ class DeviceHandler():
 
         # Update devices db path
         if devices_db_path:
+            devices_db_path = devices_db_path.rstrip("/") + "/"
             db_path = devices_db_path
         else:
             db_path = DEVICES_DB
@@ -288,9 +289,12 @@ class DeviceHandler():
         """
         return self._hw_mm.namespaces["hw_devices"][name]
 
-    def export_xmi(self):
+    def export_xmi(self, path=None):
         """Export model xmi."""
-        name = self.DEVICE_DB + "/" + self.dev.name + ".xmi"
+        name = self.dev.name + ".xmi"
+        if path:
+            path = path.rstrip("/") + "/"
+            name = path + name
         # Save model
         rset = ResourceSet()
         r = rset.create_resource(URI(name))
