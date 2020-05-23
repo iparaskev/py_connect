@@ -1,14 +1,15 @@
 """test_xmi_export.py"""
 
 import unittest
-import sys
 import os
 from pyecore.resources import ResourceSet, URI
-sys.path.append(".")
+from py_connect import DeviceHandler
+from py_connect import ConnectionsHandler
+from py_connect import I2C, GPIO, PWM, UART, ADC, SPI
 
-from py_connect.hw_devices_language.hw_devices_parser import DeviceHandler  # noqa E402
-from py_connect.hw_devices_language.connections_parser import ConnectionsHandler  # noqa E402
-from py_connect.hw_devices import I2C, GPIO, PWM, UART, ADC, SPI  # noqa E402
+
+cons_path = \
+    "/".join(os.path.abspath(__file__).split("/")[:-2]) + "/test_connections/"
 
 
 def load_model(name):
@@ -26,7 +27,7 @@ def load_model(name):
     rset.metamodel_registry[mm_root.nsURI] = mm_root
 
     # Load model instance
-    r = rset.get_resource(URI(root_path + "/devices_db/" + name + ".xmi"))
+    r = rset.get_resource(URI(name + ".xmi"))
     return r.contents[0]
 
 
@@ -55,7 +56,7 @@ class TestExport(unittest.TestCase):
                 self.assertEqual(hw_1.ce[0].name, hw_2.ce[0].name, "Not same spi")
 
     def test_connection_export(self):
-        con = ConnectionsHandler("debug_connection.cd")
+        con = ConnectionsHandler(cons_path + "debug_connection.cd")
         con_name = "rpi_bme680"
         mem_model = con.connections[con_name]
         con.export_xmi(con_name)

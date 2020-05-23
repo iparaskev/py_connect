@@ -1,14 +1,11 @@
 """test_device_m2m.py"""
 
 import unittest
-import sys
 import time
-sys.path.append(".")
-
-from py_connect.hw_devices.power_connections import *  # noqa E402
-from py_connect.hw_devices.hw_connections import *  # noqa E402
-from py_connect.hw_devices.exceptions import *  # noqa E402
-from py_connect.hw_devices_language.hw_devices_parser import DeviceHandler  # noqa E402
+from py_connect.hw_devices.power_connections import *
+from py_connect.hw_devices.hw_connections import *
+from py_connect.hw_devices.exceptions import *
+from py_connect import DeviceHandler
 
 
 class TestHwConnections(unittest.TestCase):

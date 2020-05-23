@@ -1,12 +1,9 @@
 """test_device_m2m.py"""
 
 import unittest
-import sys
-sys.path.append(".")
-
-from py_connect.hw_devices_language.hw_devices_parser import DeviceHandler  # noqa E402
-from py_connect.hw_devices import PowerType, PowerPin, DigitalPin  # noqa E402
-from py_connect.hw_devices import GPIOType  # noqa E402
+from py_connect import DeviceHandler
+from py_connect import PowerType, PowerPin, DigitalPin
+from py_connect import GPIOType
 
 
 class TestDeviceM2M(unittest.TestCase):

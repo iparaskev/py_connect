@@ -1,17 +1,19 @@
 """test_connections.py"""
 
 import unittest
-import sys
-sys.path.append(".")
+import os
+from py_connect import ConnectionsHandler
+from py_connect import Board, Peripheral
 
-from py_connect.hw_devices_language.connections_parser import ConnectionsHandler # noqa E402
-from py_connect.hw_devices import Board, Peripheral # noqa E402
+
+cons_path = \
+    "/".join(os.path.abspath(__file__).split("/")[:-2]) + "/test_connections/"
 
 
 class TestConnection(unittest.TestCase):
 
     def test_gpio_connection(self):
-        connections = ConnectionsHandler("debug_connection.cd")
+        connections = ConnectionsHandler(cons_path + "debug_connection.cd")
         gpio_con = connections.connections["rpi_sonar"]
         gpio_con_2 = connections.connections["rpi_sonar_2"]
 
@@ -63,7 +65,7 @@ class TestConnection(unittest.TestCase):
                 return p
 
     def test_i2c(self):
-        connections = ConnectionsHandler("debug_connection.cd")
+        connections = ConnectionsHandler(cons_path + "debug_connection.cd")
         i2c_con = connections.connections["rpi_bme680"]
 
         self.assertEqual(i2c_con.hw_connections[0].hwint_1,
@@ -76,7 +78,7 @@ class TestConnection(unittest.TestCase):
                          "Should be 0x77.")
 
     def test_spi(self):
-        connections = ConnectionsHandler("debug_connection.cd")
+        connections = ConnectionsHandler(cons_path + "debug_connection.cd")
         spi_con = connections.connections["rpi_icm"]
 
         self.assertEqual(spi_con.hw_connections[0].hwint_1,
