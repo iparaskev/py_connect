@@ -4,7 +4,7 @@ Add behaviours to power connections.
 """
 
 from .hw_devices import Power2Power
-from .exceptions import InvalidPowerCombination
+from ..exceptions import InvalidPowerCombination
 
 
 def connect(self):

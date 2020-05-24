@@ -7,7 +7,7 @@ from .hw_devices import USB, ADC, I2C, SPI, UART, PWM, GPIO, Gpio2Gpio
 from .hw_devices import Usb2Usb, Adc2Adc, I2c2I2c, Spi2Spi, Uart2Uart, Pwm2Pwm
 from .hw_devices import Power2Power
 from .hw_devices import GPIOType
-from .exceptions import *
+from ..exceptions import *
 
 
 def usb_connect(self):

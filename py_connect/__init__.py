@@ -8,6 +8,7 @@ from .hw_devices_language import *
 from .definitions import DEVICES_DB
 from .m2t import *
 from .get_impls import *
+from .exceptions import NotImplementedDriverError
 
 
 def parse_args():
@@ -72,13 +73,19 @@ def main():  # noqa C901
 
         if args.source:
             m2t = Generator()
-            if args.specific_con:
-                source = m2t.generate(connections.connections[args.specific_con])
-                print(source)
-            else:
-                for key in connections.connections.keys():
-                    source = m2t.generate(connections.connections[key])
+            try:
+                if args.specific_con:
+                    conn_name = args.specific_con
+                    source =\
+                        m2t.generate(connections.connections[args.specific_con])
                     print(source)
+                else:
+                    for key in connections.connections.keys():
+                        conn_name = key
+                        source = m2t.generate(connections.connections[key])
+                        print(source)
+            except NotImplementedDriverError:
+                print(conn_name)
 
     if args.update_pidevices:
         getter = ImplementationsGetter("pidevices")

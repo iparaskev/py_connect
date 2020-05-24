@@ -31,3 +31,7 @@ class TwoSlaveError(PyConnectError):
 
 class ChipEnabledFullError(PyConnectError):
     """All chip enable pins are in use."""
+
+
+class NotImplementedDriverError(PyConnectError):
+    """This peripheral doesn't have an implemented driver."""

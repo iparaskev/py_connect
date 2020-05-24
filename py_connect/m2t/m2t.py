@@ -6,6 +6,7 @@ The m2t engine for producing code for handling the code generation.
 import os
 import autopep8
 from jinja2 import Environment, FileSystemLoader
+from ..exceptions import NotImplementedDriverError
 from ..hw_devices import *
 from ..get_impls import ImplementationsGetter
 
@@ -50,7 +51,8 @@ class Generator():
         # Check if an implementation exists
         checker = ImplementationsGetter(tmpl_type)
         if driver_class not in checker.get():
-            print("impl doesn't exist")
+            raise NotImplementedDriverError("This peripheral doesn't have a "
+                                            "pidevices implementation")
 
         # Constructor args
         args = {}

@@ -31,7 +31,7 @@ connection:
     name: rpi_bme680
     board: rpi_3b_plus
     peripheral: bme680
-    peripheral_impl: BME680
+    peripheral_impl: BME68
     power_connections:
 	- gnd_1 -- gnd
 	- power_5v_2 -- vcc 
