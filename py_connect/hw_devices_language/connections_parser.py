@@ -1,6 +1,6 @@
 """connections_parser.py"""
 
-from os.path import join, dirname
+from os.path import join, dirname, basename
 from textx import metamodel_from_file
 from textx.export import metamodel_export, model_export
 from pyecore.ecore import BadValueError
@@ -30,6 +30,9 @@ class ConnectionsHandler():
 
     def __init__(self, connections_file):
         """Constructor"""
+        # Get file name
+        self._filename = basename(connections_file).split(".")[0]
+
         # Load metamodel.
         self._hw_mm = metamodel_from_file(self.MM_GRAMMAR, debug=False)
 
@@ -42,6 +45,10 @@ class ConnectionsHandler():
 
         # The connections of the file.
         self.connections = self._create_connections(self._model.connections)
+
+        # Resource set for exporting devices.
+        self.rset = ResourceSet()
+        self._devs_rsets = {}
 
     def _create_connections(self, connections):
         conns = {}
@@ -130,6 +137,7 @@ class ConnectionsHandler():
             dev = self._devices[dev_name]
         except KeyError:
             dev = DeviceHandler(key + ".hwd")
+            dev.dev.name = dev_name
             self._devices[dev_name] = dev
         return dev
 
@@ -145,20 +153,36 @@ class ConnectionsHandler():
             con = self.connections[connection]
         except KeyError:
             print("Invalid connection name.")
-        prefix = con.name
+        prefix = self._filename
         if path:
             path = path.rstrip("/") + "/"
             prefix = path + prefix
 
-        name = prefix + ".xmi"
-        # Save model
-        rset = ResourceSet()
-        r = rset.create_resource(URI(name))
-        r_b = rset.create_resource(prefix + "_board.xmi")
-        r_p = rset.create_resource(prefix + "_peripheral.xmi")
-        r_b.append(con.board)
-        r_p.append(con.peripheral)
-        r.append(con)
-        r.save()
-        r_b.save()
-        r_p.save()
+        name = prefix + "_" + con.name + ".xmi"
+
+        # Create resources for exporting
+        self._create_rset(con.board, prefix)
+        self._create_rset(con.peripheral, prefix)
+
+        # Create connection resource
+        r_con = self.rset.create_resource(URI(name))
+        r_con.append(con)
+        r_con.save()
+
+    def _create_rset(self, dev, prefix):
+        """Create a resource for exporting only once.
+
+        Look in a dictionary and if it doesn't exist create and save it.
+
+        Args:
+            dev (Device object): The device to look up.
+            prefix (str): Filename prefix
+        """
+        name = dev.name
+        try:
+            _ = self._devs_rsets[name]
+        except KeyError:
+            self._devs_rsets[name] =\
+                self.rset.create_resource(prefix + "_" + name + ".xmi")
+            self._devs_rsets[name].append(dev)
+            self._devs_rsets[name].save()

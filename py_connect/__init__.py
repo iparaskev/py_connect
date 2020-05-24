@@ -56,7 +56,6 @@ def main():
     # Connection args
     if args.connections:
         connections = ConnectionsHandler(args.connections)
-        print(connections.connections)
 
         # Save to xmi.
         if args.xmi:

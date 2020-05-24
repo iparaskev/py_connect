@@ -56,11 +56,12 @@ class TestExport(unittest.TestCase):
                 self.assertEqual(hw_1.ce[0].name, hw_2.ce[0].name, "Not same spi")
 
     def test_connection_export(self):
-        con = ConnectionsHandler(cons_path + "debug_connection.cd")
+        con_file = "debug_connection"
+        con = ConnectionsHandler(cons_path + con_file + ".cd")
         con_name = "rpi_bme680"
         mem_model = con.connections[con_name]
         con.export_xmi(con_name)
-        model = load_model(con_name)
+        model = load_model(con_file + "_" + con_name)
 
         self.assertEqual(mem_model.board.name, model.board.name,
                          "Not same boards")
