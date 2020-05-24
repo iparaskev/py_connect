@@ -7,6 +7,7 @@ from .hw_devices.hw_connections import *
 from .hw_devices_language import *
 from .definitions import DEVICES_DB
 from .m2t import *
+from .get_impls import *
 
 
 def parse_args():

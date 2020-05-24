@@ -13,10 +13,6 @@ class Generator():
     """Generate code"""
 
     TEMPLATES = {OSType.RASPBIAN: "pidevices"}
-    PIDEVICES_MAP = {
-        "hc_sr04": "HcSr04RPiGPIO",
-        "icm_20948": "ICM_20948"
-    }
 
     def __init__(self):
         """Construct the generator."""
