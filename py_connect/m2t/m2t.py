@@ -51,8 +51,10 @@ class Generator():
         # Check if an implementation exists
         checker = ImplementationsGetter(tmpl_type)
         if driver_class not in checker.get():
-            raise NotImplementedDriverError("This peripheral doesn't have a "
-                                            "pidevices implementation")
+            raise NotImplementedDriverError(
+                f"Peripheral {connection.peripheral.name} doesn't have a "
+                "pidevices implementation\n"
+            )
 
         # Constructor args
         args = {}
