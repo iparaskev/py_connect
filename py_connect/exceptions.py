@@ -35,3 +35,7 @@ class ChipEnabledFullError(PyConnectError):
 
 class NotImplementedDriverError(PyConnectError):
     """This peripheral doesn't have an implemented driver."""
+
+
+class UnicludedDeviceError(PyConnectError):
+    """Device hasn't been included in connections specification."""

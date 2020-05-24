@@ -10,6 +10,7 @@ from ..hw_devices import B2PConnection
 from ..hw_devices.hw_connections import *
 from ..hw_devices.power_connections import *
 from ..definitions import CONNECTION_GRAMMAR
+from ..exceptions import UnicludedDeviceError
 
 
 class ConnectionsHandler():
@@ -137,6 +138,9 @@ class ConnectionsHandler():
         try:
             dev = self._devices[dev_name]
         except KeyError:
+            if key not in self._devices.keys():
+                raise UnicludedDeviceError(f"{key} hasn't been included.")
+
             dev = DeviceHandler(key + ".hwd")
             dev.dev.name = dev_name
             self._devices[dev_name] = dev
