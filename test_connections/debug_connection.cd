@@ -2,6 +2,7 @@ include rpi_3b_plus
 include hc_sr04
 include bme680
 include icm_20948
+include tf_mini
 
 connection:
     name: rpi_sonar
@@ -31,7 +32,7 @@ connection:
     name: rpi_bme680
     board: rpi_3b_plus
     peripheral: bme680
-    peripheral_impl: BME68
+    peripheral_impl: BME680
     power_connections:
 	- gnd_1 -- gnd
 	- power_5v_2 -- vcc 
@@ -49,3 +50,15 @@ connection:
 	- power_3v3_1 -- vcc 
     hw_connections:
 	- spi: spi_0 -- spi_0
+
+connection:
+    name: rpi_tfmimi
+    board: rpi_3b_plus
+    peripheral: tf_mini
+    peripheral_impl: TfMini
+    power_connections:
+	- gnd_1 -- gnd
+	- power_5v_2 -- vcc 
+    hw_connections:
+	- uart: uart_0 -- uart_0
+	    baudrate: 115200
