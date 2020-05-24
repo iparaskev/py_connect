@@ -100,7 +100,10 @@ def spi_check(spi):
 
 def uart_connect(self):
     """uart connections."""
-    pass
+    check_ints(self.hwint_1, self.hwint_2)
+
+    update_int(self.hwint_1, [self.hwint_1.tx, self.hwint_1.rx])
+    update_int(self.hwint_2, [self.hwint_2.tx, self.hwint_2.rx])
 
 
 def pwm_connect(self):
@@ -177,3 +180,4 @@ Gpio2Gpio.connect = gpio_connect
 Pwm2Pwm.connect = pwm_connect
 Spi2Spi.connect = spi_connect
 I2c2I2c.connect = i2c_connect
+Uart2Uart.connect = uart_connect
