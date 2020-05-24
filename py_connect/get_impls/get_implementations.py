@@ -34,6 +34,12 @@ class ImplementationsGetter():
             # Delete tmp directory
             rmtree(self.tmp_dir)
 
+    def get(self):
+        if self.middleware == "pidevices":
+            func = self.get_pidevices
+
+        return func()
+
     def get_pidevices(self):
         # Create if it doesn't exist the txt file
         if not path.exists(PIDEVICES_IMPLS):

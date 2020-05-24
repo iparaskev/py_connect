@@ -7,6 +7,7 @@ import os
 import autopep8
 from jinja2 import Environment, FileSystemLoader
 from ..hw_devices import *
+from ..get_impls import ImplementationsGetter
 
 
 class Generator():
@@ -45,6 +46,11 @@ class Generator():
 
         # Get name of driver implementation.
         driver_class = connection.peripheral_impl
+
+        # Check if an implementation exists
+        checker = ImplementationsGetter(tmpl_type)
+        if driver_class not in checker.get():
+            print("impl doesn't exist")
 
         # Constructor args
         args = {}
