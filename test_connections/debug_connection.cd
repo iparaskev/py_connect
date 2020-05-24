@@ -52,7 +52,7 @@ connection:
 	- spi: spi_0 -- spi_0
 
 connection:
-    name: rpi_tfmimi
+    name: rpi_tfmini
     board: rpi_3b_plus
     peripheral: tf_mini
     peripheral_impl: TfMini
