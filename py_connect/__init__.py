@@ -9,6 +9,7 @@ from .definitions import DEVICES_DB
 from .m2t import *
 from .get_impls import *
 from .exceptions import NotImplementedDriverError
+from .search_repos import search_repos
 
 
 def parse_args():
@@ -84,8 +85,10 @@ def main():  # noqa C901
                         conn_name = key
                         source = m2t.generate(connections.connections[key])
                         print(source)
-            except NotImplementedDriverError:
-                print(conn_name)
+            except NotImplementedDriverError as e:
+                print(e)
+                search_repos(connections.connections[conn_name].peripheral.name,
+                             "python")
 
     if args.update_pidevices:
         getter = ImplementationsGetter("pidevices")
