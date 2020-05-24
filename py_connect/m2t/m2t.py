@@ -54,26 +54,20 @@ class Generator():
         # Constructor args
         args = {}
 
-        for hw_conn in connection.hw_int_connections:
-            # Handle gpio connection
-            if isinstance(hw_conn.board_hw, GPIO) \
-               or isinstance(hw_conn.board_hw, PWM):
-                args[hw_conn.peripheral_hw.pin.name] = \
-                    int(hw_conn.board_hw.pin.name.split("_")[-1])
-
+        for hw_conn in connection.hw_connections:
+            # Handle gpio or pwm connection
+            if isinstance(hw_conn, Gpio2Gpio) or isinstance(hw_conn, Pwm2Pwm):
+                args[hw_conn.hwint_2.pin.name] = \
+                    int(hw_conn.hwint_1.pin.name.split("_")[-1])
             # Handle i2c connection
-            if isinstance(hw_conn.board_hw, I2C):
-                args["bus"] = hw_conn.board_hw.bus
-
+            elif isinstance(hw_conn, I2c2I2c):
+                args["bus"] = hw_conn.hwint_1.bus
             # Handle spi connection
-            # TODO: Which chip enable pin?
-            if isinstance(hw_conn.board_hw, SPI):
-                args["port"] = hw_conn.board_hw.bus
-                args["device"] = \
-                    hw_conn.board_hw.master_conns.index(hw_conn.peripheral_hw)
-
+            elif isinstance(hw_conn, Spi2Spi):
+                args["port"] = hw_conn.hwint_1.bus
+                args["device"] = hw_conn.ce_index
             # Handle uart connection
-            if isinstance(hw_conn.board_hw, UART):
+            elif isinstance(hw_conn, Uart2Uart):
                 pass
 
         output = tmpl.render(device_class=driver_class,

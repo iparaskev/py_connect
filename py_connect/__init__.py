@@ -6,6 +6,7 @@ from .hw_devices.power_connections import *
 from .hw_devices.hw_connections import *
 from .hw_devices_language import *
 from .definitions import DEVICES_DB
+from .m2t import *
 
 
 def parse_args():
@@ -26,8 +27,8 @@ def parse_args():
     parser.add_argument("--db_path", help="Path to custom devices db.")
     parser.add_argument("--connections",
                         help="Path to a connection specification.")
-    parser.add_argument("--m2t",
-                        help="Flag for enabling m2t",
+    parser.add_argument("--source",
+                        help="Flag for getting source code.",
                         action="store_true")
     parser.add_argument("--specific_con",
                         help="The name of the specific connection.")
@@ -35,7 +36,7 @@ def parse_args():
     return parser.parse_args()
 
 
-def main():
+def main():  # noqa C901
     args = parse_args()
 
     # Device actions
@@ -64,6 +65,16 @@ def main():
             else:
                 for key in connections.connections.keys():
                     connections.export_xmi(key, path=args.xmi_path)
+
+        if args.source:
+            m2t = Generator()
+            if args.specific_con:
+                source = m2t.generate(connections.connections[args.specific_con])
+                print(source)
+            else:
+                for key in connections.connections.keys():
+                    source = m2t.generate(connections.connections[key])
+                    print(source)
 
 
 if __name__ == "__main__":
