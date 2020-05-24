@@ -69,6 +69,7 @@ class ConnectionsHandler():
                                  connection.peripheral.number)
 
         conn = B2PConnection(name=connection.name,
+                             peripheral_impl=connection.impl,
                              board=board.dev,
                              peripheral=periph.dev)
         # Power connections

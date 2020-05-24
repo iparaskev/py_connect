@@ -7,6 +7,7 @@ connection:
     name: rpi_sonar
     board: rpi_3b_plus
     peripheral: hc_sr04
+    peripheral_impl: HcSr04RPiGPIO
     power_connections:
 	- gnd_1 -- gnd
 	- power_5v_1 -- vcc 
@@ -18,6 +19,7 @@ connection:
     name: rpi_sonar_2
     board: rpi_3b_plus
     peripheral: hc_sr04 (2)
+    peripheral_impl: HcSr04RPiGPIO
     power_connections:
 	- gnd_1 -- gnd
 	- power_5v_2 -- vcc 
@@ -29,6 +31,7 @@ connection:
     name: rpi_bme680
     board: rpi_3b_plus
     peripheral: bme680
+    peripheral_impl: BME680
     power_connections:
 	- gnd_1 -- gnd
 	- power_5v_2 -- vcc 
@@ -40,6 +43,7 @@ connection:
     name: rpi_icm
     board: rpi_3b_plus
     peripheral: icm_20948
+    peripheral_impl: ICM_20948
     power_connections:
 	- gnd_1 -- gnd
 	- power_3v3_1 -- vcc 

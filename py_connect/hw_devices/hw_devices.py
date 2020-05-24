@@ -157,12 +157,13 @@ class CPU(EObject, metaclass=MetaEClass):
 class B2PConnection(EObject, metaclass=MetaEClass):
 
     name = EAttribute(eType=EString, derived=False, changeable=True)
+    peripheral_impl = EAttribute(eType=EString, derived=False, changeable=True)
     hw_connections = EReference(ordered=True, unique=True, containment=True, upper=-1)
     power_connections = EReference(ordered=True, unique=True, containment=True, upper=-1)
     board = EReference(ordered=True, unique=True, containment=False)
     peripheral = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, hw_connections=None, power_connections=None, name=None, board=None, peripheral=None, **kwargs):
+    def __init__(self, *, hw_connections=None, power_connections=None, name=None, board=None, peripheral=None, peripheral_impl=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -170,6 +171,9 @@ class B2PConnection(EObject, metaclass=MetaEClass):
 
         if name is not None:
             self.name = name
+
+        if peripheral_impl is not None:
+            self.peripheral_impl = peripheral_impl
 
         if hw_connections:
             self.hw_connections.extend(hw_connections)

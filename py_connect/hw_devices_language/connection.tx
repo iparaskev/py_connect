@@ -13,6 +13,7 @@ CONNECTION:
 	"connection:"
 	(("name:" name=ID)
 	 ("board:" board=ID)
+	 ("peripheral_impl:" impl=ID)
 	 ("peripheral:" peripheral=PERIPHERAL)
 	("power_connections:"? power_conns*=POWER_CONNECTION)
 	("hw_connections:" hw_conns+=HW_CONNECTION))#

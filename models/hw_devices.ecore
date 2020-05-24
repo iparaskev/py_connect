@@ -132,6 +132,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="board" lowerBound="1" eType="#//Board"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="peripheral" lowerBound="1"
         eType="#//Peripheral"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="peripheral_impl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="HwInt2HwInt" abstract="true" eSuperTypes="#//Hw2Hw"/>
   <eClassifiers xsi:type="ecore:EClass" name="Power2Power" eSuperTypes="#//Hw2Hw">

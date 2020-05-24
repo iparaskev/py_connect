@@ -17,7 +17,6 @@ class Generator():
         "hc_sr04": "HcSr04RPiGPIO",
         "icm_20948": "ICM_20948"
     }
-    MAPPER = {"pidevices": PIDEVICES_MAP}
 
     def __init__(self):
         """Construct the generator."""
@@ -49,7 +48,7 @@ class Generator():
             True if connection.peripheral.type == PeripheralType.SENSOR else False
 
         # Get name of driver implementation.
-        driver_class = self.MAPPER[tmpl_type][connection.peripheral.name]
+        driver_class = connection.peripheral_impl
 
         # Constructor args
         args = {}
