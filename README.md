@@ -14,7 +14,7 @@ Installation / Usage
 
 To install use pip:
 
-    $ pip install py_connect
+    $ pip install .
 
 
 Or clone the repo:
