@@ -33,6 +33,9 @@ def parse_args():
                         action="store_true")
     parser.add_argument("--specific_con",
                         help="The name of the specific connection.")
+    parser.add_argument("--update_pidevices",
+                        help="Update pidevices implementations.",
+                        action="store_true")
 
     return parser.parse_args()
 
@@ -76,6 +79,10 @@ def main():  # noqa C901
                 for key in connections.connections.keys():
                     source = m2t.generate(connections.connections[key])
                     print(source)
+
+    if args.update_pidevices:
+        getter = ImplementationsGetter("pidevices")
+        getter.update_pidevices("better_imports")
 
 
 if __name__ == "__main__":
