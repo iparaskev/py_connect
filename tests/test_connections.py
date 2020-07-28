@@ -3,7 +3,7 @@
 import unittest
 import os
 from py_connect import ConnectionsHandler
-from py_connect import Board, Peripheral
+from py_connect import Board, Peripheral, Distance, Temperature, Humidity, Gas
 
 
 cons_path = \
@@ -94,6 +94,23 @@ class TestConnection(unittest.TestCase):
     def test_comm_endpoint(self):
         connections = ConnectionsHandler(cons_path + "debug_connection.cd")
         con = connections.connections["rpi_sonar"]
+
+        # Simple communication checks
+        self.assertEqual(con.com_endpoint.topic_name, "sonar_1.distance")
+        self.assertEqual(con.com_endpoint.conn_params.username,
+                         "testuser", "Should be testuser.")
+        self.assertEqual(con.com_endpoint.conn_params.password,
+                         "testuser", "Should be testuser.")
+        self.assertEqual(con.com_endpoint.conn_params.host,
+                         "r4a-platform.ddns.net", "Should be ...")
+        self.assertEqual(con.com_endpoint.conn_params.port,
+                         5782, "Should be 5782")
+        self.assertIsInstance(con.com_endpoint.msg.msg_entries[0], Distance)
+
+        con = connections.connections["rpi_bme680"]
+        self.assertIsInstance(con.com_endpoint.msg.msg_entries[0], Temperature)
+        self.assertIsInstance(con.com_endpoint.msg.msg_entries[1], Humidity)
+        self.assertIsInstance(con.com_endpoint.msg.msg_entries[2], Gas)
 
 
 if __name__ == "__main__":

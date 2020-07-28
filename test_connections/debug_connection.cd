@@ -47,6 +47,14 @@ connection:
     hw_connections:
 	- i2c: i2c_1 -- i2c_0
 	    slave_address: 0x77
+    communication_endpoint:
+	topic: bme.data
+	conn_params:
+	    username: testuser
+	    password: testuser
+	    host: r4a-platform.ddns.net
+	    port: 5782
+	msg: Temperature, Humidity, Gas
 
 connection:
     name: rpi_icm
