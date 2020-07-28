@@ -886,7 +886,7 @@ class Imu(SensorDataType):
             self.gyroscope = gyroscope
 
 
-class IrMeasurment(SensorDataType):
+class IrMeasurement(SensorDataType):
 
     ir_value = EAttribute(eType=EInt, derived=False, changeable=True)
 
@@ -934,7 +934,7 @@ class Led(ActuatorDataType):
             self.intensity = intensity
 
 
-class Acceleration(SensorDataType, ThreeDimensions):
+class Accelerometer(SensorDataType, ThreeDimensions):
 
     def __init__(self, **kwargs):
 

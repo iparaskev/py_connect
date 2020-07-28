@@ -233,12 +233,12 @@
   <eClassifiers xsi:type="ecore:EClass" name="Gas" eSuperTypes="#//SensorDataType">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="gas" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Acceleration" eSuperTypes="#//SensorDataType #//ThreeDimensions"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Accelerometer" eSuperTypes="#//SensorDataType #//ThreeDimensions"/>
   <eClassifiers xsi:type="ecore:EClass" name="Magnetometer" eSuperTypes="#//SensorDataType #//ThreeDimensions"/>
   <eClassifiers xsi:type="ecore:EClass" name="Gyroscope" eSuperTypes="#//SensorDataType #//ThreeDimensions"/>
   <eClassifiers xsi:type="ecore:EClass" name="LineFollower" eSuperTypes="#//SensorDataType">
     <eStructuralFeatures xsi:type="ecore:EReference" name="irs" lowerBound="1" upperBound="-1"
-        eType="#//IrMeasurment"/>
+        eType="#//IrMeasurement"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Msg">
     <eStructuralFeatures xsi:type="ecore:EReference" name="msg_entries" lowerBound="1"
@@ -267,7 +267,7 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Imu" eSuperTypes="#//SensorDataType">
     <eStructuralFeatures xsi:type="ecore:EReference" name="accelerometer" lowerBound="1"
-        eType="#//Acceleration"/>
+        eType="#//Accelerometer"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="magnetometer" lowerBound="1"
         eType="#//Magnetometer"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="gyroscope" lowerBound="1"
@@ -278,7 +278,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="z" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="IrMeasurment" eSuperTypes="#//SensorDataType">
+  <eClassifiers xsi:type="ecore:EClass" name="IrMeasurement" eSuperTypes="#//SensorDataType">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="ir_value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Servo" eSuperTypes="#//ActuatorDataType">
