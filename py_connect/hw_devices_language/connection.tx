@@ -77,7 +77,7 @@ CON_PARAMS:
 ;
 
 NEW_ID:
-	/.*?\n/
+	/(.*?)\n/
 ;
 
 MSG_ENTRIES:
