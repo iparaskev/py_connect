@@ -91,6 +91,10 @@ class TestConnection(unittest.TestCase):
         ce_pin = spi_con.hw_connections[0].hwint_1.ce[ce_index]
         self.assertEqual(ce_pin.name, "bcm_8", "Should be bcm_8.")
 
+    def test_comm_endpoint(self):
+        connections = ConnectionsHandler(cons_path + "debug_connection.cd")
+        con = connections.connections["rpi_sonar"]
+
 
 if __name__ == "__main__":
     unittest.main()

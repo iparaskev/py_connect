@@ -15,8 +15,9 @@ CONNECTION:
 	 ("board:" board=ID)
 	 ("peripheral_impl:" impl=ID)
 	 ("peripheral:" peripheral=PERIPHERAL)
-	("power_connections:"? power_conns*=POWER_CONNECTION)
-	("hw_connections:" hw_conns+=HW_CONNECTION))#
+	 ("power_connections:"? power_conns*=POWER_CONNECTION)
+	 ("hw_connections:" hw_conns+=HW_CONNECTION)
+	 ("communication_endpoint:" com_endpoint=COM_ENDPOINT)?)#
 ;
 
 PERIPHERAL:
@@ -60,6 +61,41 @@ I2C:
 UART:
 	"-" type="uart" ":" board_int=ID "--" peripheral_int=ID
 	"baudrate:" baudrate=INT
+;
+
+COM_ENDPOINT:
+	(("topic:" topic=NEW_ID)
+	 ("conn_params:" con_params=CON_PARAMS)
+	 ("msg:" msg=MSG_ENTRIES))#
+;
+
+CON_PARAMS:
+	(("username:" username=ID)
+	 ("password:" password=ID)
+	 ("host:" host=NEW_ID)
+	 ("port:" port=INT))#
+;
+
+NEW_ID:
+	/.*?\n/
+;
+
+MSG_ENTRIES:
+	msg_entries*=MSG_TYPES[","]
+;
+
+MSG_TYPES:
+	SENSOR | ACTUATOR
+;
+
+SENSOR:
+	"ButtonArray" | "Button" | "Distance" | "Temperature" | "Humidity" | 
+	"Gas" | "Accelerometer" | "Magnetometer" | "Gyroscope" | "Imu" | "IrMeasurement" |
+	"LineFollower"
+;
+
+ACTUATOR:
+	"MotorController" | "LedsController" | "ServoController"
 ;
 
 Comment:

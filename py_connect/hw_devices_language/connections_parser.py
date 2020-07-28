@@ -6,7 +6,11 @@ from textx.export import metamodel_export, model_export
 from pyecore.ecore import BadValueError
 from pyecore.resources import ResourceSet, URI
 from .hw_devices_parser import DeviceHandler
-from ..hw_devices import B2PConnection
+from ..hw_devices import B2PConnection, ComEndpoint, ConnParams, Msg
+from ..hw_devices import ButtonArray, Button, Distance, Temperature, Humidity
+from ..hw_devices import Gas, Accelerometer, Magnetometer, Gyroscope, Imu
+from ..hw_devices import LineFollower, IrMeasurement, MotorController
+from ..hw_devices import ServoController, LedsController
 from ..hw_devices.hw_connections import *
 from ..hw_devices.power_connections import *
 from ..definitions import CONNECTION_GRAMMAR
@@ -35,7 +39,8 @@ class ConnectionsHandler():
         self._filename = basename(connections_file).split(".")[0]
 
         # Load metamodel.
-        self._hw_mm = metamodel_from_file(self.MM_GRAMMAR, debug=False)
+        self._hw_mm = metamodel_from_file(self.MM_GRAMMAR, debug=False,
+                                          use_regexp_group=True)
 
         # Load model.
         self._model = self._hw_mm.model_from_file(connections_file)
@@ -105,6 +110,10 @@ class ConnectionsHandler():
             hw_connections.append(h2h_con)
         getattr(conn, "hw_connections").extend(hw_connections)
 
+        # Communication endpoint
+        if connection.com_endpoint:
+            conn.com_endpoint = self._create_endpoint(connection.com_endpoint)
+
         return conn
 
     def _create_conn(self, clss, key_1, val_1, key_2, val_2):
@@ -122,6 +131,29 @@ class ConnectionsHandler():
         conn = clss(**args)
         conn.connect()
         return conn
+
+    def _create_endpoint(self, com_endpoint):
+        """_create_endpoint
+
+        Args:
+            com_endpoint ():
+
+        Returns:
+        """
+        endpoint = ComEndpoint(topic_name=com_endpoint.topic)
+        endpoint.conn_params = ConnParams(
+            username=com_endpoint.con_params.username,
+            password=com_endpoint.con_params.password,
+            host=com_endpoint.con_params.host,
+            port=com_endpoint.con_params.port
+        )
+
+        msg = Msg()
+        entries = [globals()[name]() for name in com_endpoint.msg.msg_entries]
+        msg.msg_entries.extend(entries)
+        endpoint.msg = msg
+
+        return endpoint
 
     def get_device(self, key, number=0):
         """Get a device handler instance for the connection.

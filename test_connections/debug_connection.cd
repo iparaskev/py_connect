@@ -15,6 +15,14 @@ connection:
     hw_connections:
 	- gpio: bcm_7 -- echo
 	- gpio: bcm_24 -- trigger
+    communication_endpoint:
+	topic: sonar_1.distance
+	conn_params:
+	    username: testuser
+	    password: testuser
+	    host: r4a-platform.ddns.net
+	    port: 5782
+	msg: Distance
 
 connection:
     name: rpi_sonar_2
