@@ -3,6 +3,7 @@ include hc_sr04
 include bme680
 include icm_20948
 include tf_mini
+include dfrobot_motor_controller
 
 connection:
     name: rpi_sonar
@@ -78,3 +79,16 @@ connection:
     hw_connections:
 	- uart: uart_0 -- uart_0
 	    baudrate: 115200
+
+connection:
+    name: rpi_dfrobot
+    board: rpi_3b_plus
+    peripheral: dfrobot_motor_controller
+    peripheral_impl: DfrobotMotorController
+    hw_connections:
+	- gpio: bcm_25 -- M1
+	- gpio: bcm_26 -- M2
+	- pwm: bcm_12 -- E1
+	    frequency: 50 hz
+	- pwm: bcm_13 -- E2
+	    frequency: 50 hz

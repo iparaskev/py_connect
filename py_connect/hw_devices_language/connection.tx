@@ -42,7 +42,7 @@ PWM:
 ;
 
 FREQUENCY:
-	val=FLOAT unit=FREQ_UNIT
+	val=INT unit=FREQ_UNIT
 ;
 
 FREQ_UNIT:
