@@ -133,6 +133,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="peripheral" lowerBound="1"
         eType="#//Peripheral"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="peripheral_impl" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="com_endpoint" lowerBound="1"
+        eType="#//ComEndpoint" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="HwInt2HwInt" abstract="true" eSuperTypes="#//Hw2Hw"/>
   <eClassifiers xsi:type="ecore:EClass" name="Power2Power" eSuperTypes="#//Hw2Hw">
@@ -202,5 +204,90 @@
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="WifiFreq">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="freq" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ComEndpoint">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="topic_name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="conn_params" lowerBound="1"
+        eType="#//ConnParams" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="msg" lowerBound="1" eType="#//Msg"
+        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ConnParams">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="username" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="password" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="host" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="port" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="PerDeviceDataType" abstract="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SensorDataType" abstract="true" eSuperTypes="#//PerDeviceDataType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ActuatorDataType" abstract="true" eSuperTypes="#//PerDeviceDataType"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Distance" eSuperTypes="#//SensorDataType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="distance" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Temperature" eSuperTypes="#//SensorDataType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="temperature" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Humidity" eSuperTypes="#//SensorDataType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="humidity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Gas" eSuperTypes="#//SensorDataType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="gas" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Acceleration" eSuperTypes="#//SensorDataType #//ThreeDimensions"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Magnetometer" eSuperTypes="#//SensorDataType #//ThreeDimensions"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Gyroscope" eSuperTypes="#//SensorDataType #//ThreeDimensions"/>
+  <eClassifiers xsi:type="ecore:EClass" name="LineFollower" eSuperTypes="#//SensorDataType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="irs" lowerBound="1" upperBound="-1"
+        eType="#//IrMeasurment"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Msg">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="msg_entries" lowerBound="1"
+        upperBound="-1" eType="#//PerDeviceDataType" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MotorController" eSuperTypes="#//ActuatorDataType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="motors" lowerBound="1"
+        upperBound="-1" eType="#//Motor" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="rpm" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="LedsController" eSuperTypes="#//ActuatorDataType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="leds" lowerBound="1" upperBound="-1"
+        eType="#//Led" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ServoController" eSuperTypes="#//ActuatorDataType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="degrees" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="servos" lowerBound="1"
+        upperBound="-1" eType="#//Servo"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ButtonArray" eSuperTypes="#//SensorDataType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="buttons" lowerBound="2"
+        upperBound="-1" eType="#//Button"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Button" eSuperTypes="#//SensorDataType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Imu" eSuperTypes="#//SensorDataType">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="accelerometer" lowerBound="1"
+        eType="#//Acceleration"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="magnetometer" lowerBound="1"
+        eType="#//Magnetometer"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="gyroscope" lowerBound="1"
+        eType="#//Gyroscope"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ThreeDimensions">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="z" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IrMeasurment" eSuperTypes="#//SensorDataType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ir_value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Servo" eSuperTypes="#//ActuatorDataType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Motor" eSuperTypes="#//ActuatorDataType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="speed" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EFloat"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Led" eSuperTypes="#//ActuatorDataType">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="intensity" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
 </ecore:EPackage>

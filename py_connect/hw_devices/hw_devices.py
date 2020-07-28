@@ -162,8 +162,9 @@ class B2PConnection(EObject, metaclass=MetaEClass):
     power_connections = EReference(ordered=True, unique=True, containment=True, upper=-1)
     board = EReference(ordered=True, unique=True, containment=False)
     peripheral = EReference(ordered=True, unique=True, containment=False)
+    com_endpoint = EReference(ordered=True, unique=True, containment=True)
 
-    def __init__(self, *, hw_connections=None, power_connections=None, name=None, board=None, peripheral=None, peripheral_impl=None, **kwargs):
+    def __init__(self, *, hw_connections=None, power_connections=None, name=None, board=None, peripheral=None, peripheral_impl=None, com_endpoint=None, **kwargs):
         if kwargs:
             raise AttributeError('unexpected arguments: {}'.format(kwargs))
 
@@ -186,6 +187,9 @@ class B2PConnection(EObject, metaclass=MetaEClass):
 
         if peripheral is not None:
             self.peripheral = peripheral
+
+        if com_endpoint is not None:
+            self.com_endpoint = com_endpoint
 
 
 @abstract
@@ -243,6 +247,100 @@ class WifiFreq(EObject, metaclass=MetaEClass):
 
         if freq is not None:
             self.freq = freq
+
+
+class ComEndpoint(EObject, metaclass=MetaEClass):
+
+    topic_name = EAttribute(eType=EString, derived=False, changeable=True)
+    conn_params = EReference(ordered=True, unique=True, containment=True)
+    msg = EReference(ordered=True, unique=True, containment=True)
+
+    def __init__(self, *, topic_name=None, conn_params=None, msg=None, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+        if topic_name is not None:
+            self.topic_name = topic_name
+
+        if conn_params is not None:
+            self.conn_params = conn_params
+
+        if msg is not None:
+            self.msg = msg
+
+
+class ConnParams(EObject, metaclass=MetaEClass):
+
+    username = EAttribute(eType=EString, derived=False, changeable=True)
+    password = EAttribute(eType=EString, derived=False, changeable=True)
+    host = EAttribute(eType=EString, derived=False, changeable=True)
+    port = EAttribute(eType=EInt, derived=False, changeable=True)
+
+    def __init__(self, *, username=None, password=None, host=None, port=None, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+        if username is not None:
+            self.username = username
+
+        if password is not None:
+            self.password = password
+
+        if host is not None:
+            self.host = host
+
+        if port is not None:
+            self.port = port
+
+
+@abstract
+class PerDeviceDataType(EObject, metaclass=MetaEClass):
+
+    def __init__(self, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+
+class Msg(EObject, metaclass=MetaEClass):
+
+    msg_entries = EReference(ordered=True, unique=True, containment=True, upper=-1)
+
+    def __init__(self, *, msg_entries=None, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+        if msg_entries:
+            self.msg_entries.extend(msg_entries)
+
+
+class ThreeDimensions(EObject, metaclass=MetaEClass):
+
+    x = EAttribute(eType=EFloat, derived=False, changeable=True)
+    y = EAttribute(eType=EFloat, derived=False, changeable=True)
+    z = EAttribute(eType=EFloat, derived=False, changeable=True)
+
+    def __init__(self, *, x=None, y=None, z=None, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+        if x is not None:
+            self.x = x
+
+        if y is not None:
+            self.y = y
+
+        if z is not None:
+            self.z = z
 
 
 class Board(Device):
@@ -495,6 +593,22 @@ class Ethernet(Network):
         super().__init__(**kwargs)
 
 
+@abstract
+class SensorDataType(PerDeviceDataType):
+
+    def __init__(self, **kwargs):
+
+        super().__init__(**kwargs)
+
+
+@abstract
+class ActuatorDataType(PerDeviceDataType):
+
+    def __init__(self, **kwargs):
+
+        super().__init__(**kwargs)
+
+
 class DigitalPin(IOPin):
 
     def __init__(self, **kwargs):
@@ -622,3 +736,220 @@ class Gpio2Gpio(HwInt2HwInt):
 
         if hwint_2 is not None:
             self.hwint_2 = hwint_2
+
+
+class Distance(SensorDataType):
+
+    distance = EAttribute(eType=EFloat, derived=False, changeable=True)
+
+    def __init__(self, *, distance=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if distance is not None:
+            self.distance = distance
+
+
+class Temperature(SensorDataType):
+
+    temperature = EAttribute(eType=EFloat, derived=False, changeable=True)
+
+    def __init__(self, *, temperature=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if temperature is not None:
+            self.temperature = temperature
+
+
+class Humidity(SensorDataType):
+
+    humidity = EAttribute(eType=EFloat, derived=False, changeable=True)
+
+    def __init__(self, *, humidity=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if humidity is not None:
+            self.humidity = humidity
+
+
+class Gas(SensorDataType):
+
+    gas = EAttribute(eType=EFloat, derived=False, changeable=True)
+
+    def __init__(self, *, gas=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if gas is not None:
+            self.gas = gas
+
+
+class LineFollower(SensorDataType):
+
+    irs = EReference(ordered=True, unique=True, containment=False, upper=-1)
+
+    def __init__(self, *, irs=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if irs:
+            self.irs.extend(irs)
+
+
+class MotorController(ActuatorDataType):
+
+    rpm = EAttribute(eType=EBoolean, derived=False, changeable=True)
+    motors = EReference(ordered=True, unique=True, containment=True, upper=-1)
+
+    def __init__(self, *, motors=None, rpm=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if rpm is not None:
+            self.rpm = rpm
+
+        if motors:
+            self.motors.extend(motors)
+
+
+class LedsController(ActuatorDataType):
+
+    leds = EReference(ordered=True, unique=True, containment=True, upper=-1)
+
+    def __init__(self, *, leds=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if leds:
+            self.leds.extend(leds)
+
+
+class ServoController(ActuatorDataType):
+
+    degrees = EAttribute(eType=EBoolean, derived=False, changeable=True)
+    servos = EReference(ordered=True, unique=True, containment=False, upper=-1)
+
+    def __init__(self, *, degrees=None, servos=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if degrees is not None:
+            self.degrees = degrees
+
+        if servos:
+            self.servos.extend(servos)
+
+
+class ButtonArray(SensorDataType):
+
+    buttons = EReference(ordered=True, unique=True, containment=False, upper=-1)
+
+    def __init__(self, *, buttons=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if buttons:
+            self.buttons.extend(buttons)
+
+
+class Button(SensorDataType):
+
+    value = EAttribute(eType=EInt, derived=False, changeable=True)
+
+    def __init__(self, *, value=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if value is not None:
+            self.value = value
+
+
+class Imu(SensorDataType):
+
+    accelerometer = EReference(ordered=True, unique=True, containment=False)
+    magnetometer = EReference(ordered=True, unique=True, containment=False)
+    gyroscope = EReference(ordered=True, unique=True, containment=False)
+
+    def __init__(self, *, accelerometer=None, magnetometer=None, gyroscope=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if accelerometer is not None:
+            self.accelerometer = accelerometer
+
+        if magnetometer is not None:
+            self.magnetometer = magnetometer
+
+        if gyroscope is not None:
+            self.gyroscope = gyroscope
+
+
+class IrMeasurment(SensorDataType):
+
+    ir_value = EAttribute(eType=EInt, derived=False, changeable=True)
+
+    def __init__(self, *, ir_value=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if ir_value is not None:
+            self.ir_value = ir_value
+
+
+class Servo(ActuatorDataType):
+
+    value = EAttribute(eType=EFloat, derived=False, changeable=True)
+
+    def __init__(self, *, value=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if value is not None:
+            self.value = value
+
+
+class Motor(ActuatorDataType):
+
+    speed = EAttribute(eType=EFloat, derived=False, changeable=True)
+
+    def __init__(self, *, speed=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if speed is not None:
+            self.speed = speed
+
+
+class Led(ActuatorDataType):
+
+    intensity = EAttribute(eType=EInt, derived=False, changeable=True)
+
+    def __init__(self, *, intensity=None, **kwargs):
+
+        super().__init__(**kwargs)
+
+        if intensity is not None:
+            self.intensity = intensity
+
+
+class Acceleration(SensorDataType, ThreeDimensions):
+
+    def __init__(self, **kwargs):
+
+        super().__init__(**kwargs)
+
+
+class Magnetometer(SensorDataType, ThreeDimensions):
+
+    def __init__(self, **kwargs):
+
+        super().__init__(**kwargs)
+
+
+class Gyroscope(SensorDataType, ThreeDimensions):
+
+    def __init__(self, **kwargs):
+
+        super().__init__(**kwargs)

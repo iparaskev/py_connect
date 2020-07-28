@@ -1,13 +1,13 @@
 
 from .hw_devices import getEClassifier, eClassifiers
 from .hw_devices import name, nsURI, nsPrefix, eClass
-from .hw_devices import Device, Board, Peripheral, PeripheralType, Pin, PowerPin, IOPin, CpuFamily, DigitalPin, AnalogPin, HwInterface, I2C, SPI, UART, PWM, USB, GPIOType, GPIO, ADC, Memory, CPU, USBType, B2PConnection, HwInt2HwInt, Power2Power, Hw2Hw, OSType, Usb2Usb, Adc2Adc, I2c2I2c, Spi2Spi, Uart2Uart, Pwm2Pwm, Gpio2Gpio, Network, Wifi, Ethernet, Bluetooth, PowerType, WifiFreq
+from .hw_devices import Device, Board, Peripheral, PeripheralType, Pin, PowerPin, IOPin, CpuFamily, DigitalPin, AnalogPin, HwInterface, I2C, SPI, UART, PWM, USB, GPIOType, GPIO, ADC, Memory, CPU, USBType, B2PConnection, HwInt2HwInt, Power2Power, Hw2Hw, OSType, Usb2Usb, Adc2Adc, I2c2I2c, Spi2Spi, Uart2Uart, Pwm2Pwm, Gpio2Gpio, Network, Wifi, Ethernet, Bluetooth, PowerType, WifiFreq, ComEndpoint, ConnParams, PerDeviceDataType, SensorDataType, ActuatorDataType, Distance, Temperature, Humidity, Gas, Acceleration, Magnetometer, Gyroscope, LineFollower, Msg, MotorController, LedsController, ServoController, ButtonArray, Button, Imu, ThreeDimensions, IrMeasurment, Servo, Motor, Led
 
 
 from . import hw_devices
 
-__all__ = ['Device', 'Board', 'Peripheral', 'PeripheralType', 'Pin', 'PowerPin', 'IOPin', 'CpuFamily', 'DigitalPin', 'AnalogPin', 'HwInterface', 'I2C', 'SPI', 'UART', 'PWM', 'USB', 'GPIOType', 'GPIO', 'ADC', 'Memory', 'CPU',
-           'USBType', 'B2PConnection', 'HwInt2HwInt', 'Power2Power', 'Hw2Hw', 'OSType', 'Usb2Usb', 'Adc2Adc', 'I2c2I2c', 'Spi2Spi', 'Uart2Uart', 'Pwm2Pwm', 'Gpio2Gpio', 'Network', 'Wifi', 'Ethernet', 'Bluetooth', 'PowerType', 'WifiFreq']
+__all__ = ['Device', 'Board', 'Peripheral', 'PeripheralType', 'Pin', 'PowerPin', 'IOPin', 'CpuFamily', 'DigitalPin', 'AnalogPin', 'HwInterface', 'I2C', 'SPI', 'UART', 'PWM', 'USB', 'GPIOType', 'GPIO', 'ADC', 'Memory', 'CPU', 'USBType', 'B2PConnection', 'HwInt2HwInt', 'Power2Power', 'Hw2Hw', 'OSType', 'Usb2Usb', 'Adc2Adc', 'I2c2I2c', 'Spi2Spi', 'Uart2Uart', 'Pwm2Pwm', 'Gpio2Gpio', 'Network', 'Wifi',
+           'Ethernet', 'Bluetooth', 'PowerType', 'WifiFreq', 'ComEndpoint', 'ConnParams', 'PerDeviceDataType', 'SensorDataType', 'ActuatorDataType', 'Distance', 'Temperature', 'Humidity', 'Gas', 'Acceleration', 'Magnetometer', 'Gyroscope', 'LineFollower', 'Msg', 'MotorController', 'LedsController', 'ServoController', 'ButtonArray', 'Button', 'Imu', 'ThreeDimensions', 'IrMeasurment', 'Servo', 'Motor', 'Led']
 
 eSubpackages = []
 eSuperPackage = None
@@ -35,6 +35,7 @@ B2PConnection.hw_connections.eType = HwInt2HwInt
 B2PConnection.power_connections.eType = Power2Power
 B2PConnection.board.eType = Board
 B2PConnection.peripheral.eType = Peripheral
+B2PConnection.com_endpoint.eType = ComEndpoint
 Power2Power.pin_1.eType = PowerPin
 Power2Power.pin_2.eType = PowerPin
 I2c2I2c.hwint_1.eType = I2C
@@ -48,6 +49,17 @@ Pwm2Pwm.hwint_2.eType = PWM
 Gpio2Gpio.hwint_1.eType = GPIO
 Gpio2Gpio.hwint_2.eType = GPIO
 Wifi.freqs.eType = WifiFreq
+ComEndpoint.conn_params.eType = ConnParams
+ComEndpoint.msg.eType = Msg
+LineFollower.irs.eType = IrMeasurment
+Msg.msg_entries.eType = PerDeviceDataType
+MotorController.motors.eType = Motor
+LedsController.leds.eType = Led
+ServoController.servos.eType = Servo
+ButtonArray.buttons.eType = Button
+Imu.accelerometer.eType = Acceleration
+Imu.magnetometer.eType = Magnetometer
+Imu.gyroscope.eType = Gyroscope
 
 otherClassifiers = [PeripheralType, CpuFamily, GPIOType, USBType, OSType, PowerType]
 
