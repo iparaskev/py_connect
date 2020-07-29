@@ -95,24 +95,7 @@ class Generator():
             elif isinstance(hw_conn, Uart2Uart):
                 pass
 
-        output = tmpl.render(device_class=driver_class,
-                             is_sensor=is_sensor,
-                             args=args)
-        output = autopep8.fix_code(output)
-
-        return output
-
-    def _create_dict(self):
-        pass
-
-    def generate_com(self, connection):
-        """Temperary generation of communication."""
-        tmpl = self.env.get_template("com_endpoint" + ".py.tmpl")
-
-        # Get if it is sensor or actuator
-        is_sensor = \
-            True if connection.peripheral.type == PeripheralType.SENSOR else False
-
+        # Comunication endpoint
         com_endpoint = connection.com_endpoint
 
         # Create dictionary for data result.
@@ -122,7 +105,9 @@ class Generator():
             data_str = data_tmpl.render(msg_type=self.MSG_MAP[msg_entrie.type])
             data_str = data_str.strip("\n")
 
-        output = tmpl.render(is_sensor=is_sensor,
+        output = tmpl.render(device_class=driver_class,
+                             is_sensor=is_sensor,
+                             args=args,
                              topic=com_endpoint.topic_name,
                              username=com_endpoint.conn_params.username,
                              password=com_endpoint.conn_params.password,

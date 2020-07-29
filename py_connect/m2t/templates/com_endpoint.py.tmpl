@@ -37,7 +37,10 @@ class Node():
     
     {% if not is_sensor %}
     def callback(self, msg, meta):
-        #self.dev.write()
+        try:
+            #self.dev.write(**msg)
+	except TypeError:
+	    print("Unexpected argument. The proper msg is {{ data }}")
         print(msg)
     {% endif %}
 
