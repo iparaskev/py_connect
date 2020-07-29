@@ -18,12 +18,13 @@ class TestM2t(unittest.TestCase):
         m2t = Generator()
 
         gpio_con = connections.connections["rpi_sonar"]
+        motor_con = connections.connections["rpi_dfrobot"]
 
         gpio_source = m2t.generate(gpio_con)
-        comu_source = m2t.generate_com(gpio_con)
+        motor_source = m2t.generate(motor_con)
 
-        #print(comu_source)
-        m2t.write_source(comu_source, "test_pub.py")
+        m2t.write_source(gpio_source, "test_pub.py")
+        m2t.write_source(motor_source, "test_sub.py")
 
 
 if __name__ == "__main__":

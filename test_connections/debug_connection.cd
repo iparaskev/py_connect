@@ -101,3 +101,11 @@ connection:
 	    frequency: 50 hz
 	- pwm: bcm_13 -- E2
 	    frequency: 50 hz
+    communication_endpoint:
+	topic: motor_controller
+	conn_params:
+	    username: testuser
+	    password: testuser
+	    host: r4a-platform.ddns.net
+	    port: 5782
+	msg: Motor_Controller
