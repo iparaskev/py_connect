@@ -28,7 +28,8 @@ class Node():
         while True:
             {% if is_sensor -%}
             #data = dev.read()
-            data = {"msg": "Test msg"}
+            data = 5
+	    {{ data }}
             self.publisher.publish(data)
             {% endif -%}
             time.sleep(1/freq)

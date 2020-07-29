@@ -1,0 +1,26 @@
+{% if msg_type == "distance" -%}
+data = {"distance": data}
+{% elif msg_type == "temperature" -%}
+data = {"temperature": data}
+{% elif msg_type == "humidity" -%}
+data = {"humidity": data}
+{% elif msg_type == "gas" -%}
+data = {"gas": data}
+{% elif msg_type == "pressure" -%}
+data = {"pressure": data}
+{% elif msg_type == "env" -%}
+data = {"temperature": data.temp, "pressure": data.pres, "humidity": data.hum,
+	"gas": data.gas}
+{% elif msg_type == "imu" -%}
+data = {"accel": {"x": data.accel.x, "y": data.accel.y, "z":data.accel.z},
+	"gyro": {"x": data.gyro.x, "y": data.gyro.y, "z":data.gyro.z},
+	"magne": {"x": data.magne.x, "y": data.magne.y, "z":data.magne.z}}
+{% elif msg_type == "three_axis" -%}
+data = {"x": data.x, "y": data.y, "z": data.z}
+{% elif msg_type == "lf" -%}
+data = {"data": data}
+{% elif msg_type == "button" -%}
+data = {"button": data}
+{% elif msg_type == "button_array" -%}
+data = {"button_array": data}
+{% endif -%}

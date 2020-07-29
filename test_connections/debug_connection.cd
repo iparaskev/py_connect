@@ -55,7 +55,7 @@ connection:
 	    password: testuser
 	    host: r4a-platform.ddns.net
 	    port: 5782
-	msg: Temperature, Humidity, Gas
+	msg: Env
 
 connection:
     name: rpi_icm

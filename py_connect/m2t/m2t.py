@@ -15,6 +15,26 @@ class Generator():
     """Generate code"""
 
     TEMPLATES = {OSType.RASPBIAN: "pidevices"}
+    MSG_MAP = {
+        SensorTypes.DISTANCE: "distance",
+        SensorTypes.TEMPERATURE: "temperature",
+        SensorTypes.HUMIDITY: "humidity",
+        SensorTypes.GAS: "gas",
+        SensorTypes.PRESSURE: "pressure",
+        SensorTypes.ENV: "env",
+        SensorTypes.IMU: "imu",
+        SensorTypes.ACCELEROMETER: "three_axis",
+        SensorTypes.MAGNETOMETER: "three_axis",
+        SensorTypes.GYROSCOPE: "three_axis",
+        SensorTypes.LINE_FOLLOWER: "lf",
+        SensorTypes.BUTTON: "button",
+        SensorTypes.BUTTON_ARRAY: "button_array",
+        ActuatorTypes.LED: "led",
+        ActuatorTypes.LEDS_CONTROLLER: "leds",
+        ActuatorTypes.MOTOR_CONTROLLER: "motor_controller",
+        ActuatorTypes.SERVO: "servo",
+        ActuatorTypes.SERVO_CONTROLLER: "servo_controller",
+    }
 
     def __init__(self):
         """Construct the generator."""
@@ -96,17 +116,19 @@ class Generator():
         com_endpoint = connection.com_endpoint
 
         # Create dictionary for data result.
-        # Sensor data in source fills the dictionary
-        if is_sensor:
-            data = {}
-        # Actuator dictionary msg is the args of the function
+        data_type = "sensor" if is_sensor else "actuator"
+        data_tmpl = self.env.get_template(f"pidevices_{data_type}_data.tmpl")
+        for msg_entrie in com_endpoint.msg.msg_entries:
+            data_str = data_tmpl.render(msg_type=self.MSG_MAP[msg_entrie.type])
+            data_str = data_str.strip("\n")
 
         output = tmpl.render(is_sensor=is_sensor,
                              topic=com_endpoint.topic_name,
                              username=com_endpoint.conn_params.username,
                              password=com_endpoint.conn_params.password,
                              host=com_endpoint.conn_params.host,
-                             port=com_endpoint.conn_params.port)
+                             port=com_endpoint.conn_params.port,
+                             data=data_str)
         output = autopep8.fix_code(output)
 
         return output

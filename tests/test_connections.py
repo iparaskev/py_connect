@@ -110,11 +110,11 @@ class TestConnection(unittest.TestCase):
 
         con = connections.connections["rpi_bme680"]
         self.assertEqual(con.com_endpoint.msg.msg_entries[0].type,
-                         SensorTypes.TEMPERATURE)
-        self.assertEqual(con.com_endpoint.msg.msg_entries[1].type,
-                         SensorTypes.HUMIDITY)
-        self.assertEqual(con.com_endpoint.msg.msg_entries[2].type,
-                         SensorTypes.GAS)
+                         SensorTypes.ENV)
+        #self.assertEqual(con.com_endpoint.msg.msg_entries[1].type,
+        #                 SensorTypes.HUMIDITY)
+        #self.assertEqual(con.com_endpoint.msg.msg_entries[2].type,
+        #                 SensorTypes.GAS)
 
 
 if __name__ == "__main__":

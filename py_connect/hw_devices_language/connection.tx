@@ -91,11 +91,11 @@ MSG_TYPES:
 SENSOR:
 	"ButtonArray" | "Button" | "Distance" | "Temperature" | "Humidity" | 
 	"Gas" | "Accelerometer" | "Magnetometer" | "Gyroscope" | "Imu" | "IrMeasurement" |
-	"LineFollower"
+	"Line_Follower" | "Pressure" | "Env"
 ;
 
 ACTUATOR:
-	"MotorController" | "LedsController" | "ServoController"
+	"Motor_Controller" | "Leds_Controller" | "Servo_Controller"
 ;
 
 Comment:
