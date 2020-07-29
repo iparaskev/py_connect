@@ -241,6 +241,8 @@
     <eLiterals name="LINE_FOLLOWER" value="1"/>
     <eLiterals name="BUTTON" value="1"/>
     <eLiterals name="BUTTON_ARRAY" value="1"/>
+    <eLiterals name="ENV" value="11"/>
+    <eLiterals name="PRESSURE" value="12"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="ActuatorTypes">
     <eLiterals name="MOTOR_CONTROLLER"/>

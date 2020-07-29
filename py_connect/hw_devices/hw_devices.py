@@ -25,8 +25,8 @@ OSType = EEnum('OSType', literals=['RASPBIAN', 'RIOT'])
 
 PowerType = EEnum('PowerType', literals=['GND', 'Power3V3', 'Power5V'])
 
-SensorTypes = EEnum('SensorTypes', literals=['DISTANCE', 'TEMPERATURE', 'HUMIDITY', 'GAS',
-                                             'ACCELEROMETER', 'MAGNETOMETER', 'GYROSCOPE', 'IMU', 'LINE_FOLLOWER', 'BUTTON', 'BUTTON_ARRAY'])
+SensorTypes = EEnum('SensorTypes', literals=['DISTANCE', 'TEMPERATURE', 'HUMIDITY', 'GAS', 'ACCELEROMETER',
+                                             'MAGNETOMETER', 'GYROSCOPE', 'IMU', 'LINE_FOLLOWER', 'BUTTON', 'BUTTON_ARRAY', 'ENV', 'PRESSURE'])
 
 ActuatorTypes = EEnum('ActuatorTypes', literals=[
                       'MOTOR_CONTROLLER', 'LED', 'LEDS_CONTROLLER', 'SERVO', 'SERVO_CONTROLLER'])
