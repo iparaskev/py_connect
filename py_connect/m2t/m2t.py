@@ -100,7 +100,7 @@ class Generator():
 
         # Create dictionary for data result.
         data_type = "sensor" if is_sensor else "actuator"
-        data_tmpl = self.env.get_template(f"pidevices_{data_type}_data.tmpl")
+        data_tmpl = self.env.get_template(f"{tmpl_type}_{data_type}_data.tmpl")
         for msg_entrie in com_endpoint.msg.msg_entries:
             data_str = data_tmpl.render(msg_type=self.MSG_MAP[msg_entrie.type])
             data_str = data_str.strip("\n")

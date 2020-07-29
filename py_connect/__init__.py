@@ -31,8 +31,7 @@ def parse_args():
     parser.add_argument("--connections",
                         help="Path to a connection specification.")
     parser.add_argument("--source",
-                        help="Flag for getting source code.",
-                        action="store_true")
+                        help="The name of the source code.")
     parser.add_argument("--specific_con",
                         help="The name of the specific connection.")
     parser.add_argument("--update_pidevices",
@@ -79,12 +78,12 @@ def main():  # noqa C901
                     conn_name = args.specific_con
                     source =\
                         m2t.generate(connections.connections[args.specific_con])
-                    print(source)
+                    m2t.write_source(source, args.source)
                 else:
                     for key in connections.connections.keys():
                         conn_name = key
                         source = m2t.generate(connections.connections[key])
-                        print(source)
+                        m2t.write_source(source, key + "_" + args.source)
             except NotImplementedDriverError as e:
                 print(e)
                 search_repos(connections.connections[conn_name].peripheral.name,
