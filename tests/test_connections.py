@@ -4,6 +4,7 @@ import unittest
 import os
 from py_connect import ConnectionsHandler
 from py_connect import Board, Peripheral, Distance, Temperature, Humidity, Gas
+from py_connect import Accelerometer, Magnetometer
 
 
 cons_path = \
@@ -111,6 +112,12 @@ class TestConnection(unittest.TestCase):
         self.assertIsInstance(con.com_endpoint.msg.msg_entries[0], Temperature)
         self.assertIsInstance(con.com_endpoint.msg.msg_entries[1], Humidity)
         self.assertIsInstance(con.com_endpoint.msg.msg_entries[2], Gas)
+
+        con = connections.connections["rpi_icm"]
+        self.assertIsInstance(con.com_endpoint.msg.msg_entries[0].accelerometer,
+                              Accelerometer)
+        self.assertIsInstance(con.com_endpoint.msg.msg_entries[0].magnetometer,
+                              Magnetometer)
 
 
 if __name__ == "__main__":

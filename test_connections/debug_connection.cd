@@ -67,6 +67,15 @@ connection:
 	- power_3v3_1 -- vcc 
     hw_connections:
 	- spi: spi_0 -- spi_0
+    communication_endpoint:
+	topic: imu.data
+	conn_params:
+	    username: testuser
+	    password: testuser
+	    host: r4a-platform.ddns.net
+	    port: 5782
+	msg: Imu
+
 
 connection:
     name: rpi_tfmini

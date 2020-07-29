@@ -132,6 +132,19 @@ class ConnectionsHandler():
         conn.connect()
         return conn
 
+    def _create_msg_data_type(self, entrie):
+        """Initialize all the attributes inside a msg entrie object.
+
+        Args:
+            entrie (PerDeviceDataType object): The target object that it's
+                attributes must be initialized.
+        """
+
+        for s in entrie.eClass.eStructuralFeatures:
+            if s.eClass.name != "EAttribute":
+                setattr(entrie, s.name, s.eType())
+                self._create_msg_data_type(getattr(entrie, s.name))
+
     def _create_endpoint(self, com_endpoint):
         """_create_endpoint
 
@@ -149,7 +162,12 @@ class ConnectionsHandler():
         )
 
         msg = Msg()
-        entries = [globals()[name]() for name in com_endpoint.msg.msg_entries]
+        entries = []
+        for name in com_endpoint.msg.msg_entries:
+            entrie = globals()[name]()
+            self._create_msg_data_type(entrie)
+            entries.append(entrie)
+
         msg.msg_entries.extend(entries)
         endpoint.msg = msg
 
