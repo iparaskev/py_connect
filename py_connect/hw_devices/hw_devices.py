@@ -343,6 +343,28 @@ class ThreeDimensions(EObject, metaclass=MetaEClass):
             self.z = z
 
 
+class Color(EObject, metaclass=MetaEClass):
+
+    r = EAttribute(eType=EInt, derived=False, changeable=True)
+    g = EAttribute(eType=EInt, derived=False, changeable=True)
+    b = EAttribute(eType=EInt, derived=False, changeable=True)
+
+    def __init__(self, *, r=None, g=None, b=None, **kwargs):
+        if kwargs:
+            raise AttributeError('unexpected arguments: {}'.format(kwargs))
+
+        super().__init__()
+
+        if r is not None:
+            self.r = r
+
+        if g is not None:
+            self.g = g
+
+        if b is not None:
+            self.b = b
+
+
 class Board(Device):
 
     timers = EAttribute(eType=EInt, derived=False, changeable=True)
@@ -925,13 +947,17 @@ class Motor(ActuatorDataType):
 class Led(ActuatorDataType):
 
     intensity = EAttribute(eType=EInt, derived=False, changeable=True)
+    color = EReference(ordered=True, unique=True, containment=False)
 
-    def __init__(self, *, intensity=None, **kwargs):
+    def __init__(self, *, intensity=None, color=None, **kwargs):
 
         super().__init__(**kwargs)
 
         if intensity is not None:
             self.intensity = intensity
+
+        if color is not None:
+            self.color = color
 
 
 class Accelerometer(SensorDataType, ThreeDimensions):
