@@ -1,0 +1,50 @@
+from commlib.transports.amqp import (                           
+    Publisher, Subscriber, ConnectionParameters, AMQPConnection)
+import time                                                     
+
+
+class Node():
+    """Runing node."""
+
+    def __init__(self):
+        topic = "{{ topic }}"
+	conn_params = ConnectionParameters()
+        conn_params.credentials.username = "{{ username }}"
+        conn_params.credentials.password = "{{ password }}"
+        conn_params.host = "{{ host }}"
+        conn_params.port = {{ port }}                      
+
+        {% if is_sensor %}
+	self.publisher = Publisher(conn_params=conn_params,
+                                   topic=topic)
+	{% else %}
+        self.subscriber = Subscriber(conn_params=conn_params,
+                                     topic=topic,
+                                     on_message=self.callback)
+	{% endif %}
+
+    {% if is_sensor %}
+    def run(self, freq=1):
+        while True:
+            {% if is_sensor -%}
+            #data = dev.read()
+            data = {"msg": "Test msg"}
+            self.publisher.publish(data)
+            {% endif -%}
+            time.sleep(1/freq)
+    {% endif %}
+    
+    {% if not is_sensor %}
+    def callback(self, msg, meta):
+        #self.dev.write()
+        print(msg)
+    {% endif %}
+
+
+def main():
+    node = Node()
+    node.run()
+
+
+if __name__ == "__main__":
+    main()
