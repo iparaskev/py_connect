@@ -3,8 +3,7 @@
 import unittest
 import os
 from py_connect import ConnectionsHandler
-from py_connect import Board, Peripheral, Distance, Temperature, Humidity, Gas
-from py_connect import Accelerometer, Magnetometer
+from py_connect import Board, Peripheral, SensorTypes
 
 
 cons_path = \
@@ -106,18 +105,16 @@ class TestConnection(unittest.TestCase):
                          "r4a-platform.ddns.net", "Should be ...")
         self.assertEqual(con.com_endpoint.conn_params.port,
                          5782, "Should be 5782")
-        self.assertIsInstance(con.com_endpoint.msg.msg_entries[0], Distance)
+        self.assertEqual(con.com_endpoint.msg.msg_entries[0].type,
+                         SensorTypes.DISTANCE)
 
         con = connections.connections["rpi_bme680"]
-        self.assertIsInstance(con.com_endpoint.msg.msg_entries[0], Temperature)
-        self.assertIsInstance(con.com_endpoint.msg.msg_entries[1], Humidity)
-        self.assertIsInstance(con.com_endpoint.msg.msg_entries[2], Gas)
-
-        con = connections.connections["rpi_icm"]
-        self.assertIsInstance(con.com_endpoint.msg.msg_entries[0].accelerometer,
-                              Accelerometer)
-        self.assertIsInstance(con.com_endpoint.msg.msg_entries[0].magnetometer,
-                              Magnetometer)
+        self.assertEqual(con.com_endpoint.msg.msg_entries[0].type,
+                         SensorTypes.TEMPERATURE)
+        self.assertEqual(con.com_endpoint.msg.msg_entries[1].type,
+                         SensorTypes.HUMIDITY)
+        self.assertEqual(con.com_endpoint.msg.msg_entries[2].type,
+                         SensorTypes.GAS)
 
 
 if __name__ == "__main__":

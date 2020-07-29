@@ -7,10 +7,8 @@ from pyecore.ecore import BadValueError
 from pyecore.resources import ResourceSet, URI
 from .hw_devices_parser import DeviceHandler
 from ..hw_devices import B2PConnection, ComEndpoint, ConnParams, Msg
-from ..hw_devices import ButtonArray, Button, Distance, Temperature, Humidity
-from ..hw_devices import Gas, Accelerometer, Magnetometer, Gyroscope, Imu
-from ..hw_devices import LineFollower, IrMeasurement, MotorController
-from ..hw_devices import ServoController, LedsController
+from ..hw_devices import PeripheralType, SensorTypes, ActuatorTypes
+from ..hw_devices import SensorDataType, ActuatorDataType
 from ..hw_devices.hw_connections import *
 from ..hw_devices.power_connections import *
 from ..definitions import CONNECTION_GRAMMAR
@@ -112,7 +110,8 @@ class ConnectionsHandler():
 
         # Communication endpoint
         if connection.com_endpoint:
-            conn.com_endpoint = self._create_endpoint(connection.com_endpoint)
+            conn.com_endpoint = self._create_endpoint(connection.com_endpoint,
+                                                      conn.peripheral.type)
 
         return conn
 
@@ -132,20 +131,7 @@ class ConnectionsHandler():
         conn.connect()
         return conn
 
-    def _create_msg_data_type(self, entrie):
-        """Initialize all the attributes inside a msg entrie object.
-
-        Args:
-            entrie (PerDeviceDataType object): The target object that it's
-                attributes must be initialized.
-        """
-
-        for s in entrie.eClass.eStructuralFeatures:
-            if s.eClass.name != "EAttribute":
-                setattr(entrie, s.name, s.eType())
-                self._create_msg_data_type(getattr(entrie, s.name))
-
-    def _create_endpoint(self, com_endpoint):
+    def _create_endpoint(self, com_endpoint, per_type):
         """_create_endpoint
 
         Args:
@@ -164,9 +150,12 @@ class ConnectionsHandler():
         msg = Msg()
         entries = []
         for name in com_endpoint.msg.msg_entries:
-            entrie = globals()[name]()
-            self._create_msg_data_type(entrie)
-            entries.append(entrie)
+            if per_type == PeripheralType.SENSOR:
+                type = getattr(SensorTypes, name.upper())
+                entries.append(SensorDataType(type=type))
+            else:
+                type = getattr(ActuatorTypes, name.upper())
+                entries.append(ActuatorDataType(type=type))
 
         msg.msg_entries.extend(entries)
         endpoint.msg = msg
