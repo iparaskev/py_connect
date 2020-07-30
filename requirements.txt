@@ -16,3 +16,4 @@ pymultigen==0.2.0
 PyYAML==5.3.1
 RestrictedPython==5.0
 textX==2.1.0
+Pillow==7.2.0

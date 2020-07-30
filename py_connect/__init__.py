@@ -7,6 +7,7 @@ from .hw_devices.hw_connections import *
 from .hw_devices_language import *
 from .definitions import DEVICES_DB
 from .m2t import *
+from .drawer import *
 from .get_impls import *
 from .exceptions import NotImplementedDriverError
 from .search_repos import search_repos
