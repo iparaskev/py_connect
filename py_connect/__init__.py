@@ -71,6 +71,7 @@ def main():  # noqa C901
                 for key in connections.connections.keys():
                     connections.export_xmi(key, path=args.xmi_path)
 
+        # Generate source code.
         if args.source:
             m2t = Generator()
             try:
