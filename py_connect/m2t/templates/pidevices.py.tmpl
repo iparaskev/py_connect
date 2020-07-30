@@ -15,6 +15,10 @@ class Node():
         conn_params.host = "{{ host }}"
         conn_params.port = {{ port }}                      
 
+	self.dev = {{ device_class }}({% for key, value in args.items() -%}
+				      {{ key }}={{ value }},
+				      {%- endfor -%}
+				      )
         {% if is_sensor %}
 	self.publisher = Publisher(conn_params=conn_params,
                                    topic=topic)
@@ -22,12 +26,9 @@ class Node():
         self.subscriber = Subscriber(conn_params=conn_params,
                                      topic=topic,
                                      on_message=self.callback)
+	self.subscriber.run()
 	{% endif %}
 	
-	self.dev = {{ device_class }}({% for key, value in args.items() -%}
-				      {{ key }}={{ value }},
-				      {%- endfor -%}
-				      )
 
     {% if is_sensor %}
     def run(self, freq=1):
