@@ -1,6 +1,7 @@
 """drawer.py"""
 
 from PIL import Image, ImageDraw
+from ..hw_devices.hw_connections import Spi2Spi
 
 
 class Drawer():
@@ -20,9 +21,6 @@ class Drawer():
         self._topic_margin = 10
         self._line_dist = 20
 
-        self.img = Image.new("RGB", self._img_dims, color="white")
-        self.draw = ImageDraw.Draw(self.img)
-
     def _draw_rect(self, offset, dims, text):
         self.draw.rectangle([offset, (offset[0]+dims[0], offset[1]+dims[1])],
                             width=1, outline="black")
@@ -40,7 +38,10 @@ class Drawer():
                        text,
                        fill="black")
 
-    def draw_connection(self, connection):
+    def draw_connection(self, connection, save_path=None):
+        self.img = Image.new("RGB", self._img_dims, color="white")
+        self.draw = ImageDraw.Draw(self.img)
+
         # Draw board
         self._draw_rect(
             self._board_offset, self._board_dims, connection.board.name
@@ -78,6 +79,11 @@ class Drawer():
                        width=1,
                        fill="red")
 
+        # Save image
+        if save_path:
+            self.img.save(save_path)
+        self.img.close()
+
     def _get_conns(self, connection):
         pins = []
 
@@ -89,12 +95,22 @@ class Drawer():
 
         # Get names of hw_int pins
         for hw_con in connection.hw_connections:
-            board_hw = self._get_hwint_pins(hw_con.hwint_1)
-            per_hw = self._get_hwint_pins(hw_con.hwint_2)
-            for b, p in zip(board_hw, per_hw):
-                pins.append(f"{b} -- {p}")
+            pins += self._get_pin_names(hw_con)
 
         return pins
+
+    def _get_pin_names(self, hw_con):
+        if isinstance(hw_con, Spi2Spi):
+            board_hw =\
+                [hw_con.hwint_1.mosi.name, hw_con.hwint_1.miso.name,
+                 hw_con.hwint_1.sclk.name, hw_con.hwint_1.ce[hw_con.ce_index].name]
+            per_hw = [hw_con.hwint_2.mosi.name, hw_con.hwint_2.miso.name,
+                      hw_con.hwint_2.sclk.name, hw_con.hwint_2.ce[0].name]
+        else:
+            board_hw = self._get_hwint_pins(hw_con.hwint_1)
+            per_hw = self._get_hwint_pins(hw_con.hwint_2)
+
+        return [f"{b} -- {p}" for b, p in zip(board_hw, per_hw)]
 
     def _get_hwint_pins(self, hw_int):
         pin_names = []
@@ -105,6 +121,3 @@ class Drawer():
 
     def _get_power_pins(self, power):
         return power.name
-
-    def save(self, path):
-        self.img.save(path)

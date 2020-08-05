@@ -100,14 +100,13 @@ def main():  # noqa C901
             drawer = Drawer()
             if args.specific_con:
                 conn_name = args.specific_con
-                drawer.draw_connection(connections.connections[args.specific_con])
-                drawer.save(conn_name + ".png")
+                drawer.draw_connection(connections.connections[args.specific_con],
+                                       conn_name + ".png")
             else:
                 for key in connections.connections.keys():
                     conn_name = key
-                    print(conn_name)
-                    drawer.draw_connection(connections.connections[key])
-                    drawer.save(conn_name + ".png")
+                    drawer.draw_connection(connections.connections[key],
+                                           conn_name + ".png")
 
     if args.update_pidevices:
         getter = ImplementationsGetter("pidevices")
