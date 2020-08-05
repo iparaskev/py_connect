@@ -1,7 +1,7 @@
 """drawer.py"""
 
 from PIL import Image, ImageDraw
-from ..hw_devices.hw_connections import Spi2Spi
+from ..hw_devices.hw_connections import Spi2Spi, Uart2Uart
 
 
 class Drawer():
@@ -106,6 +106,9 @@ class Drawer():
                  hw_con.hwint_1.sclk.name, hw_con.hwint_1.ce[hw_con.ce_index].name]
             per_hw = [hw_con.hwint_2.mosi.name, hw_con.hwint_2.miso.name,
                       hw_con.hwint_2.sclk.name, hw_con.hwint_2.ce[0].name]
+        elif isinstance(hw_con, Uart2Uart):
+            board_hw = [hw_con.hwint_1.rx.name, hw_con.hwint_1.tx.name]
+            per_hw = [hw_con.hwint_2.tx.name, hw_con.hwint_2.rx.name]
         else:
             board_hw = self._get_hwint_pins(hw_con.hwint_1)
             per_hw = self._get_hwint_pins(hw_con.hwint_2)
