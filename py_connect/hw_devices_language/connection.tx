@@ -12,7 +12,7 @@ INCLUDE:
 CONNECTION:
 	"connection:"
 	(("name:" name=ID)
-	 ("board:" board=ID)
+	 ("board:" board=BOARD)
 	 ("peripheral_impl:" impl=ID)
 	 ("peripheral:" peripheral=PERIPHERAL)
 	 ("power_connections:"? power_conns*=POWER_CONNECTION)
@@ -21,6 +21,10 @@ CONNECTION:
 ;
 
 PERIPHERAL:
+	device=ID ("("number=INT")")?
+;
+
+BOARD:
 	device=ID ("("number=INT")")?
 ;
 

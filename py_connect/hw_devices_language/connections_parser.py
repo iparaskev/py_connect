@@ -1,9 +1,7 @@
 """connections_parser.py"""
 
-from os.path import join, dirname, basename
+from os.path import basename
 from textx import metamodel_from_file
-from textx.export import metamodel_export, model_export
-from pyecore.ecore import BadValueError
 from pyecore.resources import ResourceSet, URI
 from .hw_devices_parser import DeviceHandler
 from ..hw_devices import B2PConnection, ComEndpoint, ConnParams, Msg
@@ -68,7 +66,8 @@ class ConnectionsHandler():
 
     def _instantiate_con(self, connection):
         # Get device handler objects for faster manipulation.
-        board = self.get_device(connection.board)
+        board = self.get_device(connection.board.device,
+                                connection.board.number)
         periph = self.get_device(connection.peripheral.device,
                                  connection.peripheral.number)
 
