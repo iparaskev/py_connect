@@ -114,3 +114,6 @@ venv.bak/
 
 # Driver implementations
 py_connect/m2t/driver_implementations
+
+# Png files
+*.png
