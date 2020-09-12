@@ -1,0 +1,13 @@
+peripheral:
+    name: button
+    type: sensor
+    operating_voltage: 3
+    vcc: 3
+    pins:
+	- power:
+	    name: vcc
+	    number: 1
+	    type: 3v3
+	- io_digital: -> output
+	    name: button
+	    number: 2
