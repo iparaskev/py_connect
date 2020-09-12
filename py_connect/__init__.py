@@ -5,7 +5,6 @@ from .hw_devices import *
 from .hw_devices.power_connections import *
 from .hw_devices.hw_connections import *
 from .hw_devices_language import *
-from .definitions import DEVICES_DB
 from .m2t import *
 from .drawer import *
 from .get_impls import *
@@ -35,7 +34,7 @@ def parse_args():
                         help="Flag for generating source code.",
                         action="store_true")
     parser.add_argument("--schematic",
-                        help="The name of the source code.",
+                        help="Flag for generating schematics images.",
                         action="store_true")
     parser.add_argument("--specific_con",
                         help="The name of the specific connection.")
@@ -79,21 +78,28 @@ def main():  # noqa C901
         # Generate source code.
         if args.source:
             m2t = Generator()
-            try:
-                if args.specific_con:
+            if args.specific_con:
+                try:
                     conn_name = args.specific_con
                     source =\
                         m2t.generate(connections.connections[args.specific_con])
                     m2t.write_source(source, conn_name + ".py")
-                else:
-                    for key in connections.connections.keys():
-                        conn_name = key
+                except NotImplementedDriverError as e:
+                    print(e)
+                    search_repos(connections.connections[conn_name].peripheral.name,
+                                 "python")
+            else:
+                for key in connections.connections.keys():
+                    print(key)
+                    conn_name = key
+                    try:
                         source = m2t.generate(connections.connections[key])
                         m2t.write_source(source, conn_name + ".py")
-            except NotImplementedDriverError as e:
-                print(e)
-                search_repos(connections.connections[conn_name].peripheral.name,
-                             "python")
+                    except NotImplementedDriverError as e:
+                        print(e)
+                        search_repos(
+                            connections.connections[conn_name].peripheral.name,
+                            "python")
 
         # Schematic image.
         if args.schematic:
