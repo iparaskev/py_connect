@@ -1,7 +1,7 @@
 from pidevices import ButtonRPiGPIO
-from commlib.transports.amqp import (
-    Publisher, Subscriber, ConnectionParameters, AMQPConnection)
+from commlib.transports.amqp import Publisher, ConnectionParameters
 import time
+import random
 
 
 class Node():
@@ -21,9 +21,13 @@ class Node():
                                    topic=topic)
 
     def run(self, freq=1):
+        t_s = time.time()
         while True:
             #data = dev.read()
-            data = 5
+            if time.time() - t_s > 20:
+                data = 1
+            else:
+                data = 0
             data = {"button": data}
             self.publisher.publish(data)
             time.sleep(1/freq)
