@@ -1,9 +1,9 @@
 {% if msg_type == "motor_controller" -%}
-"{"speed_1": int, "speed_2": int, "RPM": bool}"
+{\"speed_1\": int, \"speed_2\": int, \"RPM\": bool}
 {% elif msg_type == "led" -%}
-"{"data": [r, g, b, bright]}"
+{\"data\": [r, g, b, bright]}
 {% elif msg_type == "leds" -%}
-"{"data": [[r, g, b, brigh], ], "wait_ms": int, "wipe": bool}"
+{\"data\": [[r, g, b, brigh], ], \"wait_ms\": int, \"wipe\": bool}
 {% elif msg_type == "servo_controller" -%}
-"{"channel": [], "values": [], "degrees": bool}"
+{\"channel\": [], \"values\": [], \"degrees\": bool}
 {% endif -%}
