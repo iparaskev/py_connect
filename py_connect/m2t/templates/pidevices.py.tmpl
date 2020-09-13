@@ -1,8 +1,11 @@
 from pidevices import {{ device_class }}
-from commlib.transports.amqp import (                           
-    Publisher, Subscriber, ConnectionParameters, AMQPConnection)
+{% if is_sensor -%}
+from commlib.transports.amqp import Publisher, ConnectionParameters
 import time                                                     
-
+import random
+{% else %}
+from commlib.transports.amqp import Subscriber, ConnectionParameters
+{% endif -%}
 
 class Node():
     """Runing node."""
@@ -35,7 +38,7 @@ class Node():
         while True:
             {% if is_sensor -%}
             #data = dev.read()
-            data = 5
+            data = random.randint(3, 20) 
 	    {{ data }}
             self.publisher.publish(data)
             {% endif -%}
