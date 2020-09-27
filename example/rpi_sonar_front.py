@@ -8,7 +8,7 @@ class Node():
     """Runing node."""
 
     def __init__(self):
-        topic = "sonar_left.distance"
+        topic = "sonar_front.distance"
         conn_params = ConnectionParameters()
         conn_params.credentials.username = "testuser"
         conn_params.credentials.password = "testuser"
@@ -25,7 +25,7 @@ class Node():
             #data = dev.read()
             data = random.randint(3, 20)
             data = {"distance": data}
-            print(f"Left: {data}")
+            print(f"Fornt: {data}")
             self.publisher.publish(data)
             time.sleep(1/freq)
 

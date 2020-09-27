@@ -1,4 +1,4 @@
-from pidevices import HcSr04RPiGPIO
+#from pidevices import HcSr04RPiGPIO
 from commlib.transports.amqp import Publisher, ConnectionParameters
 import time
 import random
@@ -25,6 +25,7 @@ class Node():
             #data = dev.read()
             data = random.randint(3, 20)
             data = {"distance": data}
+            print(f"Right: {data}")
             self.publisher.publish(data)
             time.sleep(1/freq)
 
