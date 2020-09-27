@@ -1,7 +1,7 @@
 from pidevices import {{ device_class }}
+import time                                                     
 {% if is_sensor -%}
 from commlib.transports.amqp import Publisher, ConnectionParameters
-import time                                                     
 import random
 {% else %}
 from commlib.transports.amqp import Subscriber, ConnectionParameters
@@ -32,8 +32,6 @@ class Node():
 	self.subscriber.run()
 	{% endif %}
 	
-
-    {% if is_sensor %}
     def run(self, freq=1):
         while True:
             {% if is_sensor -%}
@@ -43,7 +41,6 @@ class Node():
             self.publisher.publish(data)
             {% endif -%}
             time.sleep(1/freq)
-    {% endif %}
     
     {% if not is_sensor %}
     def callback(self, msg, meta):
