@@ -1,6 +1,7 @@
-from pidevices import DfrobotMotorController
+#from pidevices import DfrobotMotorController
 
 from commlib.transports.amqp import Subscriber, ConnectionParameters
+import time
 
 
 class Node():
@@ -21,10 +22,14 @@ class Node():
                                      on_message=self.callback)
         self.subscriber.run()
 
+    def run(self):
+        while True:
+            time.sleep(1)
+
     def callback(self, msg, meta):
         try:
             # self.dev.write(**msg)
-            print("Command {msg}")
+            print(f"Command {msg}")
         except TypeError:
             print(
                 "Unexpected argument. The proper msg is {\"speed_1\": int, \"speed_2\": int, \"RPM\": bool}")

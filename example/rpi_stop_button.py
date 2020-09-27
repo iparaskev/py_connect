@@ -1,4 +1,4 @@
-from pidevices import ButtonRPiGPIO
+#from pidevices import ButtonRPiGPIO
 from commlib.transports.amqp import Publisher, ConnectionParameters
 import time
 import random
@@ -15,7 +15,7 @@ class Node():
         conn_params.host = "r4a-platform.ddns.net"
         conn_params.port = 5782
 
-        self.dev = ButtonRPiGPIO(button=24,)
+        #self.dev = ButtonRPiGPIO(button=24,)
 
         self.publisher = Publisher(conn_params=conn_params,
                                    topic=topic)
@@ -24,10 +24,10 @@ class Node():
         t_s = time.time()
         while True:
             #data = dev.read()
-            if time.time() - t_s > 20:
+            data = 0
+            if time.time() - t_s > 20 and time.time() - t_s < 21:
                 data = 1
-            else:
-                data = 0
+                print("Stop")
             data = {"button": data}
             self.publisher.publish(data)
             time.sleep(1/freq)
