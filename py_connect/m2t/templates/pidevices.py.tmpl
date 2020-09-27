@@ -35,8 +35,7 @@ class Node():
     def run(self, freq=1):
         while True:
             {% if is_sensor -%}
-            #data = dev.read()
-            data = random.randint(3, 20) 
+            data = dev.read()
 	    {{ data }}
             self.publisher.publish(data)
             {% endif -%}
@@ -45,10 +44,10 @@ class Node():
     {% if not is_sensor %}
     def callback(self, msg, meta):
         try:
-            #self.dev.write(**msg)
+            self.dev.write(**msg)
+	    print(msg)
 	except TypeError:
 	    print("Unexpected argument. The proper msg is {{ data }}")
-        print(msg)
     {% endif %}
 
 

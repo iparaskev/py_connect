@@ -1,6 +1,6 @@
-#from pidevices import HcSr04RPiGPIO
-from commlib.transports.amqp import Publisher, ConnectionParameters
+from pidevices import HcSr04RPiGPIO
 import time
+from commlib.transports.amqp import Publisher, ConnectionParameters
 import random
 
 
@@ -15,17 +15,15 @@ class Node():
         conn_params.host = "r4a-platform.ddns.net"
         conn_params.port = 5782
 
-        #self.dev = HcSr04RPiGPIO(echo=17, trigger=27,)
+        self.dev = HcSr04RPiGPIO(echo=17, trigger=27,)
 
         self.publisher = Publisher(conn_params=conn_params,
                                    topic=topic)
 
     def run(self, freq=1):
         while True:
-            #data = dev.read()
-            data = random.randint(3, 20)
+            data = dev.read()
             data = {"distance": data}
-            print(f"Right: {data}")
             self.publisher.publish(data)
             time.sleep(1/freq)
 
