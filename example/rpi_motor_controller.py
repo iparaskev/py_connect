@@ -1,7 +1,7 @@
-#from pidevices import DfrobotMotorController
+from pidevices import DfrobotMotorController
+import time
 
 from commlib.transports.amqp import Subscriber, ConnectionParameters
-import time
 
 
 class Node():
@@ -15,25 +15,24 @@ class Node():
         conn_params.host = "r4a-platform.ddns.net"
         conn_params.port = 5782
 
-        #self.dev = DfrobotMotorController(M1=23, M2=24, E1=12, E2=13,)
+        self.dev = DfrobotMotorController(M1=23, M2=24, E1=12, E2=13,)
 
         self.subscriber = Subscriber(conn_params=conn_params,
                                      topic=topic,
                                      on_message=self.callback)
         self.subscriber.run()
 
-    def run(self):
+    def run(self, freq=1):
         while True:
-            time.sleep(1)
+            time.sleep(1/freq)
 
     def callback(self, msg, meta):
         try:
-            # self.dev.write(**msg)
-            print(f"Command {msg}")
+            self.dev.write(**msg)
+            print(msg)
         except TypeError:
             print(
                 "Unexpected argument. The proper msg is {\"speed_1\": int, \"speed_2\": int, \"RPM\": bool}")
-        print(msg)
 
 
 def main():
