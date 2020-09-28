@@ -1,4 +1,4 @@
-from pidevices import HcSr04RPiGPIO
+from pidevices import TfMini
 import time
 from commlib.transports.amqp import Publisher, ConnectionParameters
 import random
@@ -8,14 +8,14 @@ class Node():
     """Runing node."""
 
     def __init__(self):
-        topic = "sonar_right.distance"
+        topic = "tfmini_front.distance"
         conn_params = ConnectionParameters()
         conn_params.credentials.username = "testuser"
         conn_params.credentials.password = "testuser"
         conn_params.host = "r4a-platform.ddns.net"
         conn_params.port = 5782
 
-        self.dev = HcSr04RPiGPIO(echo=17, trigger=27,)
+        self.dev = TfMini()
 
         self.publisher = Publisher(conn_params=conn_params,
                                    topic=topic)

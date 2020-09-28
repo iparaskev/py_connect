@@ -22,7 +22,7 @@ class Node():
 
     def run(self, freq=1):
         while True:
-            data = dev.read()
+            data = self.dev.read()
             data = {"distance": data}
             self.publisher.publish(data)
             time.sleep(1/freq)
