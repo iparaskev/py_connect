@@ -35,7 +35,7 @@ class Node():
     def run(self, freq=1):
         while True:
             {% if is_sensor -%}
-            data = dev.read()
+            data = self.dev.read()
 	    {{ data }}
             self.publisher.publish(data)
             {% endif -%}
