@@ -70,7 +70,8 @@ UART:
 COM_ENDPOINT:
 	(("topic:" topic=NEW_ID)
 	 ("conn_params:" con_params=CON_PARAMS)
-	 ("msg:" msg=MSG_ENTRIES))#
+	 ("msg:" msg=MSG_ENTRIES)
+     ("frequency:" freq=FREQUENCY)?)#
 ;
 
 CON_PARAMS:

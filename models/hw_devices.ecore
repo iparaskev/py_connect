@@ -190,7 +190,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Wifi" eSuperTypes="#//Network">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="freqs" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="freqs" lowerBound="1" upperBound="-1"
         eType="#//WifiFreq" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Ethernet" eSuperTypes="#//Network"/>
@@ -221,6 +221,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="PerDeviceDataType" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="SensorDataType" eSuperTypes="#//PerDeviceDataType">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//SensorTypes"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="frequency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActuatorDataType" eSuperTypes="#//PerDeviceDataType">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//ActuatorTypes"/>

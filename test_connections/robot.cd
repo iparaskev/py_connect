@@ -13,8 +13,8 @@ connection:
 	- gnd_1 -- gnd
 	- power_5v_1 -- vcc 
     hw_connections:
-	- gpio: bcm_17 -- echo
-	- gpio: bcm_27 -- trigger
+	- gpio: bcm_2 -- echo
+	- gpio: bcm_3 -- trigger
     communication_endpoint:
 	topic: sonar_right.distance
 	conn_params:
@@ -33,8 +33,8 @@ connection:
 	- gnd_1 -- gnd
 	- power_5v_2 -- vcc 
     hw_connections:
-	- gpio: bcm_10 -- echo
-	- gpio: bcm_9 -- trigger
+	- gpio: bcm_4 -- echo
+	- gpio: bcm_22 -- trigger
     communication_endpoint:
 	topic: sonar_left.distance
 	conn_params:
@@ -45,18 +45,18 @@ connection:
 	msg: Distance
 
 connection:
-    name: rpi_tfmini_front
+    name: rpi_sonar_front
     board: rpi_3b_plus
-    peripheral: tf_mini
-    peripheral_impl: TfMini
+    peripheral: hc_sr04 (3)
+    peripheral_impl: HcSr04RPiGPIO
     power_connections:
 	- gnd_1 -- gnd
 	- power_5v_2 -- vcc 
     hw_connections:
-	- uart: uart_0 -- uart_0
-	    baudrate: 115200
+	- gpio: bcm_27 -- echo
+	- gpio: bcm_17 -- trigger
     communication_endpoint:
-	topic: tfmini_front.distance
+	topic: sonar_left.front
 	conn_params:
 	    username: testuser
 	    password: testuser

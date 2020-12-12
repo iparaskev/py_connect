@@ -156,9 +156,17 @@ MEMORY:
 ;
 
 MEM_TYPE:
+    (
+    (("ram:" ram=MEM_VALUE)
+    ("rom:" rom=MEM_VALUE)?
+    ("external_memory:" external_memory=MEM_VALUE)?)# |
     (("ram:" ram=MEM_VALUE)?
     ("rom:" rom=MEM_VALUE)?
+    ("external_memory:" external_memory=MEM_VALUE))# |
+    (("ram:" ram=MEM_VALUE)?
+    ("rom:" rom=MEM_VALUE)
     ("external_memory:" external_memory=MEM_VALUE)?)#
+    )
 ;
 
 MEM_VALUE:
@@ -183,7 +191,7 @@ OP_VOLT:
 
 NETWORK:
     name="network" ":"
-    val*=NETWORK_TYPE
+    ((WIFI  ETHERNET?)# | (WIFI? ETHERNET)#)
 ;
 
 NETWORK_TYPE:

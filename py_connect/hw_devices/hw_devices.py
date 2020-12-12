@@ -580,13 +580,17 @@ class Ethernet(Network):
 class SensorDataType(PerDeviceDataType):
 
     type = EAttribute(eType=SensorTypes, derived=False, changeable=True)
+    frequency = EAttribute(eType=EInt, derived=False, changeable=True)
 
-    def __init__(self, *, type=None, **kwargs):
+    def __init__(self, *, type=None, frequency=None, **kwargs):
 
         super().__init__(**kwargs)
 
         if type is not None:
             self.type = type
+
+        if frequency is not None:
+            self.frequency = frequency
 
 
 class ActuatorDataType(PerDeviceDataType):
