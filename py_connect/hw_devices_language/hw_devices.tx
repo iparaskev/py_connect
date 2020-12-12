@@ -191,11 +191,11 @@ OP_VOLT:
 
 NETWORK:
     name="network" ":"
-    ((WIFI  ETHERNET?)# | (WIFI? ETHERNET)#)
+    val*=NETWORK_TYPE
 ;
 
 NETWORK_TYPE:
-    WIFI | ETHERNET
+    (WIFI | ETHERNET)
 ;
 
 WIFI:

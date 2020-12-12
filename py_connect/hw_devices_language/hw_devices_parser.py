@@ -6,6 +6,7 @@ from pyecore.ecore import BadValueError
 from pyecore.resources import ResourceSet, URI
 from ..hw_devices import *
 from ..definitions import DEVICE_GRAMMAR, DEVICES_DB
+from ..exceptions import EmptyListError
 
 
 class DeviceHandler():
@@ -114,7 +115,7 @@ class DeviceHandler():
         """
         dev = device_class()
 
-        count_dic = {}  # Dictionary for checking duplicates
+        #count_dic = {}  # Dictionary for checking duplicates
 
         # Parse attributes
         for key, val in model.__dict__.items():
@@ -217,6 +218,9 @@ class DeviceHandler():
                 net = Ethernet()
             setattr(net, "name", net_inter.name)
             net_ls.append(net)
+
+        if not len(net_ls):
+            raise EmptyListError("Networks list is empty")
 
         return net_ls
 

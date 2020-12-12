@@ -29,6 +29,13 @@ class ConnectionsHandler():
         "adc": Adc2Adc,
     }
 
+    FREQ_UNITS = {
+        "hz": 1,
+        "khz": 10**2,
+        "mhz": 10**3,
+        "ghz": 10**4,
+    }
+
     def __init__(self, connections_file):
         """Constructor"""
         # Get file name
@@ -152,6 +159,10 @@ class ConnectionsHandler():
             if per_type == PeripheralType.SENSOR:
                 type = getattr(SensorTypes, name.upper())
                 entries.append(SensorDataType(type=type))
+                if com_endpoint.freq:
+                    entries[-1].frequency = \
+                        com_endpoint.freq.val \
+                        * self.FREQ_UNITS[com_endpoint.freq.unit]
             else:
                 type = getattr(ActuatorTypes, name.upper())
                 entries.append(ActuatorDataType(type=type))

@@ -107,6 +107,7 @@ class TestConnection(unittest.TestCase):
                          5782, "Should be 5782")
         self.assertEqual(con.com_endpoint.msg.msg_entries[0].type,
                          SensorTypes.DISTANCE)
+        self.assertEqual(con.com_endpoint.msg.msg_entries[0].frequency, 10)
 
         con = connections.connections["rpi_bme680"]
         self.assertEqual(con.com_endpoint.msg.msg_entries[0].type,

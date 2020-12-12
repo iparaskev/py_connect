@@ -24,6 +24,7 @@ connection:
 	    host: r4a-platform.ddns.net
 	    port: 5782
 	msg: Distance
+	frequency: 10 hz
 
 connection:
     name: rpi_sonar_2

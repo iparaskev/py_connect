@@ -105,6 +105,8 @@ class Generator():
             data_str = data_tmpl.render(msg_type=self.MSG_MAP[msg_entrie.type])
             data_str = data_str.strip("\n")
 
+        # Freq value
+        freq = com_endpoint.msg.msg_entries[-1].frequency
         output = tmpl.render(device_class=driver_class,
                              is_sensor=is_sensor,
                              args=args,
@@ -113,7 +115,8 @@ class Generator():
                              password=com_endpoint.conn_params.password,
                              host=com_endpoint.conn_params.host,
                              port=com_endpoint.conn_params.port,
-                             data=data_str)
+                             data=data_str,
+                             freq=freq)
         output = autopep8.fix_code(output)
 
         return output

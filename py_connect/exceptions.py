@@ -39,3 +39,7 @@ class NotImplementedDriverError(PyConnectError):
 
 class UnicludedDeviceError(PyConnectError):
     """Device hasn't been included in connections specification."""
+
+
+class EmptyListError(PyConnectError):
+    """Empty list given for an attribute."""

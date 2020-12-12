@@ -221,7 +221,8 @@
   <eClassifiers xsi:type="ecore:EClass" name="PerDeviceDataType" abstract="true"/>
   <eClassifiers xsi:type="ecore:EClass" name="SensorDataType" eSuperTypes="#//PerDeviceDataType">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//SensorTypes"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="frequency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="frequency" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"
+        defaultValueLiteral="1"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ActuatorDataType" eSuperTypes="#//PerDeviceDataType">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="#//ActuatorTypes"/>

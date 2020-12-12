@@ -32,14 +32,14 @@ class Node():
 	self.subscriber.run()
 	{% endif %}
 	
-    def run(self, freq=1):
-        while True:
-            {% if is_sensor -%}
-            data = self.dev.read()
-	    {{ data }}
-            self.publisher.publish(data)
-            {% endif -%}
-            time.sleep(1/freq)
+	def run(self, freq={{ freq }}):
+            while True:
+                {% if is_sensor -%}
+                data = self.dev.read()
+	        {{ data }}
+                self.publisher.publish(data)
+                {% endif -%}
+                time.sleep(1/freq)
     
     {% if not is_sensor %}
     def callback(self, msg, meta):
