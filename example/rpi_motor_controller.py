@@ -15,7 +15,7 @@ class Node():
         conn_params.host = "r4a-platform.ddns.net"
         conn_params.port = 5782
 
-        self.dev = DfrobotMotorController(M1=23, M2=24, E1=12, E2=13,)
+        self.dev = DfrobotMotorController(M1=23, M2=24, E1=18, E2=19,)
 
         self.subscriber = Subscriber(conn_params=conn_params,
                                      topic=topic,

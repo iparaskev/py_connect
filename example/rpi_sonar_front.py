@@ -8,14 +8,14 @@ class Node():
     """Runing node."""
 
     def __init__(self):
-        topic = "sonar_right.distance"
+        topic = "sonar_left.front"
         conn_params = ConnectionParameters()
         conn_params.credentials.username = "testuser"
         conn_params.credentials.password = "testuser"
         conn_params.host = "r4a-platform.ddns.net"
         conn_params.port = 5782
 
-        self.dev = HcSr04RPiGPIO(echo=2, trigger=3,)
+        self.dev = HcSr04RPiGPIO(echo=27, trigger=17,)
 
         self.publisher = Publisher(conn_params=conn_params,
                                    topic=topic)
