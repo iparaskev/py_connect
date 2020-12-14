@@ -15,7 +15,8 @@ with open(path.join(here, 'requirements.txt'), encoding='utf-8') as f:
     all_reqs = f.read().split('\n')
 
 install_requires = [x.strip() for x in all_reqs if 'git+' not in x]
-dependency_links = [x.strip().replace('git+', '') for x in all_reqs if x.startswith('git+')]
+dependency_links = [x.strip().replace('git+', '')
+                    for x in all_reqs if x.startswith('git+')]
 
 setup(
     name='py_connect',
@@ -27,14 +28,14 @@ setup(
     #download_url='https://github.com/iparaskev/py_connect/tarball/' + __version__,
     license='BSD',
     classifiers=[
-      'Development Status :: 3 - Alpha',
-      'Intended Audience :: Developers',
-      'Programming Language :: Python :: 3',
+        'Development Status :: 3 - Alpha',
+        'Intended Audience :: Developers',
+        'Programming Language :: Python :: 3',
     ],
     keywords='',
     packages=find_packages(exclude=['docs', 'tests*']),
     include_package_data=True,
-    entry_points ={
+    entry_points={
         'console_scripts': [
             'py_connect = py_connect.__init__:main'
         ]
