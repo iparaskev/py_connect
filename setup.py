@@ -34,6 +34,11 @@ setup(
     keywords='',
     packages=find_packages(exclude=['docs', 'tests*']),
     include_package_data=True,
+    entry_points ={
+        'console_scripts': [
+            'py_connect = py_connect.__init__:main'
+        ]
+    },
     author='Iasonas Paraskevopoulos',
     install_requires=install_requires,
     dependency_links=dependency_links,
