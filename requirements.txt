@@ -1,19 +1,8 @@
-# Dev/Deployment
-sphinx
-sphinx_rtd_theme
-nose
-coverage
-autopep8==1.5
-Click==7.0
-Jinja2==2.11.1
-lxml==4.5.0
-MarkupSafe==1.1.1
-ordered-set==3.1.1
-pycodestyle==2.5.0
 pyecore==0.11.3
-pyecoregen==0.4.3
-pymultigen==0.2.0
-PyYAML==5.3.1
-RestrictedPython==5.0
+ordered-set==3.1.1
 textX==2.1.0
+autopep8==1.5
+Jinja2==2.11.1
+GitPython==3.1.2
 Pillow==7.2.0
+requests==2.23.0
