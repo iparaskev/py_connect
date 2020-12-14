@@ -1,9 +1,6 @@
 py_connect
 ===============================
 
-version number: 0.0.1
-author: Iasonas Paraskevopoulos
-
 Overview
 --------
 
