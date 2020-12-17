@@ -87,6 +87,7 @@ class Generator():
             # Handle i2c connection
             elif isinstance(hw_conn, I2c2I2c):
                 args["bus"] = hw_conn.hwint_1.bus
+                args["address"] = hw_conn.slave_address
             # Handle spi connection
             elif isinstance(hw_conn, Spi2Spi):
                 args["port"] = hw_conn.hwint_1.bus
