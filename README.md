@@ -16,7 +16,10 @@ defined models are translated to ecore models using
 Usage
 -----
 ```
-usage: py_connect [-h] [--device DEVICE] [--store] [--xmi] [--xmi_path XMI_PATH] [--db_path DB_PATH] [--connections CONNECTIONS] [--source] [--schematic] [--specific_con SPECIFIC_CON]
+usage: py_connect [-h] [--device DEVICE] [--store] [--xmi] 
+                  [--xmi_path XMI_PATH] [--db_path DB_PATH] 
+		  [--connections CONNECTIONS] [--source] 
+		  [--schematic] [--specific_con SPECIFIC_CON]
                   [--update_pidevices]
 
 optional arguments:
