@@ -84,7 +84,7 @@ mandatory or not for a valid definition.
   pins | x | x | x | \[pin entities\]
   network | x | x | - | \[network entities\]
   bluetooth | x | x | - | bluetooth entity
-  type | - | x | x | "sensor" or "actuator"
+  type | - | x | x | "sensor" \| "actuator"
   memory | x | - | x | memory entity
   timer | x | - | x | bool
   os | x | - | x | "raspbian"
@@ -93,6 +93,47 @@ mandatory or not for a valid definition.
   battery | x | - | - | bool
   dma | x | - | - | bool
   
+##### Pin
+The pins could be either power pins or gpios. 
+* Power pins
+	``` 
+	power:
+	    name: string
+	    number: number
+	    type : "gnd" | "3v3" | "5v"	
+	```
+* Gpio pins
+	``` 
+	io_digital: -> functionalities
+	    name: string
+	    number: number	
+	```
+   The functionalities is list of strings separated by commas. The strings 
+   declare a pin functionality related to a hardware interface.
+   * gpio: "input" | "output" | "both"
+   * i2c: "sda" | "scl"
+   * spi: "mosi" | "miso" | "sclk" | "ce"
+   * uart: "rx" | "tx"
+   * pwm: "pwm"
+   
+   Except the gpio functionalities the functionalities 
+   of the other interfaces are followed by the interface's id. An example
+   pin could be defined like this
+   ```
+   io_digital: -> both, sda-1
+       number: 2
+       name: bcm_2
+   ```
+
+##### Network
+The network entities could be either of type
+wifi or ethernet
+* Wifi
+* Ethernet
+
+##### Memory
+
+##### Cpu
 
 #### Connection definition
 A connection between two devices is defined
