@@ -182,7 +182,7 @@ pins.
   power_connections | x | \[power_connection_entities\]
   hw_connections | x | \[hw_connection_entities\]
   
-The periphal and board attributes must have the names of valid devices 
+The peripheral and board attributes must have the names of valid devices 
 which have been already included in the file and defined in a different 
 file.
 
@@ -203,14 +203,12 @@ hw_connections:
 ```
 The type describes the connection type and the value could be one of
 "gpio", "spi", "i2c", "uart" and "pwm". The values that follow are
-the names of the hardware interface in each device, e.g. 
+the names of the hardware interfaces in each device, e.g. 
 ```
 - i2c: i2c-1 -- i2c-0
 ```
 First comes the interface of the board device and then follows the 
-peripheral's.
-
-The name of the pin is used for the interfaces which use only one pin
+peripheral's. The name of the pin is used for the interfaces which use only one pin
 (gpio and pwm).
 
 ### M2M
