@@ -63,8 +63,8 @@ pins:
     number: 2
     type: 5v
   - io_digital: -> both, sda-1
-	  name: bcm_2
-	  number: 3
+      name: bcm_2
+      number: 3
 ```
 
 #### Device definition
@@ -129,16 +129,89 @@ The pins could be either power pins or gpios.
 The network entities could be either of type
 wifi or ethernet
 * Wifi
+     ```
+     wifi: 
+         name: string
+         freq: freq_1 , freq_2 unit
+     ```
 * Ethernet
-
+     ```
+     ethernet: 
+         name: string
+     ```
+     
 ##### Memory
+The memory entity describes the different types of memory a device could
+support and their values.
+```
+memory: 
+  ram: int unit 
+  rom: int unit
+  external_memory: int unit
+````
+Where value is an integer number and unit could be on of "mb", "kb", "gb" and "b".
 
 ##### Cpu
+A CPU entitie describes the cpu architecture, its maximum frequency and fpu support.
+```
+cpu: 
+  cpu_family: ARM_CORTEX_M | ARM_CORTEX_A | ESP32
+  max_freq: number unit(hz | ghz)
+  fpu: bool
+```
+
+##### Bluetooth
+A bluetooth entitie describes a device's bluetooth support.
+```
+bluetooth: 
+  version: number
+```
 
 #### Connection definition
 A connection between two devices is defined
 by the connection of their hardware interfaces ports and of their power
 pins.
+
+  Attribute | Mandatory | Value
+  --------- | --------- | -----
+  name | x | string
+  board | x | string
+  peripheral | x | string
+  peripheral_impl | x | string
+  operating_voltage | x | x | x | number
+  power_connections | x | \[power_connection_entities\]
+  hw_connections | x | \[hw_connection_entities\]
+  
+The periphal and board attributes must have the names of valid devices 
+which have been already included in the file and defined in a different 
+file.
+
+##### power_connections
+```
+ power_connections: 
+      - board_pin -- peripheral_pin
+      - board_pin_1 -- peripheral_pin_1
+```
+Where board_pin and peripheral_pin are the names attributes 
+of power pins from the corresponding devices.
+
+##### hw_connections
+```
+hw_connections: 
+      - type: board_hw_int -- peripheral_hw_int
+      - type: board_hw_int_1 -- peripheral_hw_int_
+```
+The type describes the connection type and the value could be one of
+"gpio", "spi", "i2c", "uart" and "pwm". The values that follow are
+the names of the hardware interface in each device, e.g. 
+```
+- i2c: i2c-1 -- i2c-0
+```
+First comes the interface of the board device and then follows the 
+peripheral's.
+
+The name of the pin is used for the interfaces which use only one pin
+(gpio and pwm).
 
 ### M2M
 After the definations, m2t transormations are being applied on the 
@@ -169,4 +242,5 @@ To install clone the repo:
     
 Example
 -------
-TBD
+Examples of device descriptions can be found in the [db_folder](py_connect/devices_db). Example
+connections can be seen in [connections_folder](test_connections).
